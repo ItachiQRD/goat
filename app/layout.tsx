@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import LenisProvider from '@/components/LenisProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,13 +18,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className="scroll-smooth">
+    <html lang="fr">
       <body className={inter.className}>
-        <Header />
-        <main>
-          {children}
-        </main>
-        <Footer />
+        <LenisProvider>
+          <Header />
+          <main>
+            {children}
+          </main>
+          <Footer />
+        </LenisProvider>
       </body>
     </html>
   )

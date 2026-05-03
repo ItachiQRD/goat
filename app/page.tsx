@@ -4,9 +4,8 @@ import { useRef } from 'react'
 import Link from 'next/link'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import SplitText from '@/components/SplitText'
-import Typewriter from '@/components/Typewriter'
 import ScrollReveal from '@/components/ScrollReveal'
-import AnimatedHero from '@/components/AnimatedHero'
+import Hero3D from '@/components/Hero3D'
 import FloatingParticles from '@/components/FloatingParticles'
 import GlowEffect from '@/components/GlowEffect'
 import MorphingBlob from '@/components/MorphingBlob'
@@ -126,11 +125,9 @@ export default function Home() {
   return (
     <div ref={containerRef} className="min-h-screen bg-[#151515] text-white overflow-x-hidden relative">
       <ModernScroll containerRef={containerRef} />
-      <FloatingParticles count={30} className="z-0" />
-      <MorphingBlob className="z-0" />
 
-      {/* ====== HERO ====== */}
-      <AnimatedHero />
+      {/* ====== HERO 3D ====== */}
+      <Hero3D />
 
       {/* ====== POURQUOI UN BON SITE ? ====== */}
       <section className="py-32 px-6 relative overflow-hidden" id="pourquoi">
@@ -236,7 +233,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8b5cf6]/5 to-transparent" />
         </ParallaxBackground>
         <GlowEffect intensity={0.5} color="rgba(139, 92, 246, 0.3)" />
-        <FloatingParticles count={20} className="z-0" />
+        <FloatingParticles count={10} className="z-0" />
 
         <div className="container mx-auto max-w-7xl relative z-10">
           <ScrollReveal>
@@ -640,7 +637,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8b5cf6]/5 to-transparent" />
         </ParallaxBackground>
         <GlowEffect intensity={0.5} color="rgba(147, 51, 234, 0.3)" />
-        <FloatingParticles count={20} className="z-0" />
+        <FloatingParticles count={10} className="z-0" />
 
         <div className="container mx-auto max-w-7xl relative z-10">
           <ScrollReveal>

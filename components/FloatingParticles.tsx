@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 
 interface Particle {
   id: number
@@ -11,6 +11,8 @@ interface Particle {
   duration: number
   delay: number
   color: string
+  yMove: number
+  xMove: number
 }
 
 interface FloatingParticlesProps {
@@ -19,32 +21,43 @@ interface FloatingParticlesProps {
   className?: string
 }
 
-export default function FloatingParticles({ 
-  count = 30, 
+export default function FloatingParticles({
+  count = 15,
   colors = ['rgba(59, 130, 246, 0.3)', 'rgba(147, 51, 234, 0.3)', 'rgba(236, 72, 153, 0.3)'],
-  className = '' 
+  className = '',
 }: FloatingParticlesProps) {
-  const [particles, setParticles] = useState<Particle[]>([])
+  const [mounted, setMounted] = useState(false)
 
-  useEffect(() => {
-    const newParticles: Particle[] = Array.from({ length: count }, (_, i) => ({
+  // Calcul une seule fois au mount
+  const particles = useMemo<Particle[]>(() => {
+    return Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 6 + 2,
-      duration: Math.random() * 20 + 15,
+      size: Math.random() * 4 + 2,
+      duration: Math.random() * 15 + 20,
       delay: Math.random() * 5,
       color: colors[Math.floor(Math.random() * colors.length)],
+      yMove: (Math.random() - 0.5) * 80,
+      xMove: (Math.random() - 0.5) * 40,
     }))
-    setParticles(newParticles)
   }, [count, colors])
 
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
   return (
-    <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
+    <div
+      className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}
+      style={{ contain: 'strict' }}
+    >
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute rounded-full blur-sm"
+          className="absolute rounded-full"
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
@@ -52,20 +65,12 @@ export default function FloatingParticles({
             height: `${particle.size}px`,
             background: particle.color,
             boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`,
+            willChange: 'transform, opacity',
           }}
           animate={{
-            y: [
-              Math.random() * -100,
-              Math.random() * 100,
-              Math.random() * -100,
-            ],
-            x: [
-              Math.random() * -50,
-              Math.random() * 50,
-              Math.random() * -50,
-            ],
-            opacity: [0.2, 0.8, 0.2],
-            scale: [0.8, 1.2, 0.8],
+            y: [0, particle.yMove, 0],
+            x: [0, particle.xMove, 0],
+            opacity: [0.3, 0.7, 0.3],
           }}
           transition={{
             duration: particle.duration,
@@ -78,4 +83,3 @@ export default function FloatingParticles({
     </div>
   )
 }
-
