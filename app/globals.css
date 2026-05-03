@@ -13,8 +13,26 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
+/* === Lenis smooth scroll === */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
@@ -39,11 +57,6 @@ body {
   .hover-lift:hover {
     transform: translateY(-4px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
   }
 
   /* Hide scrollbar but keep functionality */
@@ -139,11 +152,6 @@ body {
     );
     background-size: 1000px 100%;
     animation: shimmer 3s infinite;
-  }
-
-  /* Smooth Scroll */
-  html {
-    scroll-behavior: smooth;
   }
 
   /* Custom Scrollbar */
