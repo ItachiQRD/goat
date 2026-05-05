@@ -1,198 +1,242 @@
 'use client'
 
 import { useState } from 'react'
-import { ExternalLink, Github, Terminal, Database, Smartphone, Globe } from 'lucide-react'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { ArrowRight, Lock } from 'lucide-react'
+import ScrollReveal from '@/components/ScrollReveal'
+import GlowEffect from '@/components/GlowEffect'
 
 export default function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
   const categories = [
-    { id: 'all', label: 'Tous' },
-    { id: 'web', label: 'Web Apps' },
-    { id: 'mobile', label: 'Mobile' },
+    { id: 'all', label: 'Tout' },
+    { id: 'web', label: 'Sites web' },
+    { id: 'webapp', label: 'Applications' },
     { id: 'ecommerce', label: 'E-commerce' },
   ]
 
+  // ⚠️ Projets factices (placeholders) — à remplacer par vos vraies réalisations.
   const projects = [
     {
       id: 1,
-      title: 'Application de Gestion de Tâches',
+      title: 'Site vitrine - Cabinet conseil',
       category: 'web',
-      description: 'Application web moderne avec React et Node.js pour la gestion de projets en équipe',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Express'],
-      image: '📋',
-      demoUrl: '#',
-      githubUrl: '#',
-      features: ['Authentification JWT', 'Temps réel', 'Notifications', 'Dashboard analytique'],
+      description:
+        "Refonte complète d'un site vitrine pour un cabinet de conseil B2B. Design moderne, optimisation SEO, prise de RDV en ligne.",
+      technologies: ['Next.js', 'Tailwind', 'Sanity CMS'],
+      image: '💼',
+      gradient: 'from-blue-500/30 to-cyan-500/20',
+      result: '+180% de leads qualifiés',
     },
     {
       id: 2,
-      title: 'Plateforme E-commerce',
+      title: 'Boutique en ligne artisanale',
       category: 'ecommerce',
-      description: 'Boutique en ligne complète avec système de paiement et gestion des stocks',
-      technologies: ['Next.js', 'Stripe', 'PostgreSQL', 'Redis'],
-      image: '🛒',
-      demoUrl: '#',
-      githubUrl: '#',
-      features: ['Paiements sécurisés', 'Multi-langues', 'Gestion stocks', 'Analytics'],
+      description:
+        "Site e-commerce pour un artisan créateur. Catalogue produit, panier, paiement Stripe, gestion des stocks.",
+      technologies: ['Next.js', 'Stripe', 'PostgreSQL'],
+      image: '🛍️',
+      gradient: 'from-orange-500/30 to-pink-500/20',
+      result: '+45% de conversion vs ancien site',
     },
     {
       id: 3,
-      title: 'Application Mobile Fitness',
-      category: 'mobile',
-      description: 'Application mobile pour suivre les entraînements et la nutrition',
-      technologies: ['React Native', 'Firebase', 'Redux'],
-      image: '💪',
-      demoUrl: '#',
-      githubUrl: '#',
-      features: ['Suivi d\'entraînement', 'Plan nutritionnel', 'Statistiques', 'Social'],
+      title: 'Plateforme de gestion de tâches',
+      category: 'webapp',
+      description:
+        "Application web SaaS pour gérer les tâches d'équipe. Authentification, dashboards, temps réel.",
+      technologies: ['React', 'Node.js', 'PostgreSQL'],
+      image: '📋',
+      gradient: 'from-violet-500/30 to-purple-500/20',
+      result: 'Utilisée par 5 équipes',
     },
     {
       id: 4,
-      title: 'Dashboard Analytique',
-      category: 'web',
-      description: 'Tableau de bord interactif pour visualiser et analyser des données',
-      technologies: ['Vue.js', 'D3.js', 'Python', 'FastAPI'],
+      title: 'Dashboard analytique',
+      category: 'webapp',
+      description:
+        "Tableau de bord interactif pour visualiser des données en temps réel. Graphiques, export, filtres avancés.",
+      technologies: ['React', 'D3.js', 'Python'],
       image: '📊',
-      demoUrl: '#',
-      githubUrl: '#',
-      features: ['Graphiques interactifs', 'Export de données', 'Filtres avancés', 'Temps réel'],
+      gradient: 'from-emerald-500/30 to-teal-500/20',
+      result: 'Gain de temps : 3h/jour',
     },
     {
       id: 5,
-      title: 'Réseau Social',
+      title: 'Site portfolio créatif',
       category: 'web',
-      description: 'Plateforme sociale avec chat en temps réel et partage de contenu',
-      technologies: ['Next.js', 'Socket.io', 'MongoDB', 'AWS S3'],
-      image: '👥',
-      demoUrl: '#',
-      githubUrl: '#',
-      features: ['Chat temps réel', 'Partage média', 'Feed personnalisé', 'Recherche avancée'],
+      description:
+        "Site portfolio pour un photographe. Galeries élégantes, animations fluides, optimisation des images.",
+      technologies: ['Next.js', 'Framer Motion'],
+      image: '📸',
+      gradient: 'from-pink-500/30 to-rose-500/20',
+      result: 'Note Lighthouse : 98/100',
     },
     {
       id: 6,
-      title: 'Application de Réservation',
-      category: 'web',
-      description: 'Système de réservation en ligne pour restaurants et événements',
-      technologies: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
+      title: 'Plateforme de réservation',
+      category: 'webapp',
+      description:
+        "Système de réservation en ligne pour un restaurant. Calendrier, paiement, notifications email.",
+      technologies: ['Next.js', 'Stripe', 'Resend'],
       image: '📅',
-      demoUrl: '#',
-      githubUrl: '#',
-      features: ['Calendrier interactif', 'Paiements', 'Notifications email', 'Gestion multi-utilisateurs'],
+      gradient: 'from-indigo-500/30 to-blue-500/20',
+      result: 'Réservations multipliées par 3',
     },
   ]
 
-  const filteredProjects = selectedCategory === 'all'
-    ? projects
-    : projects.filter(project => project.category === selectedCategory)
+  const filteredProjects =
+    selectedCategory === 'all'
+      ? projects
+      : projects.filter((p) => p.category === selectedCategory)
 
   return (
-    <div className="min-h-screen py-20">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            Portfolio
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Découvrez quelques-unes de mes réalisations qui démontrent mes compétences en développement full stack
-          </p>
-        </div>
+    <div className="min-h-screen bg-[#0a0a0a] pt-32 pb-20 px-5 md:px-6 relative overflow-hidden">
+      <GlowEffect intensity={0.3} color="rgba(139, 92, 246, 0.2)" />
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((category) => (
+      <div className="container mx-auto max-w-7xl relative z-10">
+        {/* Hero */}
+        <ScrollReveal>
+          <div className="text-center mb-12 md:mb-16">
+            <span className="inline-block text-[10px] md:text-xs uppercase tracking-widest text-white/50 mb-4">
+              Portfolio
+            </span>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-light leading-[1.05] tracking-tight mb-5">
+              Quelques
+              <span className="block bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] bg-clip-text text-transparent mt-1">
+                réalisations
+              </span>
+            </h1>
+            <p className="text-base md:text-lg text-white/60 font-light max-w-2xl mx-auto leading-relaxed">
+              Une sélection de projets variés. Chaque mission est l'occasion d'apporter
+              une solution sur-mesure à un besoin concret.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        {/* Filtres */}
+        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10 md:mb-14">
+          {categories.map((c) => (
             <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`px-6 py-2 rounded-full font-medium transition-colors ${
-                selectedCategory === category.id
-                  ? 'bg-primary-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              key={c.id}
+              onClick={() => setSelectedCategory(c.id)}
+              className={`px-4 md:px-5 py-2 rounded-full text-xs md:text-sm font-light transition-all border ${
+                selectedCategory === c.id
+                  ? 'bg-white text-black border-white shadow-[0_4px_20px_rgba(255,255,255,0.2)]'
+                  : 'bg-white/[0.04] text-white/70 border-white/10 hover:bg-white/10 hover:border-white/30'
               }`}
             >
-              {category.label}
+              {c.label}
             </button>
           ))}
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
-            <div
+        {/* Grille de projets */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-20">
+          {filteredProjects.map((project, i) => (
+            <motion.div
               key={project.id}
-              className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow overflow-hidden border border-gray-100"
+              layout
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              whileHover={{ y: -4 }}
+              className="group relative h-full"
             >
-              <div className="bg-gradient-to-br from-primary-500 to-primary-700 p-12 text-center text-6xl">
-                {project.image}
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 mb-4">{project.description}</p>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm font-medium"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+              <div className="relative h-full rounded-2xl backdrop-blur-xl bg-white/[0.03] border border-white/10 hover:border-white/30 transition-all overflow-hidden">
+                {/* Visuel */}
+                <div
+                  className={`relative aspect-[16/10] flex items-center justify-center text-6xl md:text-7xl bg-gradient-to-br ${project.gradient} overflow-hidden`}
+                >
+                  <span className="relative z-10 grayscale-0 group-hover:scale-110 transition-transform duration-500">
+                    {project.image}
+                  </span>
+                  {/* Pattern */}
+                  <div
+                    className="absolute inset-0 opacity-30"
+                    style={{
+                      backgroundImage:
+                        'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)',
+                      backgroundSize: '20px 20px',
+                    }}
+                    aria-hidden="true"
+                  />
                 </div>
 
-                <ul className="space-y-1 mb-6">
-                  {project.features.map((feature, idx) => (
-                    <li key={idx} className="text-sm text-gray-600 flex items-start">
-                      <span className="text-primary-600 mr-2">•</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                {/* Contenu */}
+                <div className="p-5 md:p-6">
+                  <h3 className="text-lg md:text-xl font-light tracking-tight mb-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-white/65 font-light leading-relaxed mb-4">
+                    {project.description}
+                  </p>
 
-                <div className="flex gap-4">
-                  <a
-                    href={project.demoUrl}
-                    className="flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors flex items-center justify-center gap-2"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    Démo
-                  </a>
-                  <a
-                    href={project.githubUrl}
-                    className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors flex items-center justify-center gap-2"
-                  >
-                    <Github className="w-4 h-4" />
-                    Code
-                  </a>
+                  {/* Tech */}
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {project.technologies.map((tech, j) => (
+                      <span
+                        key={j}
+                        className="text-[11px] px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/70"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Résultat */}
+                  <div className="flex items-center gap-2 text-xs md:text-sm pt-3 border-t border-white/[0.06] text-emerald-300/90">
+                    <svg className="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2 11l3-3 4 4 7-7 2 2-9 9-7-5z" />
+                    </svg>
+                    <span className="font-light">{project.result}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        {/* CTA Section */}
-        <div className="mt-16 text-center">
-          <div className="bg-gray-50 rounded-xl p-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Vous avez un projet en tête ?
+        {/* Note de confidentialité */}
+        <ScrollReveal>
+          <div className="mb-16 p-5 md:p-7 rounded-2xl bg-white/[0.03] border border-white/10 max-w-3xl mx-auto flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-white/60 flex-shrink-0">
+              <Lock className="w-4 h-4" />
+            </div>
+            <div className="flex-1 text-sm md:text-base text-white/70 font-light leading-relaxed">
+              <strong className="text-white/90">Confidentialité.</strong> Certains projets
+              ne peuvent être présentés publiquement à la demande de mes clients. Sur
+              demande, je peux vous fournir des références supplémentaires lors d'un
+              échange.
+            </div>
+          </div>
+        </ScrollReveal>
+
+        {/* CTA */}
+        <ScrollReveal>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#3b82f6]/15 via-[#8b5cf6]/10 to-[#ff6b35]/15 border border-white/10 p-8 md:p-14 text-center">
+            <h2 className="text-2xl md:text-4xl font-light leading-tight mb-4">
+              Et si votre projet rejoignait cette liste ?
             </h2>
-            <p className="text-xl text-gray-600 mb-8">
-              Discutons de votre projet et créons quelque chose d'exceptionnel ensemble
+            <p className="text-base md:text-lg text-white/70 font-light max-w-2xl mx-auto mb-7 leading-relaxed">
+              Discutons de vos objectifs et voyons comment je peux vous aider à les
+              atteindre.
             </p>
-            <Link
-              href="/contact"
-              className="bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors inline-flex items-center"
-            >
-              Démarrer un projet
+            <Link href="/contact" className="inline-block">
+              <motion.div
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-colors"
+              >
+                Démarrer un projet
+                <ArrowRight className="w-4 h-4" />
+              </motion.div>
             </Link>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </div>
   )
 }
-

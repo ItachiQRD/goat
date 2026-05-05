@@ -4,8 +4,11 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
+import { siteConfig, getActiveSocials, isPlaceholder } from '@/lib/siteConfig'
 
 export default function Header() {
+  const { brand, contact } = siteConfig
+  const socials = getActiveSocials()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -96,7 +99,7 @@ export default function Header() {
               >
                 <Link href="/" className="relative group" data-cursor-hover>
                   <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-white via-[#3b82f6] to-white bg-clip-text text-transparent bg-[length:200%_100%] animate-[gradientMove_3s_ease_infinite]">
-                    Full Stack Dev
+                    {brand.name}
                   </span>
                   <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] group-hover:w-full transition-all duration-300" />
                 </Link>
@@ -237,43 +240,51 @@ export default function Header() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7 }}
                 >
-                  <div>
-                    <h6 className="text-xs uppercase tracking-wider mb-4 opacity-60">Réseaux</h6>
-                    <div className="flex flex-wrap gap-3">
-                      {['GitHub', 'LinkedIn', 'Twitter'].map((social, i) => (
-                        <motion.a
-                          key={social}
-                          href="#"
-                          className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-[#3b82f6]/50 transition-all duration-300 text-sm"
-                          whileHover={{ scale: 1.05, y: -2 }}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.8 + i * 0.1 }}
-                        >
-                          {social}
-                        </motion.a>
-                      ))}
+                  {socials.length > 0 && (
+                    <div>
+                      <h6 className="text-xs uppercase tracking-wider mb-4 opacity-60">Réseaux</h6>
+                      <div className="flex flex-wrap gap-3">
+                        {socials.map((s, i) => (
+                          <motion.a
+                            key={s.name}
+                            href={s.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-[#3b82f6]/50 transition-all duration-300 text-sm capitalize"
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.8 + i * 0.1 }}
+                          >
+                            {s.name}
+                          </motion.a>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <div>
                     <h6 className="text-xs uppercase tracking-wider mb-4 opacity-60">Localisation</h6>
                     <p className="text-sm opacity-80">
-                      France<br />
-                      <span className="text-[#3b82f6]">Remote disponible</span>
+                      {contact.location}<br />
+                      {contact.remoteAvailable && (
+                        <span className="text-[#3b82f6]">Remote disponible</span>
+                      )}
                     </p>
                   </div>
 
-                  <div>
-                    <h6 className="text-xs uppercase tracking-wider mb-4 opacity-60">Contact</h6>
-                    <motion.a
-                      href="mailto:contact@example.com"
-                      className="text-sm hover:text-[#3b82f6] transition-colors duration-300 inline-block"
-                      whileHover={{ x: 5 }}
-                    >
-                      contact@example.com
-                    </motion.a>
-                  </div>
+                  {!isPlaceholder(contact.email) && (
+                    <div>
+                      <h6 className="text-xs uppercase tracking-wider mb-4 opacity-60">Contact</h6>
+                      <motion.a
+                        href={`mailto:${contact.email}`}
+                        className="text-sm hover:text-[#3b82f6] transition-colors duration-300 inline-block"
+                        whileHover={{ x: 5 }}
+                      >
+                        {contact.email}
+                      </motion.a>
+                    </div>
+                  )}
                 </motion.div>
               </div>
             </motion.aside>

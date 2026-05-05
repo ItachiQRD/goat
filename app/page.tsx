@@ -15,6 +15,8 @@ import DualCard from '@/components/DualCard'
 import AnimatedCounter from '@/components/AnimatedCounter'
 import ModernIllustration from '@/components/ModernIllustration'
 import MobileExpand from '@/components/MobileExpand'
+import ProcessTimeline from '@/components/ProcessTimeline'
+import { siteConfig, isPlaceholder } from '@/lib/siteConfig'
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -525,81 +527,8 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          {/* Timeline */}
-          <div className="relative max-w-5xl mx-auto">
-            {/* Ligne verticale */}
-            <motion.div
-              className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 md:w-1 -ml-px md:-ml-0.5 bg-gradient-to-b from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35]"
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 1.5, ease: 'easeInOut' }}
-              style={{ transformOrigin: 'top' }}
-            />
-
-            <div className="space-y-8 md:space-y-16 lg:space-y-20">
-              {processSteps.map((step, i) => {
-                const isLeft = i % 2 === 0
-                return (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-50px' }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className={`relative flex items-start gap-4 md:gap-12 ${
-                      isLeft ? 'md:flex-row' : 'md:flex-row-reverse'
-                    }`}
-                  >
-                    {/* Numéro */}
-                    <div className="relative z-10 flex-shrink-0">
-                      <motion.div
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        className="relative w-12 h-12 md:w-20 md:h-20 rounded-xl md:rounded-2xl bg-gradient-to-br from-[#3b82f6] to-[#8b5cf6] flex items-center justify-center shadow-[0_10px_30px_rgba(59,130,246,0.4)]"
-                      >
-                        <span className="text-base md:text-3xl font-bold">{step.number}</span>
-                        <motion.div
-                          className="absolute inset-0 rounded-xl md:rounded-2xl border-2 border-[#3b82f6]"
-                          animate={{ scale: [1, 1.4, 1.4], opacity: [0.6, 0, 0] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        />
-                      </motion.div>
-                    </div>
-
-                    {/* Carte */}
-                    <div className={`flex-1 md:max-w-xl ${isLeft ? 'md:text-left' : 'md:text-right'}`}>
-                      <div className="relative p-4 md:p-7 rounded-xl md:rounded-2xl backdrop-blur-xl bg-white/[0.04] border border-white/10 hover:border-white/30 transition-all">
-                        <div className={`flex flex-wrap items-start gap-2 md:gap-3 mb-3 md:mb-4 ${isLeft ? '' : 'md:justify-end'}`}>
-                          <h3 className="text-lg md:text-2xl lg:text-3xl font-light leading-tight">{step.title}</h3>
-                          <span className="text-[10px] md:text-xs px-2.5 md:px-3 py-1 rounded-full bg-[#3b82f6]/20 border border-[#3b82f6]/30 text-[#60a5fa] whitespace-nowrap flex-shrink-0">
-                            ⏱ {step.duration}
-                          </span>
-                        </div>
-                        <p className="text-sm md:text-base lg:text-lg text-white/70 leading-relaxed mb-3 md:mb-5 font-light">
-                          {step.simple}
-                        </p>
-                        <div className={`flex flex-wrap gap-1.5 md:gap-2 ${isLeft ? '' : 'md:justify-end'}`}>
-                          {step.deliverables.map((item, j) => (
-                            <span
-                              key={j}
-                              className="text-[11px] md:text-xs px-2.5 md:px-3 py-1 md:py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 inline-flex items-center gap-1.5"
-                            >
-                              <svg className="w-2.5 h-2.5 md:w-3 md:h-3 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                              </svg>
-                              {item}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="hidden md:block flex-1 md:max-w-xl" />
-                  </motion.div>
-                )
-              })}
-            </div>
-          </div>
+          {/* Timeline animée scroll-linked (effet cheminement) */}
+          <ProcessTimeline steps={processSteps} />
 
           <ScrollReveal delay={0.3}>
             <div className="mt-12 md:mt-20 text-center max-w-2xl mx-auto px-4">
@@ -1026,9 +955,30 @@ export default function Home() {
           {/* Cartes contact */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-10 md:mt-20">
             {[
-              { icon: '💬', title: 'Discuter', desc: 'Décrivez-moi votre projet, je vous réponds sous 24h.', action: 'contact@example.com', gradient: 'from-blue-500/20 to-cyan-500/20', href: 'mailto:contact@example.com' },
-              { icon: '📅', title: 'Planifier', desc: 'Réservez un appel de 30 minutes, sans engagement.', action: 'Prendre rendez-vous', gradient: 'from-purple-500/20 to-pink-500/20', href: '/contact' },
-              { icon: '🔗', title: 'Me suivre', desc: 'Restons en contact sur les réseaux professionnels.', action: 'LinkedIn · GitHub', gradient: 'from-orange-500/20 to-red-500/20', href: '#' },
+              {
+                icon: '💬',
+                title: 'Discuter',
+                desc: 'Décrivez-moi votre projet, je vous réponds sous 24h.',
+                action: isPlaceholder(siteConfig.contact.email) ? 'Formulaire de contact' : siteConfig.contact.email,
+                gradient: 'from-blue-500/20 to-cyan-500/20',
+                href: isPlaceholder(siteConfig.contact.email) ? '/contact' : `mailto:${siteConfig.contact.email}`,
+              },
+              {
+                icon: '📅',
+                title: 'Planifier',
+                desc: 'Réservez un appel de 30 minutes, sans engagement.',
+                action: 'Prendre rendez-vous',
+                gradient: 'from-purple-500/20 to-pink-500/20',
+                href: '/contact',
+              },
+              {
+                icon: '🔗',
+                title: 'Me suivre',
+                desc: 'Restons en contact sur les réseaux professionnels.',
+                action: 'LinkedIn · GitHub',
+                gradient: 'from-orange-500/20 to-red-500/20',
+                href: '/contact',
+              },
             ].map((card, i) => (
               <motion.div
                 key={i}

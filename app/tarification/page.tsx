@@ -1,293 +1,370 @@
-import { Check, Clock, Users, Terminal, Zap, Rocket } from 'lucide-react'
+'use client'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { Check, Clock, Users, Terminal, ArrowRight } from 'lucide-react'
+import ScrollReveal from '@/components/ScrollReveal'
+import GlowEffect from '@/components/GlowEffect'
+
+const pricingModels = [
+  {
+    icon: Clock,
+    accentColor: '#3b82f6',
+    title: "Au temps passé",
+    description: 'Idéal pour de petites missions ou des évolutions ponctuelles.',
+    price: 'À partir de 60 €',
+    priceUnit: '/ heure',
+    features: [
+      'Facturation transparente',
+      'Flexibilité maximale',
+      'Compte-rendu détaillé du temps',
+      "Pas d'engagement minimum",
+      'Adaptation en cours de projet',
+    ],
+    bestFor: 'Petites tâches, ajouts ponctuels, support',
+  },
+  {
+    icon: Terminal,
+    accentColor: '#8b5cf6',
+    title: 'Au forfait projet',
+    description:
+      'Prix fixe pour un projet complet, du devis à la livraison. Le plus demandé.',
+    price: 'Sur devis',
+    priceUnit: '',
+    features: [
+      'Budget connu à l\'avance',
+      'Périmètre clair et signé',
+      'Livraison garantie',
+      'Paiement échelonné (30/40/30)',
+      "Garantie de 30 jours après livraison",
+    ],
+    bestFor: 'Sites vitrines, e-commerce, applications',
+    popular: true,
+  },
+  {
+    icon: Users,
+    accentColor: '#ff6b35',
+    title: 'Au forfait mensuel',
+    description: 'Accompagnement continu : maintenance, évolutions, support.',
+    price: 'À partir de 500 €',
+    priceUnit: '/ mois',
+    features: [
+      'Maintenance et mises à jour',
+      'Pool d\'heures dédié',
+      'Priorité sur vos demandes',
+      'Évolutions régulières',
+      'Rapports mensuels',
+    ],
+    bestFor: 'Sites en production, projets en croissance',
+  },
+]
+
+const factors = [
+  {
+    title: 'Complexité du projet',
+    description:
+      "Plus le projet a de fonctionnalités spécifiques, plus il demande de temps de conception et de développement.",
+    examples: [
+      'Site vitrine simple : 30-60h',
+      'Site e-commerce : 80-150h',
+      'Application sur-mesure : 150h et plus',
+    ],
+  },
+  {
+    title: 'Design et UX',
+    description:
+      "Un design totalement sur-mesure prend plus de temps qu'un thème adapté.",
+    examples: [
+      'Maquettes Figma incluses',
+      'Animations et transitions',
+      "Tests d'utilisabilité",
+    ],
+  },
+  {
+    title: 'Délais',
+    description:
+      "Des délais serrés peuvent nécessiter une priorisation et un complément tarifaire.",
+    examples: [
+      'Délai standard : pas de surcoût',
+      'Délai serré : +20 à 30%',
+      "Urgence : sur étude",
+    ],
+  },
+  {
+    title: 'Maintenance',
+    description:
+      "La maintenance et les évolutions post-livraison sont facturées séparément.",
+    examples: [
+      "Forfait mensuel disponible",
+      'Support à l\'heure ou au ticket',
+      'Évolutions par avenant',
+    ],
+  },
+]
+
+const process = [
+  {
+    step: 1,
+    title: 'Échange gratuit',
+    description: 'Discussion de 30 min pour comprendre vos besoins. Sans engagement.',
+  },
+  {
+    step: 2,
+    title: 'Devis détaillé',
+    description: "Proposition complète : périmètre, planning, prix. Validité 30 jours.",
+  },
+  {
+    step: 3,
+    title: 'Validation',
+    description: "Ajustements si besoin, signature et acompte de 30%.",
+  },
+  {
+    step: 4,
+    title: 'Développement',
+    description: 'Travail en itérations avec démos régulières et retours.',
+  },
+  {
+    step: 5,
+    title: 'Livraison & formation',
+    description: 'Mise en production, formation à l\'utilisation, garantie 30 jours.',
+  },
+]
 
 export default function Tarification() {
-  const pricingModels = [
-    {
-      icon: <Clock className="w-8 h-8" />,
-      title: 'Tarification à l\'heure',
-      description: 'Idéal pour les projets avec des besoins variables',
-      price: '50-100€/h',
-      features: [
-        'Facturation transparente',
-        'Flexibilité maximale',
-        'Suivi détaillé du temps',
-        'Adaptation en cours de projet',
-        'Pas d\'engagement minimum',
-      ],
-      pros: [
-        'Parfait pour les petites tâches',
-        'Ajouts de fonctionnalités faciles',
-        'Contrôle total sur le budget',
-      ],
-      cons: [
-        'Budget final incertain',
-        'Nécessite une bonne estimation',
-      ],
-    },
-    {
-      icon: <Terminal className="w-8 h-8" />,
-      title: 'Tarification au projet',
-      description: 'Prix fixe pour un projet défini',
-      price: 'Sur devis',
-      features: [
-        'Budget prévisible',
-        'Scope défini à l\'avance',
-        'Livraison garantie',
-        'Pas de surprises',
-        'Paiement échelonné possible',
-      ],
-      pros: [
-        'Budget maîtrisé',
-        'Planification claire',
-        'Sécurité pour le client',
-      ],
-      cons: [
-        'Moins de flexibilité',
-        'Changements = avenants',
-      ],
-    },
-    {
-      icon: <Users className="w-8 h-8" />,
-      title: 'Forfait mensuel',
-      description: 'Accès continu à mes services',
-      price: 'À partir de 2000€/mois',
-      features: [
-        'Support continu',
-        'Développements réguliers',
-        'Maintenance incluse',
-        'Priorité sur les demandes',
-        'Évolutions progressives',
-      ],
-      pros: [
-        'Relation de confiance',
-        'Évolutions continues',
-        'Réactivité maximale',
-      ],
-      cons: [
-        'Engagement mensuel',
-        'Nécessite un volume régulier',
-      ],
-    },
-  ]
-
-  const factors = [
-    {
-      title: 'Complexité du projet',
-      description: 'Plus le projet est complexe, plus il nécessite de temps et d\'expertise',
-      examples: [
-        'Application simple : 20-40h',
-        'Application moyenne : 80-150h',
-        'Application complexe : 200h+',
-      ],
-    },
-    {
-      title: 'Technologies utilisées',
-      description: 'Certaines technologies nécessitent plus de temps de développement',
-      examples: [
-        'Frameworks modernes : React, Next.js',
-        'Bases de données complexes',
-        'Intégrations tierces (paiement, API)',
-      ],
-    },
-    {
-      title: 'Délais de livraison',
-      description: 'Les projets urgents peuvent nécessiter une majoration',
-      examples: [
-        'Délai standard : pas de majoration',
-        'Délai serré : +20-30%',
-        'Urgence : sur devis',
-      ],
-    },
-    {
-      title: 'Maintenance et support',
-      description: 'Les services post-livraison sont facturés séparément',
-      examples: [
-        'Maintenance mensuelle : 10-20% du projet',
-        'Support ponctuel : à l\'heure',
-        'Évolutions : selon complexité',
-      ],
-    },
-  ]
-
-  const process = [
-    {
-      step: 1,
-      title: 'Consultation gratuite',
-      description: 'Discussion de vos besoins et objectifs',
-    },
-    {
-      step: 2,
-      title: 'Devis détaillé',
-      description: 'Proposition avec estimation et planning',
-    },
-    {
-      step: 3,
-      title: 'Validation',
-      description: 'Ajustements si nécessaire et signature',
-    },
-    {
-      step: 4,
-      title: 'Développement',
-      description: 'Travail en itérations avec retours réguliers',
-    },
-    {
-      step: 5,
-      title: 'Livraison',
-      description: 'Mise en production et formation si nécessaire',
-    },
-  ]
-
   return (
-    <div className="min-h-screen py-20">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            Tarification
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Comprendre comment fonctionne la tarification des développeurs full stack
-          </p>
-        </div>
+    <div className="min-h-screen bg-[#0a0a0a] pt-32 pb-20 px-5 md:px-6 relative overflow-hidden">
+      <GlowEffect intensity={0.3} color="rgba(139, 92, 246, 0.2)" />
 
-        {/* Introduction */}
-        <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white rounded-xl p-12 mb-16 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Transparence et flexibilité
-          </h2>
-          <p className="text-xl text-primary-100 max-w-3xl mx-auto">
-            Chaque projet est unique. Je propose différentes modalités de tarification pour s'adapter à vos besoins et votre budget.
-          </p>
-        </div>
+      <div className="container mx-auto max-w-7xl relative z-10">
+        {/* Hero */}
+        <ScrollReveal>
+          <div className="text-center mb-16 md:mb-20">
+            <span className="inline-block text-[10px] md:text-xs uppercase tracking-widest text-white/50 mb-4">
+              Tarification
+            </span>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-light leading-[1.05] tracking-tight mb-5">
+              Une tarification
+              <span className="block bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] bg-clip-text text-transparent mt-1">
+                claire et transparente
+              </span>
+            </h1>
+            <p className="text-base md:text-lg text-white/60 font-light max-w-2xl mx-auto leading-relaxed">
+              Pas de prix caché, pas de surprise. Choisissez la formule qui correspond
+              le mieux à votre projet et à votre rythme.
+            </p>
+          </div>
+        </ScrollReveal>
 
-        {/* Pricing Models */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Modèles de tarification
-          </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {pricingModels.map((model, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-lg p-8 border border-gray-100"
+        {/* Modèles de tarification */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6 mb-20">
+          {pricingModels.map((model, i) => {
+            const Icon = model.icon
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className={`relative h-full ${model.popular ? 'lg:-mt-4' : ''}`}
               >
-                <div className="text-primary-600 mb-4">{model.icon}</div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                  {model.title}
-                </h3>
-                <p className="text-gray-600 mb-4">{model.description}</p>
-                <div className="text-3xl font-bold text-primary-600 mb-6">
-                  {model.price}
+                {model.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
+                    <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] text-white text-[11px] uppercase tracking-widest whitespace-nowrap shadow-lg">
+                      Le plus demandé
+                    </span>
+                  </div>
+                )}
+
+                <div
+                  className={`relative h-full p-6 md:p-8 rounded-2xl backdrop-blur-xl border transition-all overflow-hidden ${
+                    model.popular
+                      ? 'bg-gradient-to-br from-[#3b82f6]/10 to-[#8b5cf6]/5 border-[#8b5cf6]/30 shadow-[0_20px_60px_rgba(139,92,246,0.15)]'
+                      : 'bg-white/[0.03] border-white/10 hover:border-white/25'
+                  }`}
+                >
+                  <div className="relative z-10">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-white/10"
+                      style={{
+                        background: `linear-gradient(135deg, ${model.accentColor}33, transparent)`,
+                        color: model.accentColor,
+                      }}
+                    >
+                      <Icon className="w-5 h-5" />
+                    </div>
+
+                    <h3 className="text-xl md:text-2xl font-light tracking-tight mb-2">
+                      {model.title}
+                    </h3>
+                    <p className="text-sm text-white/60 font-light leading-relaxed mb-5">
+                      {model.description}
+                    </p>
+
+                    <div className="mb-6 pb-6 border-b border-white/[0.08]">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-3xl md:text-4xl font-light tracking-tight">
+                          {model.price}
+                        </span>
+                        {model.priceUnit && (
+                          <span className="text-sm text-white/50">{model.priceUnit}</span>
+                        )}
+                      </div>
+                    </div>
+
+                    <ul className="space-y-2.5 mb-6">
+                      {model.features.map((f, j) => (
+                        <li
+                          key={j}
+                          className="flex items-start gap-2 text-sm text-white/75 font-light"
+                        >
+                          <Check
+                            className="w-4 h-4 mt-0.5 flex-shrink-0"
+                            style={{ color: model.accentColor }}
+                          />
+                          <span>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="text-xs text-white/50 italic mb-5">
+                      Idéal pour : {model.bestFor}
+                    </div>
+
+                    <Link href="/contact">
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-medium transition-all cursor-pointer ${
+                          model.popular
+                            ? 'bg-white text-black hover:bg-white/90'
+                            : 'bg-white/5 text-white border border-white/15 hover:bg-white/10 hover:border-white/30'
+                        }`}
+                      >
+                        Demander un devis
+                        <ArrowRight className="w-4 h-4" />
+                      </motion.div>
+                    </Link>
+                  </div>
                 </div>
-                
-                <div className="mb-6">
-                  <h4 className="font-semibold text-gray-900 mb-2">Caractéristiques :</h4>
-                  <ul className="space-y-2">
-                    {model.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start text-gray-700">
-                        <Check className="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 mt-0.5" />
-                        <span>{feature}</span>
+              </motion.div>
+            )
+          })}
+        </div>
+
+        {/* Note */}
+        <ScrollReveal>
+          <div className="mb-20 p-5 md:p-6 rounded-2xl bg-amber-500/[0.05] border border-amber-500/20 max-w-3xl mx-auto">
+            <p className="text-sm md:text-base text-white/80 font-light leading-relaxed">
+              <span className="text-amber-300 font-medium">À noter :</span> les tarifs
+              affichés sont indicatifs et peuvent varier selon la complexité réelle
+              du projet. Chaque mission fait l'objet d'un devis détaillé personnalisé,
+              gratuit et sans engagement.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        {/* Facteurs */}
+        <ScrollReveal>
+          <div className="mb-20">
+            <h2 className="text-2xl md:text-4xl font-light tracking-tight text-center mb-3">
+              Ce qui influence le prix
+            </h2>
+            <p className="text-sm md:text-base text-white/60 font-light text-center max-w-2xl mx-auto mb-12">
+              Pour vous aider à comprendre la valeur d'une prestation web.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {factors.map((f, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-colors"
+                >
+                  <h3 className="text-lg md:text-xl font-light mb-2">{f.title}</h3>
+                  <p className="text-sm text-white/60 font-light leading-relaxed mb-4">
+                    {f.description}
+                  </p>
+                  <ul className="space-y-1.5 pt-3 border-t border-white/[0.06]">
+                    {f.examples.map((ex, j) => (
+                      <li
+                        key={j}
+                        className="text-xs md:text-sm text-white/70 font-light flex items-start gap-2"
+                      >
+                        <span className="text-[#60a5fa] mt-0.5">→</span>
+                        <span>{ex}</span>
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                <div className="border-t pt-4">
-                  <div className="mb-4">
-                    <h4 className="font-semibold text-green-700 mb-2">✓ Avantages :</h4>
-                    <ul className="space-y-1">
-                      {model.pros.map((pro, idx) => (
-                        <li key={idx} className="text-sm text-gray-600">• {pro}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-orange-700 mb-2">⚠ À considérer :</h4>
-                    <ul className="space-y-1">
-                      {model.cons.map((con, idx) => (
-                        <li key={idx} className="text-sm text-gray-600">• {con}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Factors */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Facteurs influençant le prix
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {factors.map((factor, index) => (
-              <div
-                key={index}
-                className="bg-gray-50 rounded-xl p-6 border border-gray-200"
-              >
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {factor.title}
-                </h3>
-                <p className="text-gray-600 mb-4">{factor.description}</p>
-                <ul className="space-y-2">
-                  {factor.examples.map((example, idx) => (
-                    <li key={idx} className="text-sm text-gray-700 flex items-start">
-                      <span className="text-primary-600 mr-2">→</span>
-                      {example}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Process */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Processus de collaboration
-          </h2>
-          <div className="max-w-4xl mx-auto">
-            <div className="space-y-6">
-              {process.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-start bg-white rounded-lg p-6 shadow-md border-l-4 border-primary-600"
-                >
-                  <div className="bg-primary-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold mr-4 flex-shrink-0">
-                    {item.step}
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-600">{item.description}</p>
-                  </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
-        </div>
+        </ScrollReveal>
+
+        {/* Process */}
+        <ScrollReveal>
+          <div className="mb-20">
+            <h2 className="text-2xl md:text-4xl font-light tracking-tight text-center mb-3">
+              Le processus de collaboration
+            </h2>
+            <p className="text-sm md:text-base text-white/60 font-light text-center max-w-2xl mx-auto mb-12">
+              5 étapes claires, de la première discussion à la mise en ligne.
+            </p>
+
+            <div className="max-w-3xl mx-auto space-y-3 md:space-y-4">
+              {process.map((p, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  className="flex items-start gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-colors"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-[#3b82f6] to-[#8b5cf6] flex items-center justify-center font-medium text-sm md:text-base">
+                    {p.step}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-base md:text-lg font-light tracking-tight mb-1">
+                      {p.title}
+                    </h3>
+                    <p className="text-sm text-white/60 font-light leading-relaxed">
+                      {p.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
 
         {/* CTA */}
-        <div className="bg-primary-600 text-white rounded-xl p-12 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Obtenez un devis gratuit
-          </h2>
-          <p className="text-xl mb-8 text-primary-100">
-            Discutons de votre projet et obtenez une estimation personnalisée
-          </p>
-          <Link
-            href="/contact"
-            className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors inline-block"
-          >
-            Demander un devis
-          </Link>
-        </div>
+        <ScrollReveal>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#3b82f6]/15 via-[#8b5cf6]/10 to-[#ff6b35]/15 border border-white/10 p-8 md:p-14 text-center">
+            <h2 className="text-2xl md:text-4xl font-light leading-tight mb-4">
+              Obtenez un devis gratuit
+            </h2>
+            <p className="text-base md:text-lg text-white/70 font-light max-w-2xl mx-auto mb-7 leading-relaxed">
+              Décrivez votre projet, recevez une estimation personnalisée sous 24h.
+              Sans engagement, sans commitment.
+            </p>
+            <Link href="/contact" className="inline-block">
+              <motion.div
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-colors"
+              >
+                Demander mon devis
+                <ArrowRight className="w-4 h-4" />
+              </motion.div>
+            </Link>
+          </div>
+        </ScrollReveal>
       </div>
     </div>
   )
 }
-
