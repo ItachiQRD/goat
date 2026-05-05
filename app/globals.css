@@ -179,3 +179,106 @@ body {
   }
 }
 
+/* === Pages légales (mentions légales, RGPD, CGV) === */
+.legal-content h2 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: rgb(255 255 255);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+}
+@media (min-width: 768px) {
+  .legal-content h2 {
+    font-size: 1.875rem;
+    margin-top: 3rem;
+  }
+}
+.legal-content h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+.legal-content h3 {
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+@media (min-width: 768px) {
+  .legal-content h3 {
+    font-size: 1.25rem;
+  }
+}
+.legal-content p {
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.75;
+}
+.legal-content strong {
+  color: rgb(255 255 255);
+  font-weight: 500;
+}
+.legal-content a {
+  color: #60a5fa;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+.legal-content a:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+.legal-content ul,
+.legal-content ol {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0.75rem 0;
+  color: rgba(255, 255, 255, 0.75);
+}
+.legal-content ol {
+  list-style: decimal;
+}
+.legal-content li {
+  margin: 0.4rem 0;
+  line-height: 1.7;
+}
+.legal-content li::marker {
+  color: rgba(255, 255, 255, 0.4);
+}
+.legal-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+}
+.legal-content th,
+.legal-content td {
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.legal-content th {
+  color: rgb(255 255 255);
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.03);
+}
+.legal-content td {
+  color: rgba(255, 255, 255, 0.75);
+}
+.legal-content blockquote {
+  border-left: 2px solid rgba(59, 130, 246, 0.5);
+  padding: 0.6rem 1rem;
+  margin: 1rem 0;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 0 0.5rem 0.5rem 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
+.legal-content code {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.1em 0.4em;
+  border-radius: 0.25em;
+  font-size: 0.875em;
+  color: #93c5fd;
+}
+
