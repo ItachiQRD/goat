@@ -11,6 +11,15 @@ const Hero3DScene = dynamic(() => import('./Hero3DScene'), {
   loading: () => null,
 })
 
+// Nombre de mots cumulés avant une ligne donnée (pour enchaîner la cascade)
+const HERO_LINES = ['Des sites web', 'qui transforment vos visiteurs', 'en clients.']
+function lineIndexOffset(lineIndex: number): number {
+  return HERO_LINES.slice(0, lineIndex).reduce(
+    (acc, line) => acc + line.split(' ').length,
+    0
+  )
+}
+
 export default function Hero3D() {
   return (
     <section className="relative w-full min-h-screen overflow-hidden bg-[#0a0a0a]">
@@ -69,19 +78,45 @@ export default function Hero3D() {
           </span>
         </motion.div>
 
-        {/* Titre principal — épuré */}
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.8 }}
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light leading-[1.1] tracking-tight max-w-3xl mx-auto text-white"
-        >
-          Des sites web qui transforment vos visiteurs en{' '}
-          <span className="bg-gradient-to-r from-[#3b82f6] via-[#a78bfa] to-[#ff6b35] bg-clip-text text-transparent">
-            clients
-          </span>
-          .
-        </motion.h1>
+        {/* Titre principal — épuré, animé mot par mot */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light leading-[1.15] tracking-tight max-w-3xl mx-auto text-white">
+          {[
+            { text: 'Des sites web', gradient: false },
+            { text: 'qui transforment vos visiteurs', gradient: false },
+            { text: 'en clients.', gradient: true },
+          ].map((line, lineIndex) => {
+            const previousWords = lineIndexOffset(lineIndex)
+            return (
+              <span key={lineIndex} className="block">
+                {line.text.split(' ').map((word, wordIndex) => (
+                  <span
+                    key={wordIndex}
+                    className="inline-block overflow-hidden align-bottom"
+                  >
+                    <motion.span
+                      className={`inline-block ${
+                        line.gradient
+                          ? 'bg-gradient-to-r from-[#3b82f6] via-[#a78bfa] to-[#ff6b35] bg-clip-text text-transparent'
+                          : ''
+                      }`}
+                      initial={{ y: '110%' }}
+                      animate={{ y: 0 }}
+                      transition={{
+                        duration: 0.7,
+                        delay: 0.3 + (previousWords + wordIndex) * 0.08,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    >
+                      {word}
+                    </motion.span>
+                    {/* espace après chaque mot */}
+                    <span>{'\u00A0'}</span>
+                  </span>
+                ))}
+              </span>
+            )
+          })}
+        </h1>
 
         {/* Sous-titre — court */}
         <motion.p
