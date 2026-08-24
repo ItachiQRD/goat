@@ -42,7 +42,8 @@ body {
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  /* clip (pas hidden) : ne casse pas position:sticky */
+  overflow-x: clip;
 }
 
 @layer utilities {

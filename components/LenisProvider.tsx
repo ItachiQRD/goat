@@ -27,6 +27,7 @@ export default function LenisProvider({ children }: LenisProviderProps) {
     })
 
     lenisRef.current = lenis
+    ;(window as Window & { lenis?: typeof lenis }).lenis = lenis
 
     let rafId: number
     function raf(time: number) {
@@ -52,6 +53,8 @@ export default function LenisProvider({ children }: LenisProviderProps) {
     return () => {
       cancelAnimationFrame(rafId)
       lenis.destroy()
+      const w = window as Window & { lenis?: typeof lenis }
+      if (w.lenis === lenis) delete w.lenis
       document.removeEventListener('click', handleAnchorClick)
     }
   }, [])

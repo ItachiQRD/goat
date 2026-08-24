@@ -2,188 +2,201 @@
 
 import { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Float, MeshDistortMaterial, Sparkles, Environment } from '@react-three/drei'
-import type { Mesh, Group } from 'three'
+import { Sparkles } from '@react-three/drei'
+import type { MutableRefObject } from 'react'
 import * as THREE from 'three'
 
-/**
- * Objet central : icosahedron déformé avec matériau métallique brillant
- * + wireframe externe rotatif
- */
-function CentralObject() {
-  const meshRef = useRef<Mesh>(null)
-  const wireRef = useRef<Mesh>(null)
+interface SceneProps {
+  progressRef: MutableRefObject<number>
+}
 
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime()
-    if (meshRef.current) {
-      meshRef.current.rotation.x = t * 0.15
-      meshRef.current.rotation.y = t * 0.2
-    }
-    if (wireRef.current) {
-      wireRef.current.rotation.x = -t * 0.1
-      wireRef.current.rotation.y = -t * 0.15
-      wireRef.current.rotation.z = t * 0.05
-    }
+function CameraRig({ progressRef }: SceneProps) {
+  const smoothed = useRef(0)
+
+  useFrame(({ camera }) => {
+    smoothed.current += (progressRef.current - smoothed.current) * 0.075
+    const t = smoothed.current
+
+    camera.position.z = 12 - t * 38
+    camera.position.y = 0.35 + Math.sin(t * Math.PI) * 0.4
+    camera.position.x = Math.sin(t * Math.PI * 1.4) * 0.45
+    camera.lookAt(Math.sin(t * 2) * 0.12, 0.1, camera.position.z - 8)
+    camera.fov = 55 - t * 12
+    camera.updateProjectionMatrix()
+  })
+
+  return null
+}
+
+function HeroPortal() {
+  const outer = useRef<THREE.Mesh>(null)
+  const inner = useRef<THREE.Mesh>(null)
+
+  useFrame((_, delta) => {
+    if (outer.current) outer.current.rotation.z += delta * 0.15
+    if (inner.current) inner.current.rotation.z -= delta * 0.22
   })
 
   return (
-    <group>
-      {/* Cœur déformé brillant */}
-      <Float speed={1.5} rotationIntensity={0.4} floatIntensity={0.8}>
-        <mesh ref={meshRef} castShadow receiveShadow>
-          <icosahedronGeometry args={[1.4, 4]} />
-          <MeshDistortMaterial
-            color="#6366f1"
-            emissive="#3b82f6"
-            emissiveIntensity={0.4}
-            roughness={0.15}
-            metalness={0.85}
-            distort={0.35}
-            speed={1.5}
-          />
-        </mesh>
-      </Float>
-
-      {/* Wireframe extérieur */}
-      <mesh ref={wireRef}>
-        <icosahedronGeometry args={[2.1, 1]} />
-        <meshBasicMaterial color="#a78bfa" wireframe transparent opacity={0.25} />
+    <group position={[0, 0, 8]}>
+      <mesh ref={outer}>
+        <torusGeometry args={[2.8, 0.06, 16, 128]} />
+        <meshBasicMaterial color="#3b82f6" transparent opacity={0.95} />
       </mesh>
-
-      {/* Sphère de halo externe */}
+      <mesh ref={inner}>
+        <torusGeometry args={[2.15, 0.035, 16, 128]} />
+        <meshBasicMaterial color="#a78bfa" transparent opacity={0.9} />
+      </mesh>
       <mesh>
-        <sphereGeometry args={[2.6, 32, 32]} />
-        <meshBasicMaterial color="#3b82f6" transparent opacity={0.04} side={THREE.BackSide} />
+        <circleGeometry args={[1.9, 64]} />
+        <meshBasicMaterial color="#8b5cf6" transparent opacity={0.18} />
       </mesh>
+      <pointLight position={[0, 0, 1]} intensity={3} color="#60a5fa" distance={18} />
     </group>
   )
 }
 
-/**
- * Anneaux orbitaux autour de l'objet central
- */
-function OrbitingRings() {
-  const groupRef = useRef<Group>(null)
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.1
-    }
-  })
-
-  return (
-    <group ref={groupRef}>
-      {/* Anneau 1 */}
-      <mesh rotation={[Math.PI / 2.2, 0, 0]}>
-        <torusGeometry args={[2.8, 0.015, 8, 100]} />
-        <meshBasicMaterial color="#8b5cf6" transparent opacity={0.5} />
-      </mesh>
-      {/* Anneau 2 */}
-      <mesh rotation={[Math.PI / 1.5, Math.PI / 4, 0]}>
-        <torusGeometry args={[3.2, 0.012, 8, 100]} />
-        <meshBasicMaterial color="#3b82f6" transparent opacity={0.4} />
-      </mesh>
-      {/* Anneau 3 */}
-      <mesh rotation={[Math.PI / 3, -Math.PI / 5, Math.PI / 6]}>
-        <torusGeometry args={[3.6, 0.01, 8, 100]} />
-        <meshBasicMaterial color="#ff6b35" transparent opacity={0.3} />
-      </mesh>
-    </group>
-  )
-}
-
-/**
- * Petites planètes orbitantes
- */
-function OrbitingDots() {
-  const groupRef = useRef<Group>(null)
-  const dots = useMemo(
-    () => [
-      { color: '#3b82f6', radius: 2.8, speed: 0.4, offset: 0, tilt: 0.3 },
-      { color: '#8b5cf6', radius: 3.2, speed: 0.3, offset: 2.1, tilt: -0.5 },
-      { color: '#ff6b35', radius: 3.6, speed: 0.25, offset: 4.2, tilt: 0.7 },
-    ],
+function TunnelRings() {
+  const group = useRef<THREE.Group>(null)
+  const rings = useMemo(
+    () =>
+      Array.from({ length: 16 }, (_, i) => ({
+        z: 5 - i * 2.8,
+        color: i % 3 === 0 ? '#3b82f6' : i % 3 === 1 ? '#8b5cf6' : '#ff6b35',
+        scale: 1 + (i % 4) * 0.1,
+        thickness: 0.028 + (i % 3) * 0.01,
+      })),
     []
   )
 
-  useFrame((state) => {
-    if (!groupRef.current) return
-    const t = state.clock.getElapsedTime()
-    groupRef.current.children.forEach((child, i) => {
-      const dot = dots[i]
-      const angle = t * dot.speed + dot.offset
-      child.position.x = Math.cos(angle) * dot.radius
-      child.position.z = Math.sin(angle) * dot.radius
-      child.position.y = Math.sin(angle * 0.5) * dot.tilt
-    })
+  useFrame((_, delta) => {
+    if (!group.current) return
+    group.current.rotation.z += delta * 0.05
   })
 
   return (
-    <group ref={groupRef}>
-      {dots.map((dot, i) => (
-        <mesh key={i}>
-          <sphereGeometry args={[0.08, 16, 16]} />
-          <meshBasicMaterial color={dot.color} />
+    <group ref={group}>
+      {rings.map((ring, i) => (
+        <mesh key={i} position={[0, 0, ring.z]} scale={ring.scale}>
+          <torusGeometry args={[2.4, ring.thickness, 12, 96]} />
+          <meshBasicMaterial color={ring.color} transparent opacity={0.9} />
         </mesh>
       ))}
     </group>
   )
 }
 
-/**
- * Scène 3D complète, mémorisée pour limiter les recompiles
- */
-function Scene() {
+function FloatingScreens() {
+  const screens = useMemo(
+    () =>
+      Array.from({ length: 8 }, (_, i) => ({
+        x: i % 2 === 0 ? -2.4 : 2.4,
+        y: (i % 3) * 0.35 - 0.3,
+        z: 8 - i * 4.4,
+        rotY: i % 2 === 0 ? 0.35 : -0.35,
+        color: i % 2 === 0 ? '#3b82f6' : '#8b5cf6',
+      })),
+    []
+  )
+
+  return (
+    <group>
+      {screens.map((s, i) => (
+        <mesh key={i} position={[s.x, s.y, s.z]} rotation={[0, s.rotY, 0]}>
+          <planeGeometry args={[2.1, 1.28]} />
+          <meshStandardMaterial
+            color="#0b1220"
+            emissive={s.color}
+            emissiveIntensity={0.55}
+            metalness={0.7}
+            roughness={0.25}
+            transparent
+            opacity={0.95}
+          />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+function FloorGrid() {
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.1, -8]}>
+      <planeGeometry args={[80, 80, 40, 40]} />
+      <meshBasicMaterial
+        color="#3b82f6"
+        wireframe
+        transparent
+        opacity={0.08}
+      />
+    </mesh>
+  )
+}
+
+function CoreGlow({ progressRef }: SceneProps) {
+  const meshRef = useRef<THREE.Mesh>(null)
+
+  useFrame(() => {
+    if (!meshRef.current) return
+    const t = progressRef.current
+    meshRef.current.position.z = -8 - t * 18
+    meshRef.current.scale.setScalar(1.2 + t * 1.8)
+    const mat = meshRef.current.material as THREE.MeshBasicMaterial
+    mat.opacity = 0.12 + t * 0.18
+  })
+
+  return (
+    <mesh ref={meshRef} position={[0, 0, -8]}>
+      <sphereGeometry args={[3.2, 32, 32]} />
+      <meshBasicMaterial color="#8b5cf6" transparent opacity={0.16} />
+    </mesh>
+  )
+}
+
+function Scene({ progressRef }: SceneProps) {
   return (
     <>
-      {/* Lumières */}
-      <ambientLight intensity={0.4} />
-      <pointLight position={[8, 8, 8]} intensity={1.4} color="#a78bfa" />
-      <pointLight position={[-8, -4, -8]} intensity={0.8} color="#3b82f6" />
-      <pointLight position={[0, 6, -4]} intensity={0.6} color="#ff6b35" />
-      <spotLight
-        position={[0, 10, 0]}
-        angle={0.4}
-        penumbra={1}
-        intensity={1}
-        color="#ffffff"
-        castShadow
-      />
+      <color attach="background" args={['#05060a']} />
+      <fog attach="fog" args={['#05060a', 12, 36]} />
 
-      {/* Objet principal */}
-      <CentralObject />
-      <OrbitingRings />
-      <OrbitingDots />
+      <ambientLight intensity={0.45} />
+      <pointLight position={[0, 4, 6]} intensity={2} color="#93c5fd" />
+      <pointLight position={[-6, -2, -4]} intensity={1.5} color="#8b5cf6" />
+      <pointLight position={[6, 3, -12]} intensity={1.2} color="#ff6b35" />
+      <directionalLight position={[0, 8, 4]} intensity={0.6} color="#ffffff" />
 
-      {/* Particules d'ambiance */}
+      <CameraRig progressRef={progressRef} />
+      <HeroPortal />
+      <TunnelRings />
+      <FloatingScreens />
+      <FloorGrid />
+      <CoreGlow progressRef={progressRef} />
+
       <Sparkles
-        count={120}
-        scale={[10, 10, 10]}
-        size={2.5}
-        speed={0.3}
-        color="#a78bfa"
-        opacity={0.6}
+        count={90}
+        scale={[14, 8, 40]}
+        size={2.2}
+        speed={0.25}
+        color="#c4b5fd"
+        opacity={0.55}
       />
-
-      <Environment preset="night" />
     </>
   )
 }
 
-export default function Hero3DScene() {
+export default function Hero3DScene({ progressRef }: SceneProps) {
   return (
     <Canvas
-      camera={{ position: [0, 0, 7], fov: 45 }}
+      camera={{ position: [0, 0.35, 12], fov: 55, near: 0.1, far: 80 }}
       dpr={[1, 1.5]}
       gl={{
         antialias: true,
-        alpha: true,
+        alpha: false,
         powerPreference: 'high-performance',
+        preserveDrawingBuffer: true,
       }}
-      style={{ background: 'transparent' }}
     >
-      <Scene />
+      <Scene progressRef={progressRef} />
     </Canvas>
   )
 }

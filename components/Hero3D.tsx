@@ -1,196 +1,328 @@
 'use client'
 
-import { Suspense } from 'react'
-import dynamic from 'next/dynamic'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+  useMotionValueEvent,
+  useReducedMotion,
+} from 'framer-motion'
+import { siteConfig } from '@/lib/siteConfig'
+import HeroFrameSequence from '@/components/HeroFrameSequence'
 
-// Import dynamique pour éviter les erreurs SSR (Three.js = client only)
-const Hero3DScene = dynamic(() => import('./Hero3DScene'), {
-  ssr: false,
-  loading: () => null,
-})
+type Phase = 'intro' | 'hero' | 'ready'
 
-// Nombre de mots cumulés avant une ligne donnée (pour enchaîner la cascade)
-const HERO_LINES = ['Des sites web', 'qui transforment vos visiteurs', 'en clients.']
-function lineIndexOffset(lineIndex: number): number {
-  return HERO_LINES.slice(0, lineIndex).reduce(
-    (acc, line) => acc + line.split(' ').length,
-    0
-  )
+declare global {
+  interface Window {
+    lenis?: { stop: () => void; start: () => void }
+  }
 }
 
+function setHeroUiState(phase: Phase) {
+  if (typeof document === 'undefined') return
+  document.documentElement.dataset.heroPhase = phase
+  window.dispatchEvent(new CustomEvent('hero-phase', { detail: phase }))
+}
+
+/**
+ * Hero full-bleed : séquence frames plein écran,
+ * fade opacité au scroll, contenu overlay progressif.
+ */
 export default function Hero3D() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const skippedRef = useRef(false)
+  const phaseRef = useRef<Phase>('intro')
+  const timersRef = useRef<number[]>([])
+  const prevOverflowRef = useRef('')
+
+  const [phase, setPhase] = useState<Phase>('intro')
+  const [logoVisible, setLogoVisible] = useState(true)
+  const [framesReady, setFramesReady] = useState(false)
+  const [scrubbing, setScrubbing] = useState(false)
+
+  const prefersReduced = useReducedMotion()
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  })
+
+  // Vidéo plein écran : fade out progressif au scroll
+  const videoOpacity = useTransform(scrollYProgress, [0, 0.15, 0.65, 0.9], [1, 1, 0.35, 0])
+  const brandOpacity = useTransform(scrollYProgress, [0, 0.08, 0.45], [1, 1, 0])
+  const chromeOpacity = useTransform(scrollYProgress, [0, 0.05, 0.35], [1, 1, 0])
+
+  const applyPhase = (next: Phase) => {
+    phaseRef.current = next
+    setPhase(next)
+    setHeroUiState(next)
+  }
+
+  const clearIntroTimers = () => {
+    timersRef.current.forEach((id) => window.clearTimeout(id))
+    timersRef.current = []
+  }
+
+  const unlockScroll = () => {
+    document.body.style.overflow = prevOverflowRef.current
+    window.lenis?.start()
+  }
+
+  const skipIntro = () => {
+    if (skippedRef.current || prefersReduced) return
+    skippedRef.current = true
+    clearIntroTimers()
+    setLogoVisible(false)
+    applyPhase('ready')
+    unlockScroll()
+  }
+
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    if (phaseRef.current === 'hero' && v > 0.02) applyPhase('ready')
+    setScrubbing(v > 0.015)
+  })
+
+  useEffect(() => {
+    if (prefersReduced) {
+      skippedRef.current = true
+      setLogoVisible(false)
+      applyPhase('ready')
+      return
+    }
+
+    skippedRef.current = false
+    applyPhase('intro')
+    window.lenis?.stop()
+    prevOverflowRef.current = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const tHold = window.setTimeout(() => {
+      if (!skippedRef.current) setLogoVisible(false)
+    }, 2400)
+
+    const tReveal = window.setTimeout(() => {
+      if (skippedRef.current) return
+      applyPhase('hero')
+      unlockScroll()
+    }, 3200)
+
+    const tReady = window.setTimeout(() => {
+      if (skippedRef.current) return
+      applyPhase('ready')
+    }, 4800)
+
+    timersRef.current = [tHold, tReveal, tReady]
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        skipIntro()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+
+    return () => {
+      clearIntroTimers()
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prevOverflowRef.current
+      window.lenis?.start()
+    }
+  }, [prefersReduced])
+
+  useEffect(() => {
+    return () => {
+      delete document.documentElement.dataset.heroPhase
+    }
+  }, [])
+
+  const showHero = phase === 'hero' || phase === 'ready'
+  const autoplay = showHero && !scrubbing && !prefersReduced
+
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-[#0a0a0a]">
-      {/* Fond gradient radial subtil */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse at 30% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(ellipse at 70% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 50%)',
-        }}
-      />
-
-      {/* Grille décorative en arrière-plan */}
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-          maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
-          WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
-        }}
-      />
-
-      {/* Scène 3D pleine largeur derrière le contenu */}
-      <div className="absolute inset-0 z-0">
-        <Suspense fallback={null}>
-          <Hero3DScene />
-        </Suspense>
-      </div>
-
-      {/* Vignette pour focaliser sur le contenu */}
-      <div
-        className="absolute inset-0 z-10 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse at center, transparent 50%, rgba(10,10,10,0.55) 100%)',
-        }}
-      />
-
-      {/* Contenu superposé */}
-      <div className="relative z-20 min-h-screen flex flex-col items-center justify-center px-6 py-24 text-center">
-        {/* Badge disponibilité */}
+    <section
+      ref={sectionRef}
+      className="relative h-[180vh] sm:h-[200vh] bg-[#0a0a0a]"
+      aria-label="Introduction"
+    >
+      <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
+        {/* Séquence frames — plein écran */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 backdrop-blur-md border border-white/10 mb-7"
+          className="absolute inset-0 z-0"
+          style={showHero ? { opacity: videoOpacity } : { opacity: 0 }}
         >
-          <span className="relative flex w-1.5 h-1.5">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-400" />
-          </span>
-          <span className="text-xs text-white/70 font-light tracking-wide">
-            Disponible pour vos projets
-          </span>
+          <div
+            className={`absolute inset-0 transition-opacity duration-700 ${
+              framesReady || prefersReduced ? 'opacity-100' : 'opacity-30'
+            }`}
+          >
+            {!prefersReduced ? (
+              <HeroFrameSequence
+                progress={scrollYProgress}
+                autoplay={autoplay}
+                onReady={() => setFramesReady(true)}
+              />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src="/hero-frames/ezgif-frame-050.jpg"
+                alt=""
+                className="h-full w-full object-cover"
+              />
+            )}
+          </div>
+
+          {/* Voile bas pour lisibilité du chrome */}
+          <div
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-[#0a0a0a]/20 to-[#0a0a0a]/30"
+            aria-hidden="true"
+          />
         </motion.div>
 
-        {/* Titre principal — épuré, animé mot par mot */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light leading-[1.15] tracking-tight max-w-3xl mx-auto text-white">
-          {[
-            { text: 'Des sites web', gradient: false },
-            { text: 'qui transforment vos visiteurs', gradient: false },
-            { text: 'en clients.', gradient: true },
-          ].map((line, lineIndex) => {
-            const previousWords = lineIndexOffset(lineIndex)
-            return (
-              <span key={lineIndex} className="block">
-                {line.text.split(' ').map((word, wordIndex) => (
-                  <span
-                    key={wordIndex}
-                    className="inline-block overflow-hidden align-bottom"
-                  >
-                    <motion.span
-                      className={`inline-block ${
-                        line.gradient
-                          ? 'bg-gradient-to-r from-[#3b82f6] via-[#a78bfa] to-[#ff6b35] bg-clip-text text-transparent'
-                          : ''
-                      }`}
-                      initial={{ y: '110%' }}
-                      animate={{ y: 0 }}
-                      transition={{
-                        duration: 0.7,
-                        delay: 0.3 + (previousWords + wordIndex) * 0.08,
-                        ease: [0.22, 1, 0.36, 1],
-                      }}
-                    >
-                      {word}
-                    </motion.span>
-                    {/* espace après chaque mot */}
-                    <span>{'\u00A0'}</span>
+        {/* Brand + tagline overlay */}
+        <motion.div
+          className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center sm:px-6"
+          style={showHero ? { opacity: brandOpacity } : { opacity: 0 }}
+        >
+          {showHero && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <h1 className="text-3xl font-semibold leading-[0.95] tracking-tight text-white drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+                {siteConfig.brand.name.split(' ').map((word, i) => (
+                  <span key={`${word}-${i}`} className="block">
+                    {word}
                   </span>
                 ))}
-              </span>
-            )
-          })}
-        </h1>
-
-        {/* Sous-titre — court */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55, duration: 0.8 }}
-          className="mt-6 text-sm md:text-base text-white/55 font-light max-w-xl mx-auto leading-relaxed"
-        >
-          Développeur full-stack indépendant. Modernes, rapides, optimisés SEO.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.75, duration: 0.6 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-9"
-        >
-          <Link href="/contact" data-cursor-hover className="w-full sm:w-auto">
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="group inline-flex items-center justify-center gap-2 w-full px-7 py-3.5 bg-white text-black rounded-full text-sm md:text-base font-medium hover:bg-white/90 transition-colors"
-            >
-              Démarrer mon projet
-              <svg
-                className="w-4 h-4 transition-transform group-hover:translate-x-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
+              </h1>
+              <p className="mx-auto mt-4 max-w-md text-sm font-light leading-relaxed text-white/70 drop-shadow md:mt-5 md:text-base">
+                {siteConfig.brand.tagline}
+              </p>
             </motion.div>
-          </Link>
-
-          <a href="#services" data-cursor-hover className="w-full sm:w-auto">
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center justify-center w-full px-7 py-3.5 bg-white/[0.04] backdrop-blur-md border border-white/15 text-white rounded-full text-sm md:text-base font-light hover:bg-white/10 hover:border-white/30 transition-all"
-            >
-              Voir mes services
-            </motion.div>
-          </a>
+          )}
         </motion.div>
 
-        {/* Indicateur de scroll */}
+        {/* Chrome bas */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/30"
+          className="absolute bottom-0 left-0 right-0 z-30 px-4 pb-8 pt-16 sm:px-6 sm:pb-10 md:px-10 md:pb-12"
+          style={showHero ? { opacity: chromeOpacity } : { opacity: 0 }}
         >
+          {showHero && (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="relative mx-auto grid max-w-6xl grid-cols-1 items-end gap-5 sm:grid-cols-3 sm:gap-6"
+            >
+              <div className="text-center sm:text-left">
+                <p className="text-[10px] uppercase tracking-[0.35em] text-white/50 md:text-[11px]">
+                  Statut
+                </p>
+                <p className="mt-1 text-sm font-medium tracking-wide text-white/90 md:text-base">
+                  Disponible pour projets
+                </p>
+              </div>
+
+              <div className="pointer-events-auto flex justify-center">
+                <Link href="/devis">
+                  <motion.span
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="inline-flex w-full items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-medium tracking-wide text-black sm:w-auto md:px-10 md:py-3.5 md:text-base"
+                  >
+                    Simuler un devis
+                  </motion.span>
+                </Link>
+              </div>
+
+              <div className="text-center sm:text-right">
+                <p className="text-[10px] uppercase tracking-[0.35em] text-white/50 md:text-[11px]">
+                  Stack
+                </p>
+                <p className="mt-1 text-sm font-light tracking-wide text-white/75 md:text-base">
+                  Next · React · Node
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </motion.div>
+
+        {/* Indicateur scroll */}
+        {showHero && (
           <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4, duration: 0.8 }}
+            className="pointer-events-none absolute bottom-3 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1.5"
+            style={{ opacity: chromeOpacity }}
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              />
-            </svg>
+            <span className="text-[9px] uppercase tracking-[0.4em] text-white/40">
+              Défiler
+            </span>
+            <motion.span
+              className="block h-5 w-px origin-top bg-gradient-to-b from-white/60 to-transparent"
+              animate={{ scaleY: [1, 0.45, 1], opacity: [0.6, 0.2, 0.6] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            />
           </motion.div>
-        </motion.div>
+        )}
       </div>
+
+      {/* Intro logo */}
+      <AnimatePresence>
+        {phase === 'intro' && (
+          <motion.div
+            key="intro"
+            className="fixed inset-0 z-[60] flex cursor-pointer items-center justify-center bg-[#0a0a0a]"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+            onClick={skipIntro}
+            role="presentation"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              animate={
+                logoVisible
+                  ? { opacity: 0.88, scale: 1 }
+                  : { opacity: 0, scale: 1.06 }
+              }
+              transition={{
+                opacity: {
+                  duration: logoVisible ? 1.8 : 0.65,
+                  ease: [0.22, 1, 0.36, 1],
+                },
+                scale: {
+                  duration: logoVisible ? 2.4 : 0.85,
+                  ease: [0.22, 1, 0.36, 1],
+                },
+              }}
+              className="flex flex-col items-center gap-6"
+            >
+              <div className="relative flex h-16 w-16 items-center justify-center sm:h-20 sm:w-20 md:h-24 md:w-24">
+                <div
+                  className="absolute inset-0 rounded-2xl border border-white/25"
+                  aria-hidden="true"
+                />
+                <span className="relative z-10 text-2xl font-semibold tracking-tighter text-white/90 sm:text-3xl md:text-4xl">
+                  FS
+                </span>
+              </div>
+              <p className="text-xs font-light uppercase tracking-[0.4em] text-white/40 sm:text-sm">
+                {siteConfig.brand.name}
+              </p>
+            </motion.div>
+
+            <p className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.35em] text-white/20">
+              Cliquer pour passer
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
