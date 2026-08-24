@@ -14,6 +14,8 @@ function CameraRig({ progressRef }: SceneProps) {
   const smoothed = useRef(0)
 
   useFrame(({ camera }) => {
+    if (!(camera instanceof THREE.PerspectiveCamera)) return
+
     smoothed.current += (progressRef.current - smoothed.current) * 0.075
     const t = smoothed.current
 

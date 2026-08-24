@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, ReactNode } from 'react'
 import Lenis from 'lenis'
+import { setLenisInstance } from '@/lib/lenisBridge'
 
 interface LenisProviderProps {
   children: ReactNode
@@ -27,7 +28,7 @@ export default function LenisProvider({ children }: LenisProviderProps) {
     })
 
     lenisRef.current = lenis
-    ;(window as Window & { lenis?: typeof lenis }).lenis = lenis
+    setLenisInstance(lenis)
 
     let rafId: number
     function raf(time: number) {
@@ -53,8 +54,7 @@ export default function LenisProvider({ children }: LenisProviderProps) {
     return () => {
       cancelAnimationFrame(rafId)
       lenis.destroy()
-      const w = window as Window & { lenis?: typeof lenis }
-      if (w.lenis === lenis) delete w.lenis
+      setLenisInstance(undefined)
       document.removeEventListener('click', handleAnchorClick)
     }
   }, [])
