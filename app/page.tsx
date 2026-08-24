@@ -6,11 +6,11 @@ import { motion } from 'framer-motion'
 import SplitText from '@/components/SplitText'
 import ScrollReveal from '@/components/ScrollReveal'
 import Hero3D from '@/components/Hero3D'
+import RisingSection from '@/components/RisingSection'
 import FloatingParticles from '@/components/FloatingParticles'
 import GlowEffect from '@/components/GlowEffect'
 import MorphingBlob from '@/components/MorphingBlob'
 import ParallaxBackground from '@/components/ParallaxBackground'
-import ModernScroll from '@/components/ModernScroll'
 import DualCard from '@/components/DualCard'
 import AnimatedCounter from '@/components/AnimatedCounter'
 import ModernIllustration from '@/components/ModernIllustration'
@@ -256,14 +256,12 @@ export default function Home() {
   ]
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#151515] text-white overflow-x-hidden relative">
-      <ModernScroll containerRef={containerRef} />
-
-      {/* ====== HERO 3D ====== */}
+    <div ref={containerRef} className="min-h-screen bg-[#151515] text-white overflow-x-clip relative">
+      {/* ====== HERO CINÉMA (style Rockstar / GTA VI) ====== */}
       <Hero3D />
 
       {/* ====== POURQUOI UN BON SITE ? ====== */}
-      <section className="py-16 md:py-24 lg:py-32 px-5 md:px-6 relative overflow-hidden" id="pourquoi">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="pourquoi">
         <ParallaxBackground speed={0.3}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#3b82f6]/5 to-transparent" />
         </ParallaxBackground>
@@ -339,10 +337,10 @@ export default function Home() {
             </div>
           </ScrollReveal>
         </div>
-      </section>
+      </RisingSection>
 
       {/* ====== MES SERVICES ====== */}
-      <section className="py-16 md:py-24 lg:py-32 px-5 md:px-6 relative overflow-hidden" id="services">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="services">
         <ParallaxBackground speed={0.4}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8b5cf6]/5 to-transparent" />
         </ParallaxBackground>
@@ -419,10 +417,10 @@ export default function Home() {
             </div>
           </ScrollReveal>
         </div>
-      </section>
+      </RisingSection>
 
       {/* ====== POUR QUI ? ====== */}
-      <section className="py-16 md:py-24 lg:py-32 px-5 md:px-6 relative overflow-hidden" id="pour-qui">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="pour-qui">
         <ParallaxBackground speed={0.3}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ff6b35]/5 to-transparent" />
         </ParallaxBackground>
@@ -497,10 +495,10 @@ export default function Home() {
             ))}
           </MobileExpand>
         </div>
-      </section>
+      </RisingSection>
 
       {/* ====== COMMENT ÇA SE PASSE ====== */}
-      <section className="py-16 md:py-24 lg:py-32 px-5 md:px-6 relative overflow-hidden" id="processus">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="processus">
         <ParallaxBackground speed={0.4}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#3b82f6]/5 to-transparent" />
         </ParallaxBackground>
@@ -539,10 +537,10 @@ export default function Home() {
             </div>
           </ScrollReveal>
         </div>
-      </section>
+      </RisingSection>
 
       {/* ====== STACK TECHNIQUE ====== */}
-      <section className="py-16 md:py-24 lg:py-32 px-5 md:px-6 relative overflow-hidden" id="stack">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="stack">
         <ParallaxBackground speed={0.4}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8b5cf6]/5 to-transparent" />
         </ParallaxBackground>
@@ -619,10 +617,10 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </RisingSection>
 
       {/* ====== RÉSULTATS / STATS ====== */}
-      <section className="py-16 md:py-24 lg:py-32 px-5 md:px-6 relative overflow-hidden">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]">
         <ParallaxBackground speed={0.5}>
           <div className="absolute inset-0">
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3b82f6]/15 rounded-full blur-3xl" />
@@ -739,10 +737,10 @@ export default function Home() {
             </div>
           </ScrollReveal>
         </div>
-      </section>
+      </RisingSection>
 
       {/* ====== À PROPOS ====== */}
-      <section className="py-16 md:py-24 lg:py-32 px-5 md:px-6 relative overflow-hidden" id="a-propos">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="a-propos">
         <ParallaxBackground speed={0.5}>
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8b5cf6]/5 to-transparent" />
@@ -888,10 +886,10 @@ export default function Home() {
             </div>
           </ScrollReveal>
         </div>
-      </section>
+      </RisingSection>
 
       {/* ====== CONTACT ====== */}
-      <section className="py-16 md:py-24 lg:py-32 px-5 md:px-6 relative overflow-hidden" id="contact">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="contact">
         <ParallaxBackground speed={0.6}>
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#3b82f6]/5 to-transparent" />
@@ -1040,7 +1038,7 @@ export default function Home() {
             </div>
           </ScrollReveal>
         </div>
-      </section>
+      </RisingSection>
     </div>
   )
 }

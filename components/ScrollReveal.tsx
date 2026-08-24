@@ -1,8 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { useRef } from 'react'
-import { useInView } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
 
 interface ScrollRevealProps {
   children: React.ReactNode
@@ -11,47 +10,38 @@ interface ScrollRevealProps {
   className?: string
 }
 
-export default function ScrollReveal({ 
-  children, 
-  direction = 'up', 
+/** Apparition progressive des éléments à l’entrée dans le viewport. */
+export default function ScrollReveal({
+  children,
+  direction = 'up',
   delay = 0,
-  className = '' 
+  className = '',
 }: ScrollRevealProps) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const prefersReduced = useReducedMotion()
+  const isInView = useInView(ref, { once: true, margin: '-8% 0px -5% 0px' })
 
-  const variants = {
-    up: { y: 60, opacity: 0 },
-    down: { y: -60, opacity: 0 },
-    left: { x: 60, opacity: 0 },
-    right: { x: -60, opacity: 0 },
+  const hidden = {
+    up: { y: prefersReduced ? 0 : 48, opacity: 0 },
+    down: { y: prefersReduced ? 0 : -48, opacity: 0 },
+    left: { x: prefersReduced ? 0 : 40, opacity: 0 },
+    right: { x: prefersReduced ? 0 : -40, opacity: 0 },
     fade: { opacity: 0 },
-  }
-
-  const initial = variants[direction]
-  const animate = isInView ? { x: 0, y: 0, opacity: 1 } : initial
+  }[direction]
 
   return (
     <motion.div
       ref={ref}
-      initial={initial}
-      animate={animate}
-      transition={{
-        duration: 0.8,
-        delay,
-        ease: [0.6, -0.05, 0.01, 0.99],
-      }}
       className={className}
+      initial={hidden}
+      animate={isInView ? { x: 0, y: 0, opacity: 1 } : hidden}
+      transition={{
+        duration: prefersReduced ? 0.01 : 0.9,
+        delay: prefersReduced ? 0 : delay,
+        ease: [0.22, 1, 0.36, 1],
+      }}
     >
       {children}
     </motion.div>
   )
 }
-
-
-
-
-
-
-
-

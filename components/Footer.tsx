@@ -13,6 +13,7 @@ export default function Footer() {
     { href: '/', label: 'Accueil' },
     { href: '/services', label: 'Services' },
     { href: '/tarification', label: 'Tarifs' },
+    { href: '/devis', label: 'Simuler un devis' },
     { href: '/portfolio', label: 'Portfolio' },
     { href: '/exemples', label: 'Exemples' },
     { href: '/contact', label: 'Contact' },
@@ -25,7 +26,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="relative pt-16 pb-8 px-5 md:px-6 border-t border-white/10 bg-[#0d0d0d]">
+    <footer className="relative border-t border-white/10 bg-[#0a0a0a] px-5 pb-8 pt-16 md:px-6">
       {/* Effet de halo subtil en haut */}
       <div
         className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"

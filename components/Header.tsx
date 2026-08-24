@@ -10,7 +10,7 @@ import {
   useSpring,
   useMotionValueEvent,
 } from 'framer-motion'
-import { X, ChevronDown, ArrowRight } from 'lucide-react'
+import { X, ChevronDown, ArrowRight, Sparkles } from 'lucide-react'
 import { siteConfig, getActiveSocials, isPlaceholder } from '@/lib/siteConfig'
 
 interface NavItem {
@@ -58,6 +58,9 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const [heroPhase, setHeroPhase] = useState<'intro' | 'hero' | 'ready' | null>(
+    pathname === '/' ? 'intro' : null
+  )
 
   // Progression du scroll (barre fine en haut)
   const { scrollYProgress, scrollY } = useScroll()
@@ -67,10 +70,36 @@ export default function Header() {
     restDelta: 0.001,
   })
 
+  // Sync avec l'intro hero (homepage style Rockstar)
+  useEffect(() => {
+    if (pathname !== '/') {
+      setHeroPhase(null)
+      return
+    }
+    const current = document.documentElement.dataset.heroPhase as
+      | 'intro'
+      | 'hero'
+      | 'ready'
+      | undefined
+    if (current) setHeroPhase(current)
+
+    const onPhase = (e: Event) => {
+      const detail = (e as CustomEvent).detail as 'intro' | 'hero' | 'ready'
+      setHeroPhase(detail)
+    }
+    window.addEventListener('hero-phase', onPhase)
+    return () => window.removeEventListener('hero-phase', onPhase)
+  }, [pathname])
+
   // Détection scroll : dim background + auto-hide en descente
   useMotionValueEvent(scrollY, 'change', (latest) => {
     const previous = scrollY.getPrevious() ?? 0
     setScrolled(latest > 30)
+    // Sur l'accueil pendant le hero : navbar reste visible (pattern GTA 6)
+    if (pathname === '/' && (heroPhase === 'intro' || heroPhase === 'hero' || latest < window.innerHeight * 1.4)) {
+      setHidden(false)
+      return
+    }
     if (latest > 200 && latest > previous) {
       setHidden(true)
     } else if (latest < previous) {
@@ -114,22 +143,28 @@ export default function Header() {
       {/* Barre de progression de scroll */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-0.5 z-[55] origin-left bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] pointer-events-none"
-        style={{ scaleX }}
+        style={{ scaleX, opacity: heroPhase === 'intro' ? 0 : 1 }}
         aria-hidden="true"
       />
 
       <motion.header
         className="fixed top-0 left-0 right-0 z-50"
-        initial={{ y: -100 }}
-        animate={{ y: hidden ? -100 : 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        initial={false}
+        animate={{
+          y: hidden ? -100 : 0,
+          opacity: heroPhase === 'intro' ? 0 : 1,
+        }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        style={{ pointerEvents: heroPhase === 'intro' ? 'none' : 'auto' }}
       >
-        {/* Background glassmorphism */}
+        {/* Fond — transparent style Rockstar pendant le hero */}
         <div
           className={`absolute inset-0 transition-all duration-500 ${
-            scrolled
-              ? 'bg-[#0a0a0a]/85 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.3)]'
-              : 'bg-gradient-to-b from-[#0a0a0a]/40 to-transparent backdrop-blur-sm'
+            pathname === '/' && (heroPhase === 'hero' || heroPhase === 'ready') && !scrolled
+              ? 'bg-transparent'
+              : scrolled
+                ? 'bg-[#0a0a0a]/85 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.3)]'
+                : 'bg-gradient-to-b from-[#0a0a0a]/40 to-transparent backdrop-blur-sm'
           }`}
           aria-hidden="true"
         />
@@ -255,14 +290,14 @@ export default function Header() {
             {/* === ACTIONS DROITE === */}
             <div className="flex items-center gap-2 md:gap-3">
               {/* CTA Devis (desktop) */}
-              <Link href="/contact" className="hidden lg:inline-flex">
+              <Link href="/devis" className="hidden lg:inline-flex">
                 <motion.span
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.97 }}
                   className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium text-white bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] hover:shadow-[0_8px_24px_rgba(59,130,246,0.4)] transition-shadow"
                 >
-                  Devis gratuit
-                  <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                  Simuler un devis
+                  <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
                 </motion.span>
               </Link>
 
@@ -458,7 +493,7 @@ function MobileDrawer({ navItems, isActive, onClose, socials, email }: MobileDra
           {/* CTA */}
           <div className="px-5 pb-5">
             <Link
-              href="/contact"
+              href="/devis"
               onClick={onClose}
               className="block"
             >
@@ -469,8 +504,8 @@ function MobileDrawer({ navItems, isActive, onClose, socials, email }: MobileDra
                 whileTap={{ scale: 0.97 }}
                 className="flex items-center justify-center gap-2 w-full px-5 py-4 rounded-xl bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] text-white text-sm font-medium shadow-[0_10px_30px_rgba(59,130,246,0.3)]"
               >
-                Demander un devis gratuit
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                <Sparkles className="w-4 h-4" aria-hidden="true" />
+                Simuler mon devis
               </motion.div>
             </Link>
           </div>
