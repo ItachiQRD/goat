@@ -12,14 +12,9 @@ import {
 } from 'framer-motion'
 import { siteConfig } from '@/lib/siteConfig'
 import HeroFrameSequence from '@/components/HeroFrameSequence'
+import { startLenis, stopLenis } from '@/lib/lenisBridge'
 
 type Phase = 'intro' | 'hero' | 'ready'
-
-declare global {
-  interface Window {
-    lenis?: { stop: () => void; start: () => void }
-  }
-}
 
 function setHeroUiState(phase: Phase) {
   if (typeof document === 'undefined') return
@@ -68,7 +63,7 @@ export default function Hero3D() {
 
   const unlockScroll = () => {
     document.body.style.overflow = prevOverflowRef.current
-    window.lenis?.start()
+    startLenis()
   }
 
   const skipIntro = () => {
@@ -95,7 +90,7 @@ export default function Hero3D() {
 
     skippedRef.current = false
     applyPhase('intro')
-    window.lenis?.stop()
+    stopLenis()
     prevOverflowRef.current = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
@@ -128,7 +123,7 @@ export default function Hero3D() {
       clearIntroTimers()
       window.removeEventListener('keydown', onKey)
       document.body.style.overflow = prevOverflowRef.current
-      window.lenis?.start()
+      startLenis()
     }
   }, [prefersReduced])
 
