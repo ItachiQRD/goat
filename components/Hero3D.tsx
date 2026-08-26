@@ -162,7 +162,7 @@ export default function Hero3D() {
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src="/hero-frames/ezgif-frame-050.jpg"
+                src="/hero-frames/ezgif-frame-020.jpg"
                 alt=""
                 className="h-full w-full object-cover"
               />

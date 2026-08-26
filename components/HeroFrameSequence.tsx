@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import type { MotionValue } from 'framer-motion'
 import { useMotionValueEvent } from 'framer-motion'
 
-const FRAME_COUNT = 209
+const FRAME_COUNT = 40
 
 function frameSrc(index: number) {
   const n = String(Math.min(FRAME_COUNT, Math.max(1, index))).padStart(3, '0')
@@ -90,12 +90,13 @@ export default function HeroFrameSequence({
       })
 
     ;(async () => {
-      for (let i = 1; i <= 16; i++) {
+      const priority = Math.min(12, FRAME_COUNT)
+      for (let i = 1; i <= priority; i++) {
         if (cancelled) return
         await loadOne(i)
       }
-      const batch = 12
-      for (let start = 17; start <= FRAME_COUNT; start += batch) {
+      const batch = 8
+      for (let start = priority + 1; start <= FRAME_COUNT; start += batch) {
         if (cancelled) return
         const end = Math.min(start + batch - 1, FRAME_COUNT)
         await Promise.all(
