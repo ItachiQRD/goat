@@ -257,7 +257,7 @@ export default function Home() {
 
   return (
     <div ref={containerRef} className="min-h-screen bg-[#151515] text-white overflow-x-clip relative">
-      {/* ====== HERO CINÉMA (style Rockstar / GTA VI) ====== */}
+      {/* ====== HERO ====== */}
       <Hero3D />
 
       {/* ====== POURQUOI UN BON SITE ? ====== */}
@@ -290,7 +290,6 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          {/* Grille de bénéfices - 2 cols mobile, 4 cols desktop */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             {[
               { stat: '75%', label: 'des utilisateurs jugent la crédibilité d\'une entreprise sur son site', color: 'from-blue-500/20 to-cyan-500/20', icon: '🎯' },
@@ -298,31 +297,25 @@ export default function Home() {
               { stat: '60%', label: 'du trafic web mondial se fait depuis un mobile', color: 'from-purple-500/20 to-pink-500/20', icon: '📱' },
               { stat: '×7', label: 'plus de visibilité avec un bon référencement Google', color: 'from-green-500/20 to-emerald-500/20', icon: '📈' },
             ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="group relative"
-              >
-                <div className={`relative h-full p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl backdrop-blur-xl bg-gradient-to-br ${item.color} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
-                  <div
-                    className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
-                    style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
-                  />
-                  <div className="relative z-10">
-                    <div className="text-2xl md:text-4xl mb-2 md:mb-4">{item.icon}</div>
-                    <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-2 md:mb-3 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-                      {item.stat}
+              <ScrollReveal key={i} order={i}>
+                <div className="group relative h-full">
+                  <div className={`relative h-full p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl backdrop-blur-xl bg-gradient-to-br ${item.color} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
+                    <div
+                      className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
+                      style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
+                    />
+                    <div className="relative z-10">
+                      <div className="text-2xl md:text-4xl mb-2 md:mb-4">{item.icon}</div>
+                      <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-2 md:mb-3 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+                        {item.stat}
+                      </div>
+                      <p className="text-xs md:text-sm lg:text-base text-white/80 leading-snug md:leading-relaxed font-light">
+                        {item.label}
+                      </p>
                     </div>
-                    <p className="text-xs md:text-sm lg:text-base text-white/80 leading-snug md:leading-relaxed font-light">
-                      {item.label}
-                    </p>
                   </div>
                 </div>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
 
@@ -456,42 +449,30 @@ export default function Home() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
           >
             {audiences.map((audience, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.06 }}
-                whileHover={{ y: -8 }}
-                className="group relative h-full"
-              >
-                <div className="relative h-full p-5 md:p-7 rounded-xl md:rounded-2xl backdrop-blur-xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden">
-                  <motion.div
-                    className="absolute top-0 left-0 h-1 bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35]"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: '100%' }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: i * 0.08 }}
-                  />
-                  <div className="relative z-10">
-                    <div className="text-4xl md:text-5xl mb-3 md:mb-5">{audience.emoji}</div>
-                    <h3 className="text-lg md:text-xl lg:text-2xl font-medium mb-2 md:mb-3">{audience.title}</h3>
-                    <p className="text-sm md:text-base text-white/70 leading-relaxed mb-4 md:mb-5 font-light">
-                      {audience.desc}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5 md:gap-2 pt-3 border-t border-white/10">
-                      {audience.tags.map((tag, j) => (
-                        <span
-                          key={j}
-                          className="text-[11px] md:text-xs px-2.5 md:px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/70 whitespace-nowrap"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+              <ScrollReveal key={i} order={i % 3}>
+                <div className="group relative h-full">
+                  <div className="relative h-full p-5 md:p-7 rounded-xl md:rounded-2xl backdrop-blur-xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden">
+                    <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35]" />
+                    <div className="relative z-10">
+                      <div className="text-4xl md:text-5xl mb-3 md:mb-5">{audience.emoji}</div>
+                      <h3 className="text-lg md:text-xl lg:text-2xl font-medium mb-2 md:mb-3">{audience.title}</h3>
+                      <p className="text-sm md:text-base text-white/70 leading-relaxed mb-4 md:mb-5 font-light">
+                        {audience.desc}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 md:gap-2 pt-3 border-t border-white/10">
+                        {audience.tags.map((tag, j) => (
+                          <span
+                            key={j}
+                            className="text-[11px] md:text-xs px-2.5 md:px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/70 whitespace-nowrap"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </MobileExpand>
         </div>
@@ -570,50 +551,43 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {techCategories.map((cat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.08 }}
-                whileHover={{ y: -5 }}
-                className="group relative"
-              >
-                <div className={`relative h-full p-5 md:p-8 rounded-2xl md:rounded-3xl backdrop-blur-xl bg-gradient-to-br ${cat.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
-                  <div
-                    className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
-                    style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
-                  />
-                  <div className="relative z-10">
-                    <div className="flex items-start gap-3 md:gap-4 mb-4 md:mb-6">
-                      <div className="text-3xl md:text-5xl flex-shrink-0">{cat.icon}</div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-[10px] md:text-xs uppercase tracking-widest text-white/50 mb-1.5 md:mb-2">
-                          {cat.label}
+              <ScrollReveal key={i} order={i}>
+                <div className="group relative h-full">
+                  <div className={`relative h-full p-5 md:p-8 rounded-2xl md:rounded-3xl backdrop-blur-xl bg-gradient-to-br ${cat.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
+                    <div
+                      className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
+                      style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
+                    />
+                    <div className="relative z-10">
+                      <div className="flex items-start gap-3 md:gap-4 mb-4 md:mb-6">
+                        <div className="text-3xl md:text-5xl flex-shrink-0">{cat.icon}</div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-[10px] md:text-xs uppercase tracking-widest text-white/50 mb-1.5 md:mb-2">
+                            {cat.label}
+                          </div>
+                          <p className="text-sm md:text-lg lg:text-xl font-light text-white leading-snug">
+                            {cat.simple}
+                          </p>
                         </div>
-                        <p className="text-sm md:text-lg lg:text-xl font-light text-white leading-snug">
-                          {cat.simple}
-                        </p>
                       </div>
-                    </div>
-                    <div className="h-px bg-gradient-to-r from-white/20 to-transparent mb-3 md:mb-5" />
-                    <div className="text-[10px] md:text-xs uppercase tracking-widest text-white/40 mb-2 md:mb-3">
-                      Technos utilisées
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 md:gap-2">
-                      {cat.techs.map((tech, j) => (
-                        <motion.span
-                          key={j}
-                          whileHover={{ scale: 1.1, y: -2 }}
-                          className="px-2.5 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg text-[11px] md:text-xs font-mono bg-black/30 border border-white/10 text-white/80 backdrop-blur-sm cursor-default"
-                        >
-                          {tech}
-                        </motion.span>
-                      ))}
+                      <div className="h-px bg-gradient-to-r from-white/20 to-transparent mb-3 md:mb-5" />
+                      <div className="text-[10px] md:text-xs uppercase tracking-widest text-white/40 mb-2 md:mb-3">
+                        Technos utilisées
+                      </div>
+                      <div className="flex flex-wrap gap-1.5 md:gap-2">
+                        {cat.techs.map((tech, j) => (
+                          <span
+                            key={j}
+                            className="px-2.5 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg text-[11px] md:text-xs font-mono bg-black/30 border border-white/10 text-white/80 backdrop-blur-sm"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -650,30 +624,24 @@ export default function Home() {
               { value: 99.9, suffix: '%', label: 'Disponibilité', desc: 'Site en ligne 24h/24, 365j/an', color: 'from-green-500 to-emerald-500', decimals: 1 },
               { value: 100, suffix: '%', label: 'Sur-mesure', desc: 'Aucun template, tout est unique', color: 'from-purple-500 to-pink-500' },
             ].map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                whileHover={{ y: -5 }}
-                className="group relative"
-              >
-                <div className="relative p-4 md:p-6 lg:p-8 rounded-xl md:rounded-3xl backdrop-blur-xl bg-white/[0.03] border border-white/10 hover:border-white/30 transition-all overflow-hidden text-center">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                  <div className="relative z-10">
-                    <div className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-2 md:mb-3 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent leading-none`}>
-                      <AnimatedCounter value={stat.value} suffix={stat.suffix} decimals={stat.decimals || 0} />
-                    </div>
-                    <div className="text-xs md:text-base lg:text-lg font-medium text-white mb-1">
-                      {stat.label}
-                    </div>
-                    <div className="text-[10px] md:text-xs lg:text-sm text-white/60 font-light leading-tight">
-                      {stat.desc}
+              <ScrollReveal key={i} order={i}>
+                <div className="group relative h-full">
+                  <div className="relative p-4 md:p-6 lg:p-8 rounded-xl md:rounded-3xl backdrop-blur-xl bg-white/[0.03] border border-white/10 hover:border-white/30 transition-all overflow-hidden text-center">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                    <div className="relative z-10">
+                      <div className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-2 md:mb-3 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent leading-none`}>
+                        <AnimatedCounter value={stat.value} suffix={stat.suffix} decimals={stat.decimals || 0} />
+                      </div>
+                      <div className="text-xs md:text-base lg:text-lg font-medium text-white mb-1">
+                        {stat.label}
+                      </div>
+                      <div className="text-[10px] md:text-xs lg:text-sm text-white/60 font-light leading-tight">
+                        {stat.desc}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
 
@@ -978,37 +946,31 @@ export default function Home() {
                 href: '/contact',
               },
             ].map((card, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="group relative"
-              >
-                <Link href={card.href} className="block h-full" data-cursor-hover>
-                  <div className={`relative h-full p-5 md:p-8 rounded-2xl md:rounded-3xl backdrop-blur-xl bg-gradient-to-br ${card.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
-                    <div
-                      className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
-                      style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
-                    />
-                    <div className="relative z-10">
-                      <div className="text-4xl md:text-5xl mb-3 md:mb-5">{card.icon}</div>
-                      <h3 className="text-lg md:text-2xl font-medium mb-2 md:mb-3">{card.title}</h3>
-                      <p className="text-xs md:text-sm text-white/70 leading-relaxed font-light mb-4 md:mb-6">
-                        {card.desc}
-                      </p>
-                      <div className="flex items-center gap-2 text-xs md:text-sm font-medium text-white border-t border-white/10 pt-3 md:pt-4">
-                        <span className="truncate">{card.action}</span>
-                        <svg className="w-3.5 h-3.5 md:w-4 md:h-4 transition-transform group-hover:translate-x-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
+              <ScrollReveal key={i} order={i}>
+                <div className="group relative h-full">
+                  <Link href={card.href} className="block h-full">
+                    <div className={`relative h-full p-5 md:p-8 rounded-2xl md:rounded-3xl backdrop-blur-xl bg-gradient-to-br ${card.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
+                      <div
+                        className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
+                        style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
+                      />
+                      <div className="relative z-10">
+                        <div className="text-4xl md:text-5xl mb-3 md:mb-5">{card.icon}</div>
+                        <h3 className="text-lg md:text-2xl font-medium mb-2 md:mb-3">{card.title}</h3>
+                        <p className="text-xs md:text-sm text-white/70 leading-relaxed font-light mb-4 md:mb-6">
+                          {card.desc}
+                        </p>
+                        <div className="flex items-center gap-2 text-xs md:text-sm font-medium text-white border-t border-white/10 pt-3 md:pt-4">
+                          <span className="truncate">{card.action}</span>
+                          <svg className="w-3.5 h-3.5 md:w-4 md:h-4 transition-transform group-hover:translate-x-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                          </svg>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.div>
+                  </Link>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
 
