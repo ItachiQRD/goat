@@ -59,7 +59,7 @@ export default function Header() {
   const [hidden, setHidden] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [heroPhase, setHeroPhase] = useState<'intro' | 'hero' | 'ready' | null>(
-    pathname === '/' ? 'intro' : null
+    pathname === '/' ? 'ready' : null
   )
 
   // Progression du scroll (barre fine en haut)
