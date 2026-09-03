@@ -10,14 +10,9 @@ import {
   useMotionValueEvent,
 } from 'framer-motion'
 import { siteConfig } from '@/lib/siteConfig'
+import { startLenis, stopLenis } from '@/lib/lenisBridge'
 
 type Phase = 'intro' | 'hero' | 'ready'
-
-declare global {
-  interface Window {
-    lenis?: { stop: () => void; start: () => void }
-  }
-}
 
 function setHeroUiState(phase: Phase) {
   if (typeof document === 'undefined') return
@@ -71,7 +66,7 @@ export default function Hero3D() {
     if (reducedMotion) return
 
     setHeroUiState('intro')
-    window.lenis?.stop()
+    stopLenis()
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
@@ -80,7 +75,7 @@ export default function Hero3D() {
       setPhase('hero')
       setHeroUiState('hero')
       document.body.style.overflow = prevOverflow
-      window.lenis?.start()
+      startLenis()
       videoRef.current?.play().catch(() => {})
     }, 3600)
     const tReady = window.setTimeout(() => {
@@ -96,7 +91,7 @@ export default function Hero3D() {
       setPhase('ready')
       setHeroUiState('ready')
       document.body.style.overflow = prevOverflow
-      window.lenis?.start()
+      startLenis()
       videoRef.current?.play().catch(() => {})
     }
 
@@ -114,7 +109,7 @@ export default function Hero3D() {
       window.clearTimeout(tReady)
       window.removeEventListener('keydown', onKey)
       document.body.style.overflow = prevOverflow
-      window.lenis?.start()
+      startLenis()
     }
   }, [reducedMotion])
 
@@ -288,7 +283,7 @@ export default function Hero3D() {
               setPhase('ready')
               setHeroUiState('ready')
               document.body.style.overflow = ''
-              window.lenis?.start()
+              startLenis()
               videoRef.current?.play().catch(() => {})
             }}
             role="presentation"
