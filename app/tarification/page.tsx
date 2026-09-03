@@ -132,7 +132,7 @@ const process = [
 
 export default function Tarification() {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pt-32 pb-20 px-5 md:px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-transparent pt-32 pb-20 px-5 md:px-6 relative overflow-hidden">
       <GlowEffect intensity={0.3} color="rgba(139, 92, 246, 0.2)" />
 
       <div className="container mx-auto max-w-7xl relative z-10">

@@ -83,7 +83,7 @@ export default function Contact() {
     'w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#3b82f6]/50 focus:border-[#3b82f6]/40 transition-all'
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pt-32 pb-20 px-5 md:px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-transparent pt-32 pb-20 px-5 md:px-6 relative overflow-hidden">
       <GlowEffect intensity={0.4} color="rgba(59, 130, 246, 0.25)" />
 
       {/* Décoration radiale subtile */}

@@ -256,7 +256,7 @@ export default function Home() {
   ]
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#151515] text-white overflow-x-clip relative">
+    <div ref={containerRef} className="min-h-screen bg-transparent text-white overflow-x-clip relative">
       {/* ====== HERO ====== */}
       <Hero3D />
 

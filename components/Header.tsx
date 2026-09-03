@@ -33,6 +33,7 @@ const navItems: NavItem[] = [
     ],
   },
   { href: '/tarification', label: 'Tarifs' },
+  { href: '/devis', label: 'Simuler un devis' },
   { href: '/portfolio', label: 'Portfolio' },
   {
     href: '/exemples',
@@ -59,7 +60,7 @@ export default function Header() {
   const [hidden, setHidden] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [heroPhase, setHeroPhase] = useState<'intro' | 'hero' | 'ready' | null>(
-    pathname === '/' ? 'ready' : null
+    pathname === '/' ? 'intro' : null
   )
 
   // Progression du scroll (barre fine en haut)
