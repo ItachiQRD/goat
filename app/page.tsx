@@ -874,13 +874,13 @@ export default function Home() {
           <ScrollReveal>
             <div className="text-center mb-10 md:mb-16">
               <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1] tracking-tight mb-5 md:mb-8">
-                <SplitText>Prêt à lancer</SplitText>
+                <SplitText>Parlons de</SplitText>
                 <span className="block bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] bg-clip-text text-transparent mt-1 md:mt-2">
-                  votre projet ?
+                  votre besoin
                 </span>
               </h2>
               <p className="text-base md:text-lg lg:text-xl text-white/70 font-light max-w-2xl mx-auto leading-relaxed mb-6 md:mb-10 px-2">
-                Idée précise ou encore floue : parlons-en.
+                Un message suffit pour démarrer.
                 <span className="block mt-1.5 md:mt-2 text-white">Premier échange gratuit.</span>
               </p>
 
@@ -893,7 +893,7 @@ export default function Home() {
                     className="group relative w-full sm:w-auto px-6 md:px-10 py-4 md:py-5 bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] text-white rounded-full text-sm md:text-lg font-semibold shadow-[0_10px_40px_rgba(59,130,246,0.4)] hover:shadow-[0_20px_60px_rgba(59,130,246,0.6)] transition-all overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
-                      Démarrer mon projet
+                      Me contacter
                       <svg className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:translate-x-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
