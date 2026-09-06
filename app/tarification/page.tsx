@@ -149,8 +149,7 @@ export default function Tarification() {
               </span>
             </h1>
             <p className="text-base md:text-lg text-white/60 font-light max-w-2xl mx-auto leading-relaxed">
-              Pas de prix caché, pas de surprise. Choisissez la formule qui correspond
-              le mieux à votre projet et à votre rythme.
+              Choisissez la formule qui correspond le mieux à votre projet et à votre rythme.
             </p>
           </div>
         </ScrollReveal>

@@ -7,6 +7,7 @@ import SplitText from '@/components/SplitText'
 import ScrollReveal from '@/components/ScrollReveal'
 import Hero3D from '@/components/Hero3D'
 import RisingSection from '@/components/RisingSection'
+import ScrollStageItem from '@/components/ScrollStageItem'
 import FloatingParticles from '@/components/FloatingParticles'
 import GlowEffect from '@/components/GlowEffect'
 import MorphingBlob from '@/components/MorphingBlob'
@@ -261,7 +262,7 @@ export default function Home() {
       <Hero3D />
 
       {/* ====== POURQUOI UN BON SITE ? ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="pourquoi">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="pourquoi" from="bottom">
         <ParallaxBackground speed={0.3}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#3b82f6]/5 to-transparent" />
         </ParallaxBackground>
@@ -292,12 +293,12 @@ export default function Home() {
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             {[
-              { stat: '75%', label: 'des utilisateurs jugent la crédibilité d\'une entreprise sur son site', color: 'from-blue-500/20 to-cyan-500/20', icon: '🎯' },
-              { stat: '3s', label: 'maximum pour qu\'un visiteur attende avant de partir', color: 'from-yellow-500/20 to-orange-500/20', icon: '⏱️' },
-              { stat: '60%', label: 'du trafic web mondial se fait depuis un mobile', color: 'from-purple-500/20 to-pink-500/20', icon: '📱' },
-              { stat: '×7', label: 'plus de visibilité avec un bon référencement Google', color: 'from-green-500/20 to-emerald-500/20', icon: '📈' },
+              { stat: '75%', label: 'des utilisateurs jugent la crédibilité d\'une entreprise sur son site', color: 'from-blue-500/20 to-cyan-500/20', icon: '🎯', from: 'left' as const },
+              { stat: '3s', label: 'maximum pour qu\'un visiteur attende avant de partir', color: 'from-yellow-500/20 to-orange-500/20', icon: '⏱️', from: 'bottom' as const },
+              { stat: '60%', label: 'du trafic web mondial se fait depuis un mobile', color: 'from-purple-500/20 to-pink-500/20', icon: '📱', from: 'bottom' as const },
+              { stat: '×7', label: 'plus de visibilité avec un bon référencement Google', color: 'from-green-500/20 to-emerald-500/20', icon: '📈', from: 'right' as const },
             ].map((item, i) => (
-              <ScrollReveal key={i} order={i}>
+              <ScrollStageItem key={i} from={item.from} delay={i * 0.04} className="h-full">
                 <div className="group relative h-full">
                   <div className={`relative h-full p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl backdrop-blur-xl bg-gradient-to-br ${item.color} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
                     <div
@@ -315,7 +316,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-              </ScrollReveal>
+              </ScrollStageItem>
             ))}
           </div>
 
@@ -333,7 +334,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== MES SERVICES ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="services">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="services" from="left">
         <ParallaxBackground speed={0.4}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8b5cf6]/5 to-transparent" />
         </ParallaxBackground>
@@ -413,7 +414,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== POUR QUI ? ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="pour-qui">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="pour-qui" from="right">
         <ParallaxBackground speed={0.3}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ff6b35]/5 to-transparent" />
         </ParallaxBackground>
@@ -479,7 +480,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== COMMENT ÇA SE PASSE ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="processus">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="processus" from="bottom">
         <ParallaxBackground speed={0.4}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#3b82f6]/5 to-transparent" />
         </ParallaxBackground>
@@ -521,7 +522,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== STACK TECHNIQUE ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="stack">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="stack" from="scale">
         <ParallaxBackground speed={0.4}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8b5cf6]/5 to-transparent" />
         </ParallaxBackground>
@@ -594,7 +595,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== RÉSULTATS / STATS ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" from="left">
         <ParallaxBackground speed={0.5}>
           <div className="absolute inset-0">
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3b82f6]/15 rounded-full blur-3xl" />
@@ -708,7 +709,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== À PROPOS ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="a-propos">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="a-propos" from="right">
         <ParallaxBackground speed={0.5}>
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8b5cf6]/5 to-transparent" />
@@ -857,7 +858,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== CONTACT ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6 bg-[#151515]" id="contact">
+      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="contact" from="bottom">
         <ParallaxBackground speed={0.6}>
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#3b82f6]/5 to-transparent" />
