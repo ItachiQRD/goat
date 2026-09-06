@@ -25,6 +25,7 @@ export const siteConfig = {
       "Développeur full-stack indépendant. Je crée des sites web modernes, rapides et efficaces qui boostent votre visibilité en ligne.",
     url: 'https://votre-site.com', // URL de production (à mettre à jour)
     logo: '/logo.png',
+    logoWithout: '/logowithout.png',
   },
 
   // ─── INFORMATIONS LÉGALES (OBLIGATOIRES POUR MENTIONS LÉGALES) ─────

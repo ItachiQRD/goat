@@ -185,7 +185,7 @@ export default function Header() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={brand.logo}
+                  src={brand.logoWithout}
                   alt=""
                   className="h-full w-full object-contain p-0.5"
                 />

@@ -494,9 +494,9 @@ export default function Hero3D() {
                 opacity: { duration: logoVisible ? 1.5 : 0.7, ease: [0.22, 1, 0.36, 1] },
                 scale: { duration: logoVisible ? 2.1 : 0.9, ease: [0.22, 1, 0.36, 1] },
               }}
-              className="flex flex-col items-center gap-5"
+              className="flex items-center justify-center"
             >
-              <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl md:h-28 md:w-28">
+              <div className="relative flex h-48 w-48 items-center justify-center overflow-hidden rounded-2xl md:h-56 md:w-56">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={siteConfig.brand.logo}
@@ -504,9 +504,6 @@ export default function Hero3D() {
                   className="h-full w-full object-contain"
                 />
               </div>
-              <p className="text-sm font-light tracking-[0.28em] text-white/70 uppercase md:text-base">
-                {siteConfig.brand.name}
-              </p>
             </motion.div>
             <p className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-white/20">
               Cliquer pour passer
