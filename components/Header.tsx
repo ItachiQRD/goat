@@ -178,25 +178,19 @@ export default function Header() {
               className="group flex items-center gap-3 flex-shrink-0"
               aria-label={`${brand.name} — Accueil`}
             >
-              {/* Monogramme animé */}
               <motion.div
-                whileHover={{ rotate: -5, scale: 1.05 }}
+                whileHover={{ scale: 1.05 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg overflow-hidden flex items-center justify-center bg-gradient-to-br from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] shadow-[0_4px_20px_rgba(139,92,246,0.4)]"
+                className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg overflow-hidden bg-white/[0.04] border border-white/10"
               >
-                <span className="relative z-10 text-white font-bold text-base md:text-lg tracking-tighter">
-                  FS
-                </span>
-                {/* Reflet animé */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent"
-                  animate={{ x: ['-100%', '200%'] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', repeatDelay: 4 }}
-                  aria-hidden="true"
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={brand.logo}
+                  alt=""
+                  className="h-full w-full object-contain p-0.5"
                 />
               </motion.div>
 
-              {/* Wordmark */}
               <span className="hidden sm:block text-base md:text-lg font-light tracking-tight">
                 <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300">
                   {brand.name}

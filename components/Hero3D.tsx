@@ -496,10 +496,13 @@ export default function Hero3D() {
               }}
               className="flex flex-col items-center gap-5"
             >
-              <div className="relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] md:h-20 md:w-20">
-                <span className="relative z-10 text-2xl font-bold tracking-tighter text-white md:text-3xl">
-                  FS
-                </span>
+              <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl md:h-28 md:w-28">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={siteConfig.brand.logo}
+                  alt={siteConfig.brand.name}
+                  className="h-full w-full object-contain"
+                />
               </div>
               <p className="text-sm font-light tracking-[0.28em] text-white/70 uppercase md:text-base">
                 {siteConfig.brand.name}

@@ -300,7 +300,7 @@ export function computeEstimate(state: QuoteState): QuoteEstimate {
 // ────────────────────────────────────────────────────────────
 
 export const BOT_INTRO_MESSAGES = [
-  "Bonjour ! 👋 Je suis l'assistant devis de Full Stack Dev.",
+  "Bonjour ! 👋 Je suis l'assistant devis de Nexus Dev.",
   "Je vais vous poser quelques questions pour estimer le coût de votre projet. C'est rapide, gratuit et sans engagement.",
   "C'est parti !",
 ]

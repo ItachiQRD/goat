@@ -19,12 +19,12 @@
 export const siteConfig = {
   // ─── IDENTITÉ ─────────────────────────────────────────
   brand: {
-    name: 'Full Stack Dev', // Nom commercial / marque
+    name: 'Nexus Dev', // Nom commercial / marque
     tagline: 'Sites web modernes et applications sur-mesure',
     description:
       "Développeur full-stack indépendant. Je crée des sites web modernes, rapides et efficaces qui boostent votre visibilité en ligne.",
     url: 'https://votre-site.com', // URL de production (à mettre à jour)
-    logo: '/logo.png', // Optionnel
+    logo: '/logo.png',
   },
 
   // ─── INFORMATIONS LÉGALES (OBLIGATOIRES POUR MENTIONS LÉGALES) ─────
@@ -96,11 +96,12 @@ export const siteConfig = {
 
   // ─── SEO ─────────────────────────────────────────────
   seo: {
-    defaultTitle: 'Full Stack Dev - Développement web sur-mesure',
-    titleTemplate: '%s | Full Stack Dev',
+    defaultTitle: 'Nexus Dev - Développement web sur-mesure',
+    titleTemplate: '%s | Nexus Dev',
     defaultDescription:
       "Développeur full-stack indépendant. Sites web, e-commerce, applications. Performance, SEO et design sur-mesure.",
     keywords: [
+      'Nexus Dev',
       'développeur web freelance',
       'création site internet',
       'site vitrine',

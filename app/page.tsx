@@ -724,42 +724,25 @@ export default function Home() {
           </ScrollReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center mb-10 md:mb-20">
-            {/* Visuel - réduit sur mobile */}
+            {/* Portrait */}
             <ScrollReveal direction="left">
-              <div className="relative aspect-square max-w-[280px] sm:max-w-xs md:max-w-md mx-auto">
-                {[1, 2, 3].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute inset-0 rounded-full border border-white/10"
-                    style={{ transform: `scale(${0.6 + i * 0.15})` }}
-                    animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
-                    transition={{ duration: 30 + i * 10, repeat: Infinity, ease: 'linear' }}
-                  >
-                    {[0, 90, 180, 270].map((angle) => (
-                      <div
-                        key={angle}
-                        className="absolute w-2 h-2 rounded-full bg-gradient-to-br from-[#3b82f6] to-[#8b5cf6]"
-                        style={{
-                          top: '50%',
-                          left: '50%',
-                          transform: `rotate(${angle}deg) translate(${50}%) translate(-50%, -50%)`,
-                        }}
-                      />
-                    ))}
-                  </motion.div>
-                ))}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-2xl md:rounded-3xl bg-gradient-to-br from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] flex items-center justify-center text-5xl md:text-7xl shadow-[0_20px_60px_rgba(59,130,246,0.4)]"
-                  >
-                    <span>👨‍💻</span>
-                    <div className="absolute -bottom-2 -right-2 px-2.5 py-1 md:px-3 md:py-1.5 rounded-full bg-green-500 text-white text-[10px] md:text-xs font-medium shadow-lg flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-white animate-pulse" />
-                      Disponible
-                    </div>
-                  </motion.div>
-                </div>
+              <div className="relative max-w-[280px] sm:max-w-xs md:max-w-md mx-auto">
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="relative aspect-square overflow-hidden rounded-2xl md:rounded-3xl border border-white/10 shadow-[0_20px_60px_rgba(59,130,246,0.25)]"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/about-portrait.png"
+                    alt="Portrait — Nexus Dev"
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/50 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-3 right-3 px-2.5 py-1 md:px-3 md:py-1.5 rounded-full bg-green-500 text-white text-[10px] md:text-xs font-medium shadow-lg flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-white animate-pulse" />
+                    Disponible
+                  </div>
+                </motion.div>
               </div>
             </ScrollReveal>
 
