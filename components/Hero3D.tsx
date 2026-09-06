@@ -240,14 +240,13 @@ export default function Hero3D() {
   const showHeroContent = phase === 'hero' || phase === 'ready'
   const storyBeat: 0 | 1 = beat === 0 ? 0 : 1
 
-  const codingOpacity = beat === 0 ? 1 : beat === 1 ? 0.2 : 0
+  // Une seule vidéo visible à la fois (crossfade) — pas de superposition morph + commercial
+  const codingOpacity = beat === 0 ? 1 : 0
   const morphOpacity = beat === 1 ? 1 : 0
-  const commercialOpacity = beat === 2 ? 1 : beat === 1 ? 0.3 : 0
-  const codingScale = beat === 0 ? 1 : beat === 1 ? 1.05 : 1.08
-  const morphScale = beat === 1 ? 1.02 : 1
-  const commercialScale = beat === 2 ? 1 : 1.04
-  const codingBlur = beat === 1 ? 6 : 0
-  const commercialBlur = beat === 1 ? 4 : 0
+  const commercialOpacity = beat === 2 ? 1 : 0
+  const codingScale = beat === 0 ? 1 : 1.03
+  const morphScale = beat === 1 ? 1 : 1.02
+  const commercialScale = beat === 2 ? 1 : 1.03
 
   return (
     <section
@@ -270,10 +269,9 @@ export default function Hero3D() {
 
           <HeroVideo
             src={VIDEO_CODING}
-            active={beat === 0 || beat === 1}
+            active={beat === 0}
             opacity={codingOpacity}
             scale={codingScale}
-            blur={codingBlur}
             onReady={() => setHasAnyVideo(true)}
           />
           <HeroVideo
@@ -289,7 +287,6 @@ export default function Hero3D() {
             active={beat === 1 || beat === 2}
             opacity={commercialOpacity}
             scale={commercialScale}
-            blur={commercialBlur}
             onReady={() => setHasAnyVideo(true)}
           />
 
