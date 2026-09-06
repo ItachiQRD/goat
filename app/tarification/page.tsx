@@ -258,7 +258,7 @@ export default function Tarification() {
               <span className="text-amber-300 font-medium">À noter :</span> les tarifs
               affichés sont indicatifs et peuvent varier selon la complexité réelle
               du projet. Chaque mission fait l'objet d'un devis détaillé personnalisé,
-              gratuit et sans engagement.
+              gratuit.
             </p>
           </div>
         </ScrollReveal>
@@ -349,7 +349,7 @@ export default function Tarification() {
             </h2>
             <p className="text-base md:text-lg text-white/70 font-light max-w-2xl mx-auto mb-7 leading-relaxed">
               Décrivez votre projet, recevez une estimation personnalisée sous 24h.
-              Sans engagement, sans commitment.
+              Échange libre, réponse claire.
             </p>
             <Link href="/contact" className="inline-block">
               <motion.div

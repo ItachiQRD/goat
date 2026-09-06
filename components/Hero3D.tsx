@@ -13,14 +13,15 @@ import { siteConfig } from '@/lib/siteConfig'
 import { startLenis, stopLenis } from '@/lib/lenisBridge'
 
 type Phase = 'intro' | 'hero' | 'ready'
-/** 0 coding | 1 morph transition | 2 commercial */
+/** 0 coding | 1 morph | 2 commercial */
 type StoryBeat = 0 | 1 | 2
 
 const VIDEO_CODING = '/hero-videos/01-coding.mp4'
 const VIDEO_MORPH = '/hero-videos/03-morph.mp4'
 const VIDEO_COMMERCIAL = '/hero-videos/02-commercial.mp4'
 
-const MORPH_MS = 1600
+/** Durée réelle de 03-morph.mp4 (~8.04 s) */
+const MORPH_MS = 8200
 
 function setHeroUiState(phase: Phase) {
   if (typeof document === 'undefined') return
@@ -93,13 +94,9 @@ function HeroVideo({
   )
 }
 
-/**
- * Hero narratif :
- * coding → (transition morph + effets) → commercial
- * Transitions gérées en code (pas besoin de montage).
- */
 export default function Hero3D() {
   const sectionRef = useRef<HTMLElement>(null)
+  const morphTimer = useRef<number | null>(null)
   const [phase, setPhase] = useState<Phase>('intro')
   const [logoVisible, setLogoVisible] = useState(true)
   const [reducedMotion, setReducedMotion] = useState(false)
@@ -119,29 +116,55 @@ export default function Hero3D() {
   const contentY = useTransform(scrollYProgress, [0, 0.85], [0, -64])
   const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
 
+  const clearMorphTimer = () => {
+    if (morphTimer.current !== null) {
+      window.clearTimeout(morphTimer.current)
+      morphTimer.current = null
+    }
+  }
+
+  const triggerFlash = () => {
+    setFlash(true)
+    window.setTimeout(() => setFlash(false), 280)
+  }
+
   const goToCommercial = useCallback(() => {
-    if (transitioning.current || beatRef.current === 2) return
-    if (beatRef.current === 1) return
+    if (transitioning.current || beatRef.current !== 0) return
 
     transitioning.current = true
-    setFlash(true)
+    triggerFlash()
     setBeat(1)
     beatRef.current = 1
 
-    window.setTimeout(() => setFlash(false), 280)
-
-    window.setTimeout(() => {
+    clearMorphTimer()
+    morphTimer.current = window.setTimeout(() => {
       setBeat(2)
       beatRef.current = 2
       transitioning.current = false
+      morphTimer.current = null
     }, MORPH_MS)
+  }, [])
+
+  /** Retour direct à la vidéo de départ (crossfade, sans rejouer toute la morph) */
+  const goToCoding = useCallback(() => {
+    if (transitioning.current || beatRef.current === 0) return
+    if (beatRef.current === 1) return
+
+    transitioning.current = true
+    triggerFlash()
+    clearMorphTimer()
+    setBeat(0)
+    beatRef.current = 0
+    window.setTimeout(() => {
+      transitioning.current = false
+    }, 500)
   }, [])
 
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
     if (phase === 'intro') return
-    if (v > 0.28 && beatRef.current === 0) {
-      goToCommercial()
-    }
+    // Hystérésis : évite les allers-retours trop sensibles
+    if (v > 0.35 && beatRef.current === 0) goToCommercial()
+    if (v < 0.18 && beatRef.current === 2) goToCoding()
     if (phase === 'hero' && v > 0.02) setPhase('ready')
   })
 
@@ -200,6 +223,7 @@ export default function Hero3D() {
       window.clearTimeout(tHold)
       window.clearTimeout(tReveal)
       window.clearTimeout(tReady)
+      clearMorphTimer()
       window.removeEventListener('keydown', onKey)
       document.body.style.overflow = prevOverflow
       startLenis()
@@ -208,6 +232,7 @@ export default function Hero3D() {
 
   useEffect(() => {
     return () => {
+      clearMorphTimer()
       delete document.documentElement.dataset.heroPhase
     }
   }, [])
@@ -215,11 +240,10 @@ export default function Hero3D() {
   const showHeroContent = phase === 'hero' || phase === 'ready'
   const storyBeat: 0 | 1 = beat === 0 ? 0 : 1
 
-  // Opacités croisées pendant la morph
-  const codingOpacity = beat === 0 ? 1 : beat === 1 ? 0.25 : 0
+  const codingOpacity = beat === 0 ? 1 : beat === 1 ? 0.2 : 0
   const morphOpacity = beat === 1 ? 1 : 0
-  const commercialOpacity = beat === 2 ? 1 : beat === 1 ? 0.35 : 0
-  const codingScale = beat === 0 ? 1 : beat === 1 ? 1.06 : 1.08
+  const commercialOpacity = beat === 2 ? 1 : beat === 1 ? 0.3 : 0
+  const codingScale = beat === 0 ? 1 : beat === 1 ? 1.05 : 1.08
   const morphScale = beat === 1 ? 1.02 : 1
   const commercialScale = beat === 2 ? 1 : 1.04
   const codingBlur = beat === 1 ? 6 : 0
@@ -269,7 +293,6 @@ export default function Hero3D() {
             onReady={() => setHasAnyVideo(true)}
           />
 
-          {/* Flash blanc/bleu au déclenchement de la morph */}
           <AnimatePresence>
             {flash && (
               <motion.div
@@ -287,7 +310,6 @@ export default function Hero3D() {
             )}
           </AnimatePresence>
 
-          {/* Voile de transition (sweep) */}
           <AnimatePresence>
             {beat === 1 && (
               <motion.div
@@ -315,15 +337,25 @@ export default function Hero3D() {
         </motion.div>
 
         {showHeroContent && (
-          <div className="absolute top-24 left-1/2 z-20 flex -translate-x-1/2 gap-2 pointer-events-none">
-            {[0, 1].map((i) => (
-              <span
-                key={i}
-                className={`h-1 w-8 rounded-full transition-all duration-500 ${
-                  storyBeat === i ? 'bg-white scale-x-110' : 'bg-white/20'
-                }`}
-              />
-            ))}
+          <div className="absolute top-24 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+            <button
+              type="button"
+              aria-label="Voir le code"
+              onClick={goToCoding}
+              disabled={beat === 1}
+              className={`h-1 w-8 rounded-full transition-all duration-500 ${
+                storyBeat === 0 ? 'bg-white scale-x-110' : 'bg-white/25 hover:bg-white/50'
+              }`}
+            />
+            <button
+              type="button"
+              aria-label="Voir la transformation"
+              onClick={goToCommercial}
+              disabled={beat === 1}
+              className={`h-1 w-8 rounded-full transition-all duration-500 ${
+                storyBeat === 1 ? 'bg-white scale-x-110' : 'bg-white/25 hover:bg-white/50'
+              }`}
+            />
           </div>
         )}
 
@@ -353,27 +385,25 @@ export default function Hero3D() {
                   <h1 className="text-3xl font-light leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl">
                     {storyBeat === 0 ? (
                       <>
-                        Je transforme votre
+                        Votre site,
                         <span className="mt-1 block bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] bg-clip-text text-transparent">
-                          site web
+                          votre commercial.
                         </span>
-                        en un commercial.
                       </>
                     ) : (
                       <>
                         Un site qui
                         <span className="mt-1 block bg-gradient-to-r from-[#ff6b35] via-[#8b5cf6] to-[#3b82f6] bg-clip-text text-transparent">
-                          fait fructifier
+                          vend pour vous.
                         </span>
-                        votre business.
                       </>
                     )}
                   </h1>
 
-                  <p className="mt-5 max-w-lg text-sm font-light leading-relaxed text-white/55 md:text-base">
+                  <p className="mt-5 max-w-md text-sm font-light leading-relaxed text-white/55 md:text-base">
                     {storyBeat === 0
-                      ? 'Du clavier à la conversion : un parcours pensé pour transformer chaque visite en opportunité.'
-                      : 'Visibilité Google, parcours clair, appels à l’action — votre vitrine travaille 24h/24.'}
+                      ? 'Du code à la conversion : une expérience claire, rapide, mémorable.'
+                      : 'Google, parcours fluide, appels à l’action — 24h/24.'}
                   </p>
 
                   {storyBeat === 0 ? (
@@ -387,6 +417,14 @@ export default function Hero3D() {
                     </button>
                   ) : (
                     <div className="mt-8 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
+                      <button
+                        type="button"
+                        onClick={goToCoding}
+                        disabled={beat === 1}
+                        className="inline-flex w-full sm:w-auto items-center justify-center border border-white/25 bg-white/[0.06] px-7 py-3.5 text-sm font-light text-white transition hover:bg-white/12 disabled:opacity-50"
+                      >
+                        Revoir le code
+                      </button>
                       <Link href="/devis" className="w-full sm:w-auto">
                         <span className="inline-flex w-full items-center justify-center bg-white px-7 py-3.5 text-sm font-medium text-black md:text-base">
                           Simuler un devis

@@ -37,7 +37,7 @@ export default function DevisPage() {
           </h1>
           <p className="text-sm md:text-base text-white/55 font-light max-w-xl mx-auto leading-relaxed">
             Répondez à quelques questions et obtenez une fourchette de prix instantanée.
-            Gratuit, sans inscription, sans engagement.
+            Gratuit, résultat immédiat.
           </p>
         </motion.div>
 

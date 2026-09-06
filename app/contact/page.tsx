@@ -110,7 +110,7 @@ export default function Contact() {
               </span>
             </h1>
             <p className="text-base md:text-lg text-white/60 font-light max-w-2xl mx-auto leading-relaxed">
-              Échange gratuit et sans engagement. Décrivez votre projet, je vous réponds
+              Échange gratuit. Décrivez votre projet, je vous réponds
               sous {contact.responseTime}.
             </p>
           </div>

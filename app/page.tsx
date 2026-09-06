@@ -179,7 +179,7 @@ export default function Home() {
         headline: 'Automatisez votre quotidien',
         description: 'Un outil sur-mesure qui remplace vos Excel et fait gagner des heures à votre équipe.',
         points: [
-          'Fini la double saisie et les erreurs',
+          'Saisie unique, données fiables',
           'Vos données accessibles partout',
           'Tableaux de bord visuels et clairs',
           'Évolue avec votre entreprise',
@@ -240,7 +240,7 @@ export default function Home() {
       illustrationType: 'design' as const,
       benefit: {
         headline: 'Une identité unique',
-        description: 'Pas de template recyclé. Un design pensé pour votre marque, vos couleurs, votre univers.',
+        description: 'Design pensé pour votre marque, vos couleurs, votre univers.',
         points: [
           'Identité visuelle cohérente',
           'Animations subtiles et modernes',
@@ -279,14 +279,14 @@ export default function Home() {
             </div>
             <div className="max-w-4xl mb-10 md:mb-16 lg:mb-20">
               <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1] tracking-tight mb-5 md:mb-8">
-                <SplitText>Votre site, c'est votre</SplitText>
+                <SplitText>Votre site,</SplitText>
                 <span className="block bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] bg-clip-text text-transparent mt-1 md:mt-2">
-                  meilleur commercial
+                  votre commercial
                 </span>
               </h2>
               <p className="text-base md:text-xl lg:text-2xl text-white/70 font-light leading-relaxed">
-                Il travaille 24h/24, ne prend jamais de pause, et touche des milliers de personnes.
-                Mais encore faut-il qu'il soit <span className="text-white font-medium">rapide, beau et bien pensé</span>.
+                Il travaille 24h/24 et touche des milliers de personnes —
+                à condition d’être <span className="text-white font-medium">rapide, beau et clair</span>.
               </p>
             </div>
           </ScrollReveal>
@@ -323,7 +323,7 @@ export default function Home() {
           <ScrollReveal delay={0.4}>
             <div className="mt-10 md:mt-16 max-w-3xl mx-auto text-center">
               <p className="text-base md:text-lg lg:text-xl text-white/60 font-light leading-relaxed">
-                Un site bâclé, c'est des clients perdus. Un site soigné, c'est une réputation qui se construit.
+                Un site soigné construit votre réputation et attire des clients.
                 <span className="block mt-2 text-white/90 font-medium">
                   Quel message votre site envoie-t-il ?
                 </span>
@@ -354,9 +354,8 @@ export default function Home() {
                 <span className="block text-white/60 mt-1 md:mt-2">pour vous</span>
               </h2>
               <p className="text-base md:text-lg lg:text-xl text-white/70 font-light leading-relaxed">
-                Chaque carte se lit dans deux langues : <span className="text-white font-medium">"Pour vous"</span> pour
-                comprendre ce que vous obtenez, <span className="text-white font-medium">"Tech"</span> pour voir
-                les technologies derrière.
+                Vue <span className="text-white font-medium">« Pour vous »</span> : le bénéfice.
+                Vue <span className="text-white font-medium">« Tech »</span> : les outils.
               </p>
             </div>
 
@@ -429,14 +428,13 @@ export default function Home() {
             </div>
             <div className="max-w-4xl mb-10 md:mb-16">
               <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1] tracking-tight mb-5 md:mb-6">
-                <SplitText>Vous vous</SplitText>
+                <SplitText>Votre profil</SplitText>
                 <span className="block bg-gradient-to-r from-[#ff6b35] via-[#8b5cf6] to-[#3b82f6] bg-clip-text text-transparent mt-1 md:mt-2">
-                  reconnaissez ?
+                  est ici
                 </span>
               </h2>
               <p className="text-base md:text-lg lg:text-xl text-white/70 font-light leading-relaxed">
-                J'accompagne tout type de projet. Que vous soyez seul·e à la maison ou à la tête d'une équipe,
-                votre projet mérite une attention sur-mesure.
+                Solo ou en équipe : chaque projet reçoit une attention sur-mesure.
               </p>
             </div>
           </ScrollReveal>
@@ -495,14 +493,13 @@ export default function Home() {
             </div>
             <div className="max-w-4xl mb-10 md:mb-16 lg:mb-20">
               <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1] tracking-tight mb-5 md:mb-6">
-                <SplitText>De l'idée au site,</SplitText>
+                <SplitText>De l’idée au site</SplitText>
                 <span className="block bg-gradient-to-r from-white to-[#3b82f6] bg-clip-text text-transparent mt-1 md:mt-2">
-                  en 4 étapes simples
+                  en 4 étapes
                 </span>
               </h2>
               <p className="text-base md:text-lg lg:text-xl text-white/70 font-light leading-relaxed">
-                Pas de jargon, pas de surprise. Vous savez exactement ce qui se passe, quand,
-                et combien ça coûte.
+                Un process clair : vous savez ce qui se passe, quand, et combien ça coûte.
               </p>
             </div>
           </ScrollReveal>
@@ -538,14 +535,14 @@ export default function Home() {
             </div>
             <div className="max-w-4xl mb-10 md:mb-16 lg:mb-20">
               <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1] tracking-tight mb-5 md:mb-6">
-                <SplitText>Les outils qui</SplitText>
+                <SplitText>Des outils</SplitText>
                 <span className="block bg-gradient-to-r from-[#8b5cf6] to-[#ff6b35] bg-clip-text text-transparent mt-1 md:mt-2">
-                  font la différence
+                  qui changent tout
                 </span>
               </h2>
               <p className="text-base md:text-lg lg:text-xl text-white/70 font-light leading-relaxed">
-                Pas besoin d'être technicien pour comprendre. Voici ce qui se cache derrière votre site,
-                et pourquoi ces choix changent <span className="text-white font-medium">votre quotidien</span>.
+                Des choix techniques pensés pour accélérer{' '}
+                <span className="text-white font-medium">votre quotidien</span>.
               </p>
             </div>
           </ScrollReveal>
@@ -609,11 +606,11 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-light leading-tight mb-4 md:mb-6">
                 Des résultats
                 <span className="block bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] bg-clip-text text-transparent">
-                  qui parlent d'eux-mêmes
+                  concrets
                 </span>
               </h2>
               <p className="text-base md:text-lg lg:text-xl text-white/60 font-light max-w-2xl mx-auto px-4">
-                Performance, qualité, satisfaction client. Mes engagements en chiffres.
+                Performance, qualité, satisfaction — en chiffres.
               </p>
             </div>
           </ScrollReveal>
@@ -623,7 +620,7 @@ export default function Home() {
               { value: 100, suffix: '/100', label: 'Score Lighthouse', desc: 'Performance Google maximale', color: 'from-yellow-500 to-orange-500' },
               { value: 1.2, suffix: 's', label: 'Temps de chargement', desc: 'Plus rapide que 90% des sites', color: 'from-blue-500 to-cyan-500', decimals: 1 },
               { value: 99.9, suffix: '%', label: 'Disponibilité', desc: 'Site en ligne 24h/24, 365j/an', color: 'from-green-500 to-emerald-500', decimals: 1 },
-              { value: 100, suffix: '%', label: 'Sur-mesure', desc: 'Aucun template, tout est unique', color: 'from-purple-500 to-pink-500' },
+              { value: 100, suffix: '%', label: 'Sur-mesure', desc: 'Design unique pour votre marque', color: 'from-purple-500 to-pink-500' },
             ].map((stat, i) => (
               <ScrollReveal key={i} order={i}>
                 <div className="group relative h-full">
@@ -772,19 +769,17 @@ export default function Home() {
                 <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light leading-tight">
                   <span className="block text-white/60">Salut,</span>
                   <span className="block bg-gradient-to-r from-white via-[#3b82f6] to-[#8b5cf6] bg-clip-text text-transparent">
-                    moi c'est votre futur dev.
+                    je suis votre futur dev.
                   </span>
                 </h2>
 
                 <p className="text-base md:text-lg lg:text-xl text-white/80 leading-relaxed font-light">
-                  Développeur full-stack indépendant, je crée des sites web et applications
-                  qui font vraiment la différence. <span className="text-white font-medium">Pas de blabla, pas de jargon</span> —
-                  juste un travail soigné qui vous apporte des résultats concrets.
+                  Développeur full-stack : des sites et apps{' '}
+                  <span className="text-white font-medium">clairs, soignés, orientés résultats</span>.
                 </p>
 
                 <p className="text-sm md:text-base lg:text-lg text-white/70 leading-relaxed font-light">
-                  Que vous soyez novice en informatique ou passionné de tech, je m'adapte à votre niveau.
-                  Je traduis le technique en bénéfices clairs, et je vous tiens informé·e à chaque étape.
+                  Je m’adapte à votre niveau, je traduis le technique en bénéfices, et je vous tiens informé·e à chaque étape.
                 </p>
 
                 <div className="grid grid-cols-2 gap-3 md:gap-4 pt-2 md:pt-4">
@@ -879,14 +874,14 @@ export default function Home() {
           <ScrollReveal>
             <div className="text-center mb-10 md:mb-16">
               <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1] tracking-tight mb-5 md:mb-8">
-                <SplitText>Prêt·e à donner vie</SplitText>
+                <SplitText>Prêt à lancer</SplitText>
                 <span className="block bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] bg-clip-text text-transparent mt-1 md:mt-2">
-                  à votre projet ?
+                  votre projet ?
                 </span>
               </h2>
               <p className="text-base md:text-lg lg:text-xl text-white/70 font-light max-w-2xl mx-auto leading-relaxed mb-6 md:mb-10 px-2">
-                Que vous ayez une idée précise ou juste une envie floue, parlons-en.
-                <span className="block mt-1.5 md:mt-2 text-white">Le premier échange est toujours gratuit.</span>
+                Idée précise ou encore floue : parlons-en.
+                <span className="block mt-1.5 md:mt-2 text-white">Premier échange gratuit.</span>
               </p>
 
               {/* Boutons CTA - full-width sur mobile */}
@@ -933,7 +928,7 @@ export default function Home() {
               {
                 icon: '📅',
                 title: 'Planifier',
-                desc: 'Réservez un appel de 30 minutes, sans engagement.',
+                desc: 'Réservez un appel de 30 minutes, librement.',
                 action: 'Prendre rendez-vous',
                 gradient: 'from-purple-500/20 to-pink-500/20',
                 href: '/contact',
