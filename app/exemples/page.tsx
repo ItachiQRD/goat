@@ -31,10 +31,10 @@ export default function Exemples() {
       href: '/exemples/panier',
       color: 'from-orange-500 to-orange-700',
     },
-    {
+      {
       icon: <MessageSquare className="w-8 h-8" />,
-      title: 'Chat en Temps Réel',
-      description: 'Interface de messagerie avec simulation temps réel',
+      title: 'Chat simulé',
+      description: 'Interface de messagerie avec réponses asynchrones simulées',
       href: '/exemples/chat',
       color: 'from-pink-500 to-pink-700',
     },

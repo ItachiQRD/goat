@@ -8,8 +8,10 @@ export default function Calculateur() {
   const [previousValue, setPreviousValue] = useState<number | null>(null)
   const [operation, setOperation] = useState<string | null>(null)
   const [waitingForNewValue, setWaitingForNewValue] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const inputNumber = (num: string) => {
+    setError(null)
     if (waitingForNewValue) {
       setDisplay(num)
       setWaitingForNewValue(false)
@@ -19,24 +21,35 @@ export default function Calculateur() {
   }
 
   const inputOperation = (nextOperation: string) => {
+    setError(null)
     const inputValue = parseFloat(display)
 
     if (previousValue === null) {
       setPreviousValue(inputValue)
     } else if (operation) {
-      const currentValue = previousValue || 0
-      const newValue = calculate(currentValue, inputValue, operation)
-
-      setDisplay(String(newValue))
-      setPreviousValue(newValue)
+      const result = calculate(previousValue, inputValue, operation)
+      if (result === null) {
+        setError('Division par zéro impossible')
+        setDisplay('Erreur')
+        setPreviousValue(null)
+        setOperation(null)
+        setWaitingForNewValue(true)
+        return
+      }
+      setDisplay(String(result))
+      setPreviousValue(result)
     }
 
     setWaitingForNewValue(true)
     setOperation(nextOperation)
   }
 
-  const calculate = (firstValue: number, secondValue: number, operation: string): number => {
-    switch (operation) {
+  const calculate = (
+    firstValue: number,
+    secondValue: number,
+    op: string
+  ): number | null => {
+    switch (op) {
       case '+':
         return firstValue + secondValue
       case '-':
@@ -44,6 +57,7 @@ export default function Calculateur() {
       case '*':
         return firstValue * secondValue
       case '/':
+        if (secondValue === 0) return null
         return firstValue / secondValue
       default:
         return secondValue
@@ -52,10 +66,18 @@ export default function Calculateur() {
 
   const performCalculation = () => {
     const inputValue = parseFloat(display)
-
     if (previousValue !== null && operation) {
-      const newValue = calculate(previousValue, inputValue, operation)
-      setDisplay(String(newValue))
+      const result = calculate(previousValue, inputValue, operation)
+      if (result === null) {
+        setError('Division par zéro impossible')
+        setDisplay('Erreur')
+        setPreviousValue(null)
+        setOperation(null)
+        setWaitingForNewValue(true)
+        return
+      }
+      setError(null)
+      setDisplay(String(result))
       setPreviousValue(null)
       setOperation(null)
       setWaitingForNewValue(true)
@@ -67,9 +89,11 @@ export default function Calculateur() {
     setPreviousValue(null)
     setOperation(null)
     setWaitingForNewValue(false)
+    setError(null)
   }
 
   const inputDecimal = () => {
+    setError(null)
     if (waitingForNewValue) {
       setDisplay('0.')
       setWaitingForNewValue(false)
@@ -78,173 +102,118 @@ export default function Calculateur() {
     }
   }
 
+  const btn =
+    'font-medium py-4 rounded-xl transition-colors text-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3b82f6]'
+  const numBtn = `${btn} bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/10`
+  const opBtn = `${btn} bg-white/[0.1] hover:bg-white/[0.16] text-white border border-white/15`
+
   return (
-    <div className="min-h-screen py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
-      <div className="container mx-auto px-4">
-        <div className="max-w-md mx-auto">
-          <div className="text-center mb-8">
-            <CalcIcon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Calculateur Interactif
-            </h1>
-            <p className="text-gray-600">
-              Démonstration de logique métier et gestion d'état avec React
-            </p>
-          </div>
+    <div className="min-h-screen bg-transparent pt-28 md:pt-32 pb-20 px-5 md:px-6">
+      <div className="container mx-auto max-w-md">
+        <div className="text-center mb-8">
+          <CalcIcon className="w-10 h-10 text-[#3b82f6] mx-auto mb-4" aria-hidden="true" />
+          <h1 className="text-3xl md:text-4xl font-light tracking-tight text-white mb-2">
+            Calculateur interactif
+          </h1>
+          <p className="text-white/60 font-light text-sm md:text-base">
+            Démo de logique métier et gestion d&apos;état React
+          </p>
+        </div>
 
-          <div className="bg-white rounded-2xl shadow-2xl p-6">
-            {/* Display */}
-            <div className="bg-gray-900 rounded-lg p-6 mb-6">
-              <div className="text-right">
-                {operation && previousValue !== null && (
-                  <div className="text-gray-400 text-sm mb-1">
-                    {previousValue} {operation}
-                  </div>
-                )}
-                <div className="text-white text-4xl font-mono font-bold overflow-x-auto">
-                  {display}
+        <div className="rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-5 md:p-6">
+          <div
+            className="rounded-xl bg-black/40 border border-white/10 p-5 mb-5"
+            aria-live="polite"
+          >
+            <div className="text-right">
+              {operation && previousValue !== null && (
+                <div className="text-white/40 text-sm mb-1 font-mono">
+                  {previousValue} {operation}
                 </div>
+              )}
+              <div className="text-white text-3xl md:text-4xl font-mono font-medium overflow-x-auto">
+                {display}
               </div>
-            </div>
-
-            {/* Buttons */}
-            <div className="grid grid-cols-4 gap-3">
-              {/* Row 1 */}
-              <button
-                onClick={clear}
-                className="col-span-2 bg-red-500 hover:bg-red-600 text-white font-bold py-4 rounded-lg transition-colors flex items-center justify-center gap-2"
-              >
-                <RotateCcw className="w-5 h-5" />
-                Clear
-              </button>
-              <button
-                onClick={() => inputOperation('/')}
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                ÷
-              </button>
-              <button
-                onClick={() => inputOperation('*')}
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                ×
-              </button>
-
-              {/* Row 2 */}
-              <button
-                onClick={() => inputNumber('7')}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                7
-              </button>
-              <button
-                onClick={() => inputNumber('8')}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                8
-              </button>
-              <button
-                onClick={() => inputNumber('9')}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                9
-              </button>
-              <button
-                onClick={() => inputOperation('-')}
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                −
-              </button>
-
-              {/* Row 3 */}
-              <button
-                onClick={() => inputNumber('4')}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                4
-              </button>
-              <button
-                onClick={() => inputNumber('5')}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                5
-              </button>
-              <button
-                onClick={() => inputNumber('6')}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                6
-              </button>
-              <button
-                onClick={() => inputOperation('+')}
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                +
-              </button>
-
-              {/* Row 4 */}
-              <button
-                onClick={() => inputNumber('1')}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                1
-              </button>
-              <button
-                onClick={() => inputNumber('2')}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                2
-              </button>
-              <button
-                onClick={() => inputNumber('3')}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                3
-              </button>
-              <button
-                onClick={performCalculation}
-                className="row-span-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                =
-              </button>
-
-              {/* Row 5 */}
-              <button
-                onClick={() => inputNumber('0')}
-                className="col-span-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                0
-              </button>
-              <button
-                onClick={inputDecimal}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-lg transition-colors text-xl"
-              >
-                .
-              </button>
+              {error && (
+                <p className="text-[#ff6b35] text-xs mt-2" role="alert">
+                  {error}
+                </p>
+              )}
             </div>
           </div>
 
-          <div className="mt-8 bg-white rounded-lg p-6 shadow-lg">
-            <h3 className="font-semibold text-gray-900 mb-2">
-              Compétences démontrées :
-            </h3>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• Gestion d'état complexe avec React hooks</li>
-              <li>• Logique métier et algorithmes</li>
-              <li>• Interface utilisateur interactive</li>
-              <li>• Gestion des événements utilisateur</li>
-            </ul>
+          <div className="grid grid-cols-4 gap-2.5" role="group" aria-label="Clavier calculatrice">
+            <button
+              type="button"
+              onClick={clear}
+              aria-label="Effacer"
+              className={`col-span-2 ${btn} bg-[#ff6b35]/90 hover:bg-[#ff6b35] text-white flex items-center justify-center gap-2`}
+            >
+              <RotateCcw className="w-4 h-4" aria-hidden="true" />
+              Clear
+            </button>
+            <button type="button" onClick={() => inputOperation('/')} aria-label="Diviser" className={opBtn}>
+              ÷
+            </button>
+            <button type="button" onClick={() => inputOperation('*')} aria-label="Multiplier" className={opBtn}>
+              ×
+            </button>
+
+            {['7', '8', '9'].map((n) => (
+              <button key={n} type="button" onClick={() => inputNumber(n)} aria-label={n} className={numBtn}>
+                {n}
+              </button>
+            ))}
+            <button type="button" onClick={() => inputOperation('-')} aria-label="Soustraire" className={opBtn}>
+              −
+            </button>
+
+            {['4', '5', '6'].map((n) => (
+              <button key={n} type="button" onClick={() => inputNumber(n)} aria-label={n} className={numBtn}>
+                {n}
+              </button>
+            ))}
+            <button type="button" onClick={() => inputOperation('+')} aria-label="Additionner" className={opBtn}>
+              +
+            </button>
+
+            {['1', '2', '3'].map((n) => (
+              <button key={n} type="button" onClick={() => inputNumber(n)} aria-label={n} className={numBtn}>
+                {n}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={performCalculation}
+              aria-label="Égal"
+              className={`row-span-2 ${btn} bg-[#3b82f6] hover:bg-[#2563eb] text-white`}
+            >
+              =
+            </button>
+
+            <button
+              type="button"
+              onClick={() => inputNumber('0')}
+              aria-label="0"
+              className={`col-span-2 ${numBtn}`}
+            >
+              0
+            </button>
+            <button type="button" onClick={inputDecimal} aria-label="Virgule décimale" className={numBtn}>
+              .
+            </button>
           </div>
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+          <h2 className="text-sm font-medium text-white mb-2">Compétences démontrées</h2>
+          <ul className="text-sm text-white/55 font-light space-y-1">
+            <li>• Gestion d&apos;état avec React hooks</li>
+            <li>• Logique métier et garde-fous (division par zéro)</li>
+            <li>• Interface interactive accessible</li>
+          </ul>
         </div>
       </div>
     </div>
   )
 }
-
-
-
-
-
-
-
-

@@ -41,13 +41,14 @@ const navItems: NavItem[] = [
     children: [
       { href: '/exemples', label: 'Tous les exemples', description: 'Composants interactifs' },
       { href: '/exemples/calendrier', label: 'Calendrier', description: 'Système de réservation' },
-      { href: '/exemples/calculateur', label: 'Calculateur', description: 'Devis dynamique' },
-      { href: '/exemples/chat', label: 'Chat', description: 'Messagerie temps réel' },
+      { href: '/exemples/calculateur', label: 'Calculateur', description: 'Logique métier React' },
+      { href: '/exemples/chat', label: 'Chat', description: 'Messagerie simulée' },
       { href: '/exemples/panier', label: 'Panier', description: 'Tunnel e-commerce' },
       { href: '/exemples/visualisation', label: 'Visualisation', description: 'Graphiques de données' },
       { href: '/exemples/gestion-donnees', label: 'Gestion de données', description: 'CRUD complet' },
     ],
   },
+  { href: '/contact', label: 'Contact' },
 ]
 
 export default function Header() {
@@ -186,7 +187,7 @@ export default function Header() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={brand.logoWithout}
-                  alt=""
+                  alt={brand.name}
                   className="h-full w-full object-contain p-0.5"
                 />
               </motion.div>

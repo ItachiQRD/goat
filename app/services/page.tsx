@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import {
@@ -18,6 +19,7 @@ import GlowEffect from '@/components/GlowEffect'
 
 const services = [
   {
+    id: 'vitrine',
     icon: Globe,
     title: 'Sites vitrines & landing pages',
     description:
@@ -35,6 +37,7 @@ const services = [
     accentColor: '#3b82f6',
   },
   {
+    id: 'webapp',
     icon: Terminal,
     title: 'Applications web sur-mesure',
     description:
@@ -52,6 +55,7 @@ const services = [
     accentColor: '#8b5cf6',
   },
   {
+    id: 'ecommerce',
     icon: Smartphone,
     title: 'E-commerce',
     description:
@@ -69,6 +73,7 @@ const services = [
     accentColor: '#ff6b35',
   },
   {
+    id: 'design',
     icon: Palette,
     title: 'UI / UX Design',
     description:
@@ -86,6 +91,7 @@ const services = [
     accentColor: '#ec4899',
   },
   {
+    id: 'seo',
     icon: Zap,
     title: "Optimisation & SEO",
     description:
@@ -103,6 +109,7 @@ const services = [
     accentColor: '#facc15',
   },
   {
+    id: 'devops',
     icon: Cloud,
     title: 'DevOps & Hébergement',
     description:
@@ -120,6 +127,7 @@ const services = [
     accentColor: '#06b6d4',
   },
   {
+    id: 'securite',
     icon: Lock,
     title: 'Sécurité & RGPD',
     description:
@@ -137,6 +145,7 @@ const services = [
     accentColor: '#10b981',
   },
   {
+    id: 'maintenance',
     icon: Database,
     title: "Maintenance & évolutions",
     description:
@@ -156,6 +165,17 @@ const services = [
 ]
 
 export default function Services() {
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '')
+    if (!hash) return
+    const el = document.getElementById(hash)
+    if (!el) return
+    const t = window.setTimeout(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 120)
+    return () => window.clearTimeout(t)
+  }, [])
+
   return (
     <div className="min-h-screen bg-transparent pt-32 pb-20 px-5 md:px-6 relative overflow-hidden">
       <GlowEffect intensity={0.3} color="rgba(59, 130, 246, 0.2)" />
@@ -186,13 +206,14 @@ export default function Services() {
             const Icon = service.icon
             return (
               <motion.div
-                key={i}
+                key={service.id}
+                id={service.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.5, delay: (i % 2) * 0.08 }}
                 whileHover={{ y: -4 }}
-                className="group relative h-full"
+                className="group relative h-full scroll-mt-28"
               >
                 <div className="relative h-full p-6 md:p-8 rounded-2xl backdrop-blur-xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.05] transition-all overflow-hidden">
                   {/* Gradient subtil au hover */}

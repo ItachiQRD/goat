@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 
@@ -34,17 +34,26 @@ function writeConsent(consent: ConsentState) {
 
 /**
  * Bandeau cookies conforme RGPD.
- * - Affiché tant qu'aucun choix n'a été fait
- * - 3 actions : Tout accepter / Tout refuser / Personnaliser
- * - Stockage du choix en localStorage (clé : cookie_consent_v1)
- * - Le visiteur peut rouvrir le bandeau via un lien dans le footer
- *   (event window.dispatchEvent(new Event('open-cookie-banner')))
  */
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
   const [analytics, setAnalytics] = useState(false)
   const [marketing, setMarketing] = useState(false)
+  const panelRef = useRef<HTMLDivElement>(null)
+  const previouslyFocused = useRef<HTMLElement | null>(null)
+
+  const persist = (state: Omit<ConsentState, 'necessary' | 'timestamp'>) => {
+    const consent: ConsentState = {
+      necessary: true,
+      analytics: state.analytics,
+      marketing: state.marketing,
+      timestamp: new Date().toISOString(),
+    }
+    writeConsent(consent)
+    setVisible(false)
+    setShowDetails(false)
+  }
 
   useEffect(() => {
     const existing = readConsent()
@@ -67,17 +76,40 @@ export default function CookieBanner() {
     return () => window.removeEventListener('open-cookie-banner', open)
   }, [])
 
-  const persist = (state: Omit<ConsentState, 'necessary' | 'timestamp'>) => {
-    const consent: ConsentState = {
-      necessary: true,
-      analytics: state.analytics,
-      marketing: state.marketing,
-      timestamp: new Date().toISOString(),
+  useEffect(() => {
+    if (!visible) return
+
+    previouslyFocused.current = document.activeElement as HTMLElement | null
+    const panel = panelRef.current
+    const focusable = panel?.querySelectorAll<HTMLElement>(
+      'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+    )
+    focusable?.[0]?.focus()
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        persist({ analytics: false, marketing: false })
+        return
+      }
+      if (e.key !== 'Tab' || !focusable || focusable.length === 0) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
     }
-    writeConsent(consent)
-    setVisible(false)
-    setShowDetails(false)
-  }
+
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      previouslyFocused.current?.focus?.()
+    }
+  }, [visible, showDetails])
 
   const acceptAll = () => persist({ analytics: true, marketing: true })
   const rejectAll = () => persist({ analytics: false, marketing: false })
@@ -87,22 +119,25 @@ export default function CookieBanner() {
     <AnimatePresence>
       {visible && (
         <motion.div
+          ref={panelRef}
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="fixed bottom-0 left-0 right-0 z-[100] p-3 md:p-5"
           role="dialog"
+          aria-modal="true"
           aria-labelledby="cookie-title"
           aria-describedby="cookie-desc"
         >
           <div className="mx-auto max-w-5xl rounded-2xl border border-white/15 bg-[#0f0f0f]/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden">
-            {/* Bandeau de couleur */}
             <div className="h-1 w-full bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35]" />
 
             <div className="p-5 md:p-7">
               <div className="flex items-start gap-3 mb-3">
-                <span className="text-2xl md:text-3xl flex-shrink-0" aria-hidden="true">🍪</span>
+                <span className="text-2xl md:text-3xl flex-shrink-0" aria-hidden="true">
+                  🍪
+                </span>
                 <div className="flex-1 min-w-0">
                   <h2
                     id="cookie-title"
@@ -124,7 +159,6 @@ export default function CookieBanner() {
                 </div>
               </div>
 
-              {/* Détails (cases à cocher) */}
               <AnimatePresence>
                 {showDetails && (
                   <motion.div
@@ -158,10 +192,10 @@ export default function CookieBanner() {
                 )}
               </AnimatePresence>
 
-              {/* Actions */}
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-2">
                 {!showDetails && (
                   <button
+                    type="button"
                     onClick={() => setShowDetails(true)}
                     className="order-3 sm:order-1 px-4 py-2.5 rounded-full text-xs md:text-sm font-light text-white/80 hover:text-white border border-white/15 hover:border-white/30 transition-all"
                   >
@@ -169,6 +203,7 @@ export default function CookieBanner() {
                   </button>
                 )}
                 <button
+                  type="button"
                   onClick={rejectAll}
                   className="order-2 px-4 py-2.5 rounded-full text-xs md:text-sm font-light text-white/80 hover:text-white border border-white/15 hover:border-white/30 transition-all"
                 >
@@ -176,6 +211,7 @@ export default function CookieBanner() {
                 </button>
                 {showDetails ? (
                   <button
+                    type="button"
                     onClick={saveCustom}
                     className="order-1 sm:order-3 sm:ml-auto px-5 py-2.5 rounded-full text-xs md:text-sm font-medium text-white bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] hover:opacity-90 transition-opacity"
                   >
@@ -183,6 +219,7 @@ export default function CookieBanner() {
                   </button>
                 ) : (
                   <button
+                    type="button"
                     onClick={acceptAll}
                     className="order-1 sm:order-3 sm:ml-auto px-5 py-2.5 rounded-full text-xs md:text-sm font-medium text-white bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] hover:opacity-90 transition-opacity"
                   >
@@ -208,10 +245,10 @@ interface ConsentRowProps {
 
 function ConsentRow({ title, description, checked, disabled, onChange }: ConsentRowProps) {
   return (
-    <label
+    <div
       className={`flex items-start gap-3 p-3 rounded-lg bg-white/[0.03] border border-white/[0.06] ${
-        disabled ? 'opacity-70' : 'hover:bg-white/[0.05] cursor-pointer'
-      } transition-colors`}
+        disabled ? 'opacity-70' : ''
+      }`}
     >
       <button
         type="button"
@@ -228,6 +265,7 @@ function ConsentRow({ title, description, checked, disabled, onChange }: Consent
           className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${
             checked ? 'left-[18px]' : 'left-0.5'
           }`}
+          aria-hidden="true"
         />
       </button>
       <div className="flex-1 min-w-0">
@@ -236,21 +274,14 @@ function ConsentRow({ title, description, checked, disabled, onChange }: Consent
           {description}
         </div>
       </div>
-    </label>
+    </div>
   )
 }
 
-/**
- * Helper exporté : vérifie le consentement courant
- * (utile pour conditionner le chargement d'un script analytics)
- */
 export function getCookieConsent(): ConsentState | null {
   return readConsent()
 }
 
-/**
- * Helper exporté : déclenche la réouverture du bandeau (lien dans le footer)
- */
 export function openCookieBanner() {
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new Event('open-cookie-banner'))

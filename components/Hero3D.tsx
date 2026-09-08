@@ -237,6 +237,22 @@ export default function Hero3D() {
     }
   }, [])
 
+  useEffect(() => {
+    if (phase !== 'intro') return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        setLogoVisible(false)
+        setPhase('ready')
+        setHeroUiState('ready')
+        document.body.style.overflow = ''
+        startLenis()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [phase])
+
   const showHeroContent = phase === 'hero' || phase === 'ready'
   const storyBeat: 0 | 1 = beat === 0 ? 0 : 1
 
@@ -471,6 +487,9 @@ export default function Hero3D() {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Chargement ${siteConfig.brand.name}`}
             onClick={() => {
               setLogoVisible(false)
               setPhase('ready')
@@ -478,7 +497,6 @@ export default function Hero3D() {
               document.body.style.overflow = ''
               startLenis()
             }}
-            role="presentation"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.92 }}
@@ -502,9 +520,20 @@ export default function Hero3D() {
                 />
               </div>
             </motion.div>
-            <p className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-white/20">
-              Cliquer pour passer
-            </p>
+            <button
+              type="button"
+              className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-white/35 hover:text-white/60 transition-colors"
+              onClick={(e) => {
+                e.stopPropagation()
+                setLogoVisible(false)
+                setPhase('ready')
+                setHeroUiState('ready')
+                document.body.style.overflow = ''
+                startLenis()
+              }}
+            >
+              Entrée ou clic pour passer
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

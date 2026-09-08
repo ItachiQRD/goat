@@ -31,13 +31,13 @@ export const siteConfig = {
   // ─── INFORMATIONS LÉGALES (OBLIGATOIRES POUR MENTIONS LÉGALES) ─────
   legal: {
     // Identité du responsable
-    ownerName: '[À REMPLIR : Prénom NOM]', // Ex: Jean Dupont
-    ownerStatus: '[À REMPLIR : Statut juridique]', // Ex: "Auto-entrepreneur" ou "EURL" ou "SASU"
+    ownerName: 'El Qardaoui Ilyesse', // Ex: Jean Dupont
+    ownerStatus: 'Auto-Entrepreneur', // Ex: "Auto-entrepreneur" ou "EURL" ou "SASU"
 
     // Adresse professionnelle
-    address: '[À REMPLIR : Adresse]', // Ex: 12 rue Exemple
-    postalCode: '[À REMPLIR : Code postal]', // Ex: 75001
-    city: '[À REMPLIR : Ville]', // Ex: Paris
+    address: '5 Allée des bretons', // Ex: 12 rue Exemple
+    postalCode: '51100', // Ex: 75001
+    city: 'Reims', // Ex: Paris
     country: 'France',
 
     // Identifiants professionnels
@@ -62,8 +62,8 @@ export const siteConfig = {
 
   // ─── CONTACT ────────────────────────────────────────
   contact: {
-    email: '[À REMPLIR : votre@email.pro]',
-    phone: '[À REMPLIR : +33 X XX XX XX XX]',
+    email: 'elqardaoui@live.fr',
+    phone: '0658389940',
     phoneDisplay: '[À REMPLIR : 0X XX XX XX XX]', // Format affichage
     location: 'France', // Ville ou pays
     remoteAvailable: true,
@@ -73,8 +73,8 @@ export const siteConfig = {
   // ─── RÉSEAUX SOCIAUX ─────────────────────────────────
   // Mettre à null si non utilisé (le lien sera caché)
   social: {
-    github: '[À REMPLIR : https://github.com/votre-pseudo]',
-    linkedin: '[À REMPLIR : https://linkedin.com/in/votre-pseudo]',
+    github: 'https://github.com/Itachi-QRD',
+    linkedin: 'https://linkedin.com/in/ilyesse-el-qardaoui',
     twitter: null as string | null, // ex: 'https://twitter.com/votre-pseudo'
     instagram: null as string | null,
   },
