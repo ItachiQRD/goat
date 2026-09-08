@@ -99,7 +99,7 @@ export default function GestionDonnees() {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-5 md:p-6 mb-5">
+        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6 mb-5">
           <h2 className="text-lg font-light text-white mb-4">
             {editingId ? "Modifier l'élément" : 'Ajouter un élément'}
           </h2>

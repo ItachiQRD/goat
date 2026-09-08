@@ -120,7 +120,7 @@ export default function Calculateur() {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-5 md:p-6">
+        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6">
           <div
             className="rounded-xl bg-black/40 border border-white/10 p-5 mb-5"
             aria-live="polite"

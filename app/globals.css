@@ -38,42 +38,46 @@ html.lenis body {
 body {
   color: rgb(var(--foreground-rgb));
   background-color: rgb(var(--background-rgb));
-  /* Fond d'écran sombre animé (subtil) pour éviter l'effet "plein noir" */
+  /* Fond sombre statique (pas d'animation background-position = moins de jank) */
   background-image:
-    radial-gradient(1200px circle at 20% 10%, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0) 55%),
-    radial-gradient(900px circle at 85% 25%, rgba(139, 92, 246, 0.11) 0%, rgba(139, 92, 246, 0) 50%),
-    radial-gradient(700px circle at 60% 85%, rgba(255, 107, 53, 0.08) 0%, rgba(255, 107, 53, 0) 55%),
+    radial-gradient(1000px circle at 18% 12%, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0) 55%),
+    radial-gradient(800px circle at 88% 22%, rgba(139, 92, 246, 0.09) 0%, rgba(139, 92, 246, 0) 50%),
+    radial-gradient(600px circle at 55% 88%, rgba(255, 107, 53, 0.06) 0%, rgba(255, 107, 53, 0) 55%),
     linear-gradient(to bottom, rgba(21, 21, 21, 1) 0%, rgba(12, 12, 12, 1) 100%);
-  background-size: 140% 140%, 140% 140%, 140% 140%, 100% 100%;
   background-repeat: no-repeat;
-  background-position: 0% 20%, 90% 0%, 30% 100%, 50% 50%;
-  animation: backgroundDrift 22s ease-in-out infinite alternate;
   font-family: 'Plain', 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* clip (pas hidden) : ne casse pas position:sticky */
   overflow-x: clip;
 }
 
-@keyframes backgroundDrift {
-  0% {
-    background-position: 0% 20%, 90% 0%, 30% 100%, 50% 50%;
-  }
-  100% {
-    background-position: 40% 40%, 70% 20%, 60% 60%, 50% 50%;
-  }
+@media (prefers-reduced-motion: reduce) {
+  /* no-op: fond déjà statique */
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body {
-    animation: none;
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .animate-marquee {
+    animation: marquee-x 40s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee {
+      animation: none;
+    }
   }
   
   .hover-lift {

@@ -120,7 +120,7 @@ export default function Calendrier() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          <div className="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-5 md:p-6">
+          <div className="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6">
             <div className="flex items-center justify-between mb-6">
               <button
                 type="button"

@@ -165,8 +165,8 @@ export default function Header() {
             pathname === '/' && (heroPhase === 'hero' || heroPhase === 'ready') && !scrolled
               ? 'bg-transparent'
               : scrolled
-                ? 'bg-[#0a0a0a]/85 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.3)]'
-                : 'bg-gradient-to-b from-[#0a0a0a]/40 to-transparent backdrop-blur-sm'
+                ? 'bg-[#0a0a0a]/92 border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.3)]'
+                : 'bg-gradient-to-b from-[#0a0a0a]/55 to-transparent'
           }`}
           aria-hidden="true"
         />
@@ -249,7 +249,7 @@ export default function Header() {
                           transition={{ duration: 0.18, ease: 'easeOut' }}
                           className="absolute top-full left-1/2 -translate-x-1/2 pt-3"
                         >
-                          <div className="min-w-[280px] p-2 rounded-2xl bg-[#0f0f0f]/95 backdrop-blur-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                          <div className="min-w-[280px] p-2 rounded-2xl bg-[#0f0f0f] border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
                             {item.children!.map((child) => (
                               <Link
                                 key={child.href}

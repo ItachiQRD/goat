@@ -145,7 +145,7 @@ export default function Portfolio() {
               whileHover={{ y: -4 }}
               className="group relative h-full"
             >
-              <div className="relative h-full rounded-2xl backdrop-blur-xl bg-white/[0.03] border border-white/10 hover:border-white/30 transition-all overflow-hidden">
+              <div className="relative h-full rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/30 transition-all overflow-hidden">
                 {/* Visuel */}
                 <div
                   className={`relative aspect-[16/10] flex items-center justify-center text-6xl md:text-7xl bg-gradient-to-br ${project.gradient} overflow-hidden`}

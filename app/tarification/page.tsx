@@ -176,7 +176,7 @@ export default function Tarification() {
                 )}
 
                 <div
-                  className={`relative h-full p-6 md:p-8 rounded-2xl backdrop-blur-xl border transition-all overflow-hidden ${
+                  className={`relative h-full p-6 md:p-8 rounded-2xl border transition-all overflow-hidden ${
                     model.popular
                       ? 'bg-gradient-to-br from-[#3b82f6]/10 to-[#8b5cf6]/5 border-[#8b5cf6]/30 shadow-[0_20px_60px_rgba(139,92,246,0.15)]'
                       : 'bg-white/[0.03] border-white/10 hover:border-white/25'

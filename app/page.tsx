@@ -300,7 +300,7 @@ export default function Home() {
             ].map((item, i) => (
               <ScrollStageItem key={i} from={item.from} delay={i * 0.04} className="h-full">
                 <div className="group relative h-full">
-                  <div className={`relative h-full p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl backdrop-blur-xl bg-gradient-to-br ${item.color} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
+                  <div className={`relative h-full p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl bg-gradient-to-br ${item.color} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
                     <div
                       className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
                       style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
@@ -399,7 +399,7 @@ export default function Home() {
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center gap-2 md:gap-3 px-6 md:px-8 py-3 md:py-4 rounded-full bg-white/5 backdrop-blur-md border border-white/20 hover:bg-white/10 hover:border-white/40 transition-all"
+                  className="inline-flex items-center gap-2 md:gap-3 px-6 md:px-8 py-3 md:py-4 rounded-full bg-white/5 border border-white/20 hover:bg-white/10 hover:border-white/40 transition-all"
                 >
                   <span className="text-sm md:text-base font-light">Voir tous les services en détail</span>
                   <svg className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -450,7 +450,7 @@ export default function Home() {
             {audiences.map((audience, i) => (
               <ScrollReveal key={i} order={i % 3}>
                 <div className="group relative h-full">
-                  <div className="relative h-full p-5 md:p-7 rounded-xl md:rounded-2xl backdrop-blur-xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden">
+                  <div className="relative h-full p-5 md:p-7 rounded-xl md:rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden">
                     <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35]" />
                     <div className="relative z-10">
                       <div className="text-4xl md:text-5xl mb-3 md:mb-5">{audience.emoji}</div>
@@ -551,7 +551,7 @@ export default function Home() {
             {techCategories.map((cat, i) => (
               <ScrollReveal key={i} order={i}>
                 <div className="group relative h-full">
-                  <div className={`relative h-full p-5 md:p-8 rounded-2xl md:rounded-3xl backdrop-blur-xl bg-gradient-to-br ${cat.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
+                  <div className={`relative h-full p-5 md:p-8 rounded-2xl md:rounded-3xl bg-gradient-to-br ${cat.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
                     <div
                       className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
                       style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
@@ -576,7 +576,7 @@ export default function Home() {
                         {cat.techs.map((tech, j) => (
                           <span
                             key={j}
-                            className="px-2.5 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg text-[11px] md:text-xs font-mono bg-black/30 border border-white/10 text-white/80 backdrop-blur-sm"
+                            className="px-2.5 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg text-[11px] md:text-xs font-mono bg-black/30 border border-white/10 text-white/80"
                           >
                             {tech}
                           </span>
@@ -624,7 +624,7 @@ export default function Home() {
             ].map((stat, i) => (
               <ScrollReveal key={i} order={i}>
                 <div className="group relative h-full">
-                  <div className="relative p-4 md:p-6 lg:p-8 rounded-xl md:rounded-3xl backdrop-blur-xl bg-white/[0.03] border border-white/10 hover:border-white/30 transition-all overflow-hidden text-center">
+                  <div className="relative p-4 md:p-6 lg:p-8 rounded-xl md:rounded-3xl bg-white/[0.03] border border-white/10 hover:border-white/30 transition-all overflow-hidden text-center">
                     <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
                     <div className="relative z-10">
                       <div className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-2 md:mb-3 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent leading-none`}>
@@ -646,7 +646,7 @@ export default function Home() {
           {/* Comparatif visuel - refait pour mobile */}
           <ScrollReveal delay={0.3}>
             <div className="mt-12 md:mt-20 max-w-4xl mx-auto">
-              <div className="p-5 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl backdrop-blur-xl bg-gradient-to-br from-white/[0.04] to-white/[0.02] border border-white/10">
+              <div className="p-5 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl bg-gradient-to-br from-white/[0.04] to-white/[0.02] border border-white/10">
                 <h3 className="text-xl md:text-2xl lg:text-3xl font-light text-center mb-8 md:mb-10 leading-tight">
                   Site classique <span className="text-white/40">vs</span>{' '}
                   <span className="bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] bg-clip-text text-transparent">
@@ -804,11 +804,8 @@ export default function Home() {
               </div>
 
               <div className="overflow-hidden relative">
-                <motion.div
-                  className="flex gap-2 md:gap-4"
-                  animate={{ x: ['0%', '-50%'] }}
-                  transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-                  style={{ width: 'max-content', willChange: 'transform' }}
+                <div
+                  className="flex gap-2 md:gap-4 w-max animate-marquee"
                 >
                   {[
                     'React', 'Next.js', 'TypeScript', 'Node.js', 'Python', 'PostgreSQL',
@@ -825,7 +822,7 @@ export default function Home() {
                       {tech}
                     </div>
                   ))}
-                </motion.div>
+                </div>
 
                 <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-[#151515] to-transparent pointer-events-none" />
                 <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-[#151515] to-transparent pointer-events-none" />
@@ -888,7 +885,7 @@ export default function Home() {
                   <motion.div
                     whileHover={{ scale: 1.05, y: -3 }}
                     whileTap={{ scale: 0.97 }}
-                    className="w-full sm:w-auto px-6 md:px-10 py-4 md:py-5 bg-white/5 backdrop-blur-md border border-white/20 text-white rounded-full text-sm md:text-lg font-light hover:bg-white/10 hover:border-white/40 transition-all text-center"
+                    className="w-full sm:w-auto px-6 md:px-10 py-4 md:py-5 bg-white/5 border border-white/20 text-white rounded-full text-sm md:text-lg font-light hover:bg-white/10 hover:border-white/40 transition-all text-center"
                   >
                     Voir les tarifs
                   </motion.div>
@@ -928,7 +925,7 @@ export default function Home() {
               <ScrollReveal key={i} order={i}>
                 <div className="group relative h-full">
                   <Link href={card.href} className="block h-full">
-                    <div className={`relative h-full p-5 md:p-8 rounded-2xl md:rounded-3xl backdrop-blur-xl bg-gradient-to-br ${card.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
+                    <div className={`relative h-full p-5 md:p-8 rounded-2xl md:rounded-3xl bg-gradient-to-br ${card.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
                       <div
                         className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
                         style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}

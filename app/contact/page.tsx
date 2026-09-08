@@ -165,7 +165,7 @@ export default function Contact() {
           <ScrollReveal delay={0.15} className="lg:col-span-3">
             <form
               onSubmit={handleSubmit}
-              className="relative p-6 md:p-8 rounded-2xl backdrop-blur-xl bg-white/[0.03] border border-white/10"
+              className="relative p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/10"
             >
               {/* Confirmation succès */}
               {status === 'success' && (

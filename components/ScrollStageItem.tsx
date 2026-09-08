@@ -1,7 +1,7 @@
 'use client'
 
-import { type ReactNode, useRef } from 'react'
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { type ReactNode } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 
 type From = 'bottom' | 'left' | 'right' | 'top'
 
@@ -9,20 +9,19 @@ interface ScrollStageItemProps {
   children: ReactNode
   className?: string
   from?: From
-  /** Décalage 0–0.2 pour stagger entre items d'une même section */
+  /** Stagger en secondes (ex: 0.04 * index) */
   delay?: number
 }
 
 const OFFSETS: Record<From, { x: number; y: number }> = {
-  bottom: { x: 0, y: 80 },
-  top: { x: 0, y: -80 },
-  left: { x: -90, y: 24 },
-  right: { x: 90, y: 24 },
+  bottom: { x: 0, y: 20 },
+  top: { x: 0, y: -20 },
+  left: { x: -18, y: 8 },
+  right: { x: 18, y: 8 },
 }
 
 /**
- * Bloc individuel : entre hors cadre → se place → repart.
- * À utiliser dans une RisingSection pour des mouvements décalés.
+ * Entrée one-shot pour un item — plus de scroll-linked opacity/x/y.
  */
 export default function ScrollStageItem({
   children,
@@ -30,34 +29,23 @@ export default function ScrollStageItem({
   from = 'bottom',
   delay = 0,
 }: ScrollStageItemProps) {
-  const ref = useRef<HTMLDivElement>(null)
   const prefersReduced = useReducedMotion()
   const o = OFFSETS[from]
-  const d = Math.min(0.18, Math.max(0, delay))
+  // Compat : anciens delays étaient 0–0.18 (fraction scroll) → convertir en secondes
+  const delaySec = delay > 0.25 ? delay : delay * 2.5
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-
-  const y = useTransform(
-    scrollYProgress,
-    [0 + d, 0.25 + d, 0.7, 0.95],
-    prefersReduced ? [0, 0, 0, 0] : [o.y, 0, 0, -o.y * 0.7]
-  )
-  const x = useTransform(
-    scrollYProgress,
-    [0 + d, 0.25 + d, 0.7, 0.95],
-    prefersReduced ? [0, 0, 0, 0] : [o.x, 0, 0, -o.x * 0.45]
-  )
-  const opacity = useTransform(
-    scrollYProgress,
-    [0 + d, 0.2 + d, 0.75, 0.95],
-    prefersReduced ? [1, 1, 1, 1] : [0, 1, 1, 0]
-  )
+  if (prefersReduced) {
+    return <div className={className}>{children}</div>
+  }
 
   return (
-    <motion.div ref={ref} className={className} style={{ y, x, opacity }}>
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, x: o.x, y: o.y }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, margin: '-5% 0px', amount: 0.2 }}
+      transition={{ duration: 0.4, delay: delaySec, ease: [0.22, 1, 0.36, 1] }}
+    >
       {children}
     </motion.div>
   )

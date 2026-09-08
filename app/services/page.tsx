@@ -215,7 +215,7 @@ export default function Services() {
                 whileHover={{ y: -4 }}
                 className="group relative h-full scroll-mt-28"
               >
-                <div className="relative h-full p-6 md:p-8 rounded-2xl backdrop-blur-xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.05] transition-all overflow-hidden">
+                <div className="relative h-full p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.05] transition-all overflow-hidden">
                   {/* Gradient subtil au hover */}
                   <div
                     className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}

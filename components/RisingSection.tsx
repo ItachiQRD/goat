@@ -1,7 +1,7 @@
 'use client'
 
-import { type ReactNode, useRef } from 'react'
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { type ReactNode } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 
 type From = 'bottom' | 'left' | 'right' | 'top' | 'scale'
 
@@ -9,23 +9,19 @@ interface RisingSectionProps {
   children: ReactNode
   id?: string
   className?: string
-  /** Direction d'entrée des blocs (sortie opposée) */
   from?: From
 }
 
-const ENTER_OFFSET: Record<From, { x: number; y: number; scale: number }> = {
-  bottom: { x: 0, y: 110, scale: 1 },
-  top: { x: 0, y: -110, scale: 1 },
-  left: { x: -120, y: 40, scale: 1 },
-  right: { x: 120, y: 40, scale: 1 },
-  scale: { x: 0, y: 48, scale: 0.92 },
+const ENTER: Record<From, { x: number; y: number; scale: number }> = {
+  bottom: { x: 0, y: 28, scale: 1 },
+  top: { x: 0, y: -28, scale: 1 },
+  left: { x: -24, y: 12, scale: 1 },
+  right: { x: 24, y: 12, scale: 1 },
+  scale: { x: 0, y: 16, scale: 0.98 },
 }
 
 /**
- * Section scroll-théâtrale :
- * - hors cadre au départ
- * - se place au centre pendant le passage
- * - repart pour laisser place à la suite
+ * Entrée légère one-shot (whileInView) — pas de transforms liés au scroll.
  */
 export default function RisingSection({
   children,
@@ -33,52 +29,24 @@ export default function RisingSection({
   className = '',
   from = 'bottom',
 }: RisingSectionProps) {
-  const ref = useRef<HTMLElement>(null)
   const prefersReduced = useReducedMotion()
-  const offset = ENTER_OFFSET[from]
+  const offset = ENTER[from]
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-
-  // 0 → entre | milieu → stable | 1 → sort
-  const y = useTransform(
-    scrollYProgress,
-    [0, 0.22, 0.72, 1],
-    prefersReduced
-      ? [0, 0, 0, 0]
-      : [offset.y, 0, 0, -offset.y * 0.85]
-  )
-  const x = useTransform(
-    scrollYProgress,
-    [0, 0.22, 0.72, 1],
-    prefersReduced
-      ? [0, 0, 0, 0]
-      : [offset.x, 0, 0, -offset.x * 0.55]
-  )
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.22, 0.72, 1],
-    prefersReduced
-      ? [1, 1, 1, 1]
-      : [offset.scale, 1, 1, 0.96]
-  )
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.16, 0.78, 1],
-    prefersReduced ? [1, 1, 1, 1] : [0, 1, 1, 0]
-  )
+  if (prefersReduced) {
+    return (
+      <section id={id} className={`relative ${className}`}>
+        {children}
+      </section>
+    )
+  }
 
   return (
-    <section
-      ref={ref}
-      id={id}
-      className={`relative overflow-hidden ${className}`}
-    >
+    <section id={id} className={`relative ${className}`}>
       <motion.div
-        className="relative will-change-transform"
-        style={{ y, x, scale, opacity }}
+        initial={{ opacity: 0, x: offset.x, y: offset.y, scale: offset.scale }}
+        whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+        viewport={{ once: true, margin: '-8% 0px -8% 0px', amount: 0.15 }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       >
         {children}
       </motion.div>

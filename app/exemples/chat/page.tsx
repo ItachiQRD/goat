@@ -80,7 +80,7 @@ export default function Chat() {
         </div>
 
         <div
-          className="rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl overflow-hidden flex flex-col"
+          className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden flex flex-col"
           style={{ height: 'min(600px, 70vh)' }}
         >
           <div className="bg-gradient-to-r from-pink-600/80 to-rose-600/70 text-white p-4 flex items-center gap-3 border-b border-white/10">

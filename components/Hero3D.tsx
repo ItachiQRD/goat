@@ -33,18 +33,16 @@ function HeroVideo({
   src,
   active,
   opacity = 1,
-  scale = 1,
-  blur = 0,
   onReady,
   restartOnActivate = false,
+  preload = 'metadata',
 }: {
   src: string
   active: boolean
   opacity?: number
-  scale?: number
-  blur?: number
   onReady?: () => void
   restartOnActivate?: boolean
+  preload?: 'none' | 'metadata' | 'auto'
 }) {
   const ref = useRef<HTMLVideoElement>(null)
   const [ok, setOk] = useState(false)
@@ -68,12 +66,9 @@ function HeroVideo({
     <motion.div
       className="absolute inset-0"
       initial={false}
-      animate={{
-        opacity: active && ok ? opacity : 0,
-        scale,
-        filter: `blur(${blur}px)`,
-      }}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+      animate={{ opacity: active && ok ? opacity : 0 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      style={{ pointerEvents: 'none' }}
     >
       <video
         ref={ref}
@@ -82,7 +77,7 @@ function HeroVideo({
         muted
         playsInline
         loop={!restartOnActivate}
-        preload="auto"
+        preload={preload}
         onCanPlay={() => {
           setOk(true)
           onReady?.()
@@ -111,10 +106,10 @@ export default function Hero3D() {
     offset: ['start start', 'end start'],
   })
 
-  const contentScale = useTransform(scrollYProgress, [0, 0.75], [1, 0.78])
+  const contentScale = useTransform(scrollYProgress, [0, 0.75], [1, 0.92])
   const contentOpacity = useTransform(scrollYProgress, [0, 0.55, 0.85], [1, 1, 0])
-  const contentY = useTransform(scrollYProgress, [0, 0.85], [0, -64])
-  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
+  const contentY = useTransform(scrollYProgress, [0, 0.85], [0, -32])
+  // Vidéo : plus de scale au scroll (coût GPU)
 
   const clearMorphTimer = () => {
     if (morphTimer.current !== null) {
@@ -260,9 +255,6 @@ export default function Hero3D() {
   const codingOpacity = beat === 0 ? 1 : 0
   const morphOpacity = beat === 1 ? 1 : 0
   const commercialOpacity = beat === 2 ? 1 : 0
-  const codingScale = beat === 0 ? 1 : 1.03
-  const morphScale = beat === 1 ? 1 : 1.02
-  const commercialScale = beat === 2 ? 1 : 1.03
 
   return (
     <section
@@ -271,7 +263,7 @@ export default function Hero3D() {
       aria-label="Introduction"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <motion.div className="absolute inset-0" style={{ scale: videoScale }}>
+        <motion.div className="absolute inset-0">
           <div
             className="absolute inset-0 transition-opacity duration-700"
             style={{
@@ -287,22 +279,22 @@ export default function Hero3D() {
             src={VIDEO_CODING}
             active={beat === 0}
             opacity={codingOpacity}
-            scale={codingScale}
+            preload="auto"
             onReady={() => setHasAnyVideo(true)}
           />
           <HeroVideo
             src={VIDEO_MORPH}
             active={beat === 1}
             opacity={morphOpacity}
-            scale={morphScale}
             restartOnActivate
+            preload={beat >= 1 ? 'auto' : 'metadata'}
             onReady={() => setHasAnyVideo(true)}
           />
           <HeroVideo
             src={VIDEO_COMMERCIAL}
-            active={beat === 1 || beat === 2}
+            active={beat === 2}
             opacity={commercialOpacity}
-            scale={commercialScale}
+            preload={beat >= 1 ? 'auto' : 'metadata'}
             onReady={() => setHasAnyVideo(true)}
           />
 

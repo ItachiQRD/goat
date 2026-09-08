@@ -65,7 +65,7 @@ export default function Exemples() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {exemples.map((exemple, index) => (
             <Link key={index} href={exemple.href} className="group block h-full">
-              <div className="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-xl hover:border-white/25 hover:bg-white/[0.06] transition-all">
+              <div className="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:border-white/25 hover:bg-white/[0.06] transition-all">
                 <div
                   className={`bg-gradient-to-br ${exemple.color} p-8 text-white flex items-center justify-center`}
                 >
