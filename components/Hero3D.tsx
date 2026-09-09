@@ -30,6 +30,7 @@ export default function Hero3D() {
   const [logoVisible, setLogoVisible] = useState(true)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [hasVideo, setHasVideo] = useState(false)
+  const [showCtas, setShowCtas] = useState(false)
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -131,6 +132,15 @@ export default function Hero3D() {
 
   const showHeroContent = phase === 'hero' || phase === 'ready'
 
+  useEffect(() => {
+    if (!showHeroContent) {
+      setShowCtas(false)
+      return
+    }
+    const t = window.setTimeout(() => setShowCtas(true), 5000)
+    return () => window.clearTimeout(t)
+  }, [showHeroContent])
+
   return (
     <section
       ref={sectionRef}
@@ -193,33 +203,54 @@ export default function Hero3D() {
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 className="flex flex-col items-center"
               >
-                <p className="mb-4 text-[10px] uppercase tracking-[0.42em] text-white/45 md:text-xs">
-                  Du code au résultat
-                </p>
+                <h1 className="sr-only">{siteConfig.brand.name}</h1>
 
-                <h1 className="text-3xl font-light leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl">
-                  Votre site,
-                  <span className="mt-1 block bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35] bg-clip-text text-transparent">
-                    votre commercial.
-                  </span>
-                </h1>
+                <AnimatePresence>
+                  {showCtas && (
+                    <motion.div
+                      key="hero-ctas"
+                      initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
+                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                      exit={{ opacity: 0, y: 12 }}
+                      transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+                      className="flex w-full max-w-md sm:max-w-none flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 md:gap-4"
+                    >
+                      <Link href="/devis" className="block sm:inline-block">
+                        <motion.span
+                          whileHover={{ scale: 1.04, y: -2 }}
+                          whileTap={{ scale: 0.97 }}
+                          className="group relative inline-flex w-full sm:w-auto items-center justify-center gap-2 px-7 md:px-9 py-3.5 md:py-4 rounded-full text-sm md:text-base font-medium text-white bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] shadow-[0_12px_40px_rgba(59,130,246,0.35)] hover:shadow-[0_16px_48px_rgba(59,130,246,0.5)] transition-shadow"
+                        >
+                          Simuler un devis
+                          <svg
+                            className="w-4 h-4 transition-transform group-hover:translate-x-0.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M17 8l4 4m0 0l-4 4m4-4H3"
+                            />
+                          </svg>
+                        </motion.span>
+                      </Link>
 
-                <p className="mt-5 max-w-md text-sm font-light leading-relaxed text-white/55 md:text-base">
-                  Du code à la conversion : compétences, expérience claire, site qui vend pour vous.
-                </p>
-
-                <div className="mt-8 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
-                  <Link href="/devis" className="w-full sm:w-auto">
-                    <span className="inline-flex w-full items-center justify-center bg-white px-7 py-3.5 text-sm font-medium text-black md:text-base">
-                      Simuler un devis
-                    </span>
-                  </Link>
-                  <Link href="/contact" className="w-full sm:w-auto">
-                    <span className="inline-flex w-full items-center justify-center border border-white/20 bg-white/[0.06] px-7 py-3.5 text-sm font-light text-white md:text-base">
-                      Me contacter
-                    </span>
-                  </Link>
-                </div>
+                      <Link href="/contact" className="block sm:inline-block">
+                        <motion.span
+                          whileHover={{ scale: 1.04, y: -2 }}
+                          whileTap={{ scale: 0.97 }}
+                          className="inline-flex w-full sm:w-auto items-center justify-center px-7 md:px-9 py-3.5 md:py-4 rounded-full text-sm md:text-base font-light text-white border border-white/25 bg-white/[0.06] hover:bg-white/[0.12] hover:border-white/40 transition-colors"
+                        >
+                          Me contacter
+                        </motion.span>
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             )}
           </motion.div>
