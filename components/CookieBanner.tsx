@@ -146,9 +146,9 @@ export default function CookieBanner() {
                     Respect de votre vie privée
                   </h2>
                   <p id="cookie-desc" className="text-xs md:text-sm text-white/70 leading-relaxed">
-                    Ce site utilise des cookies pour assurer son bon fonctionnement et,
-                    avec votre accord, mesurer son audience. Vous pouvez accepter, refuser
-                    ou personnaliser votre choix à tout moment.{' '}
+                    Ce site utilise des cookies nécessaires au fonctionnement. Aucun cookie
+                    d&apos;audience ni marketing n&apos;est activé pour le moment. Vous pouvez
+                    accepter, refuser ou personnaliser votre choix à tout moment.{' '}
                     <Link
                       href="/politique-confidentialite"
                       className="underline underline-offset-2 hover:text-white transition-colors"

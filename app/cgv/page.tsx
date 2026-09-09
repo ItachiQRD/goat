@@ -201,13 +201,31 @@ export default function CGV() {
 
       <h2>Article 16 — Médiation et litiges</h2>
       <p>
-        En cas de litige, les parties s'engagent à rechercher une solution amiable avant
+        En cas de litige, les parties s&apos;engagent à rechercher une solution amiable avant
         toute action judiciaire.
       </p>
       <p>
-        Conformément à l'article L.616-1 du Code de la consommation, le Client consommateur
-        peut recourir à un médiateur de la consommation. À défaut de règlement amiable, les
-        tribunaux français seront seuls compétents.
+        Conformément aux articles L.611-1 et suivants du Code de la consommation, le Client
+        consommateur peut recourir gratuitement à un médiateur de la consommation en vue de
+        la résolution amiable du litige. Le Prestataire s&apos;engage à indiquer le médiateur
+        auprès duquel il est inscrit dès finalisation de son adhésion (obligation légale pour
+        les professionnels face aux consommateurs).
+      </p>
+      <p>
+        En outre, conformément à l&apos;article 14.1 du règlement (UE) n°524/2013, le Client
+        peut utiliser la plateforme de règlement en ligne des litiges de la Commission
+        européenne&nbsp;:{' '}
+        <a
+          href="https://ec.europa.eu/consumers/odr"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          https://ec.europa.eu/consumers/odr
+        </a>
+        .
+      </p>
+      <p>
+        À défaut de règlement amiable, les tribunaux français seront seuls compétents.
       </p>
 
       <h2>Article 17 — Droit applicable</h2>

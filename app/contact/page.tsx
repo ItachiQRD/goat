@@ -46,10 +46,12 @@ export default function Contact() {
       )
 
       const email = isPlaceholder(contact.email) ? '' : contact.email
-      if (email) {
-        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`
+      if (!email) {
+        setStatus('error')
+        return
       }
 
+      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`
       setStatus('success')
       setTimeout(() => {
         setStatus('idle')

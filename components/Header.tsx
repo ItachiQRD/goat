@@ -182,13 +182,13 @@ export default function Header() {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg overflow-hidden bg-white/[0.04] border border-white/10"
+                className="relative h-10 w-10 md:h-11 md:w-11 flex-shrink-0"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={brand.logoWithout}
                   alt={brand.name}
-                  className="h-full w-full object-contain p-0.5"
+                  className="h-full w-full object-contain"
                 />
               </motion.div>
 

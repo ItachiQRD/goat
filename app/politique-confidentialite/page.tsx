@@ -52,30 +52,24 @@ export default function PolitiqueConfidentialite() {
         <li>Le contenu de votre message</li>
       </ul>
 
-      <h3>3.2 Données techniques (collectées automatiquement)</h3>
-      <ul>
-        <li>Adresse IP (anonymisée)</li>
-        <li>Type et version du navigateur</li>
-        <li>Système d'exploitation</li>
-        <li>Pages visitées et temps passé</li>
-        <li>Référent (site d'où vous venez)</li>
-      </ul>
+      <h3>3.2 Données techniques</h3>
+      <p>
+        Aucun outil d&apos;analytics ni de tracking marketing n&apos;est activé sur ce site
+        à ce jour. L&apos;hébergeur ({legal.hosting.name}) peut toutefois générer des{' '}
+        <strong>logs techniques</strong> (adresse IP, user-agent) strictement nécessaires
+        au fonctionnement, à la sécurité et au diagnostic du service.
+      </p>
 
       <h2>4. Finalités du traitement</h2>
       <p>Vos données sont collectées pour les finalités suivantes&nbsp;:</p>
       <ul>
         <li>
           <strong>Répondre à vos demandes de contact</strong> et établir une relation
-          commerciale (base légale&nbsp;: exécution d'un contrat ou mesures précontractuelles).
+          commerciale (base légale&nbsp;: exécution d&apos;un contrat ou mesures précontractuelles).
         </li>
         <li>
-          <strong>Gérer la relation client</strong> dans le cadre d'une éventuelle
+          <strong>Gérer la relation client</strong> dans le cadre d&apos;une éventuelle
           collaboration (base légale&nbsp;: exécution du contrat).
-        </li>
-        <li>
-          <strong>Améliorer le site et nos services</strong> grâce à des statistiques
-          anonymisées (base légale&nbsp;: votre consentement, retiré à tout moment via
-          le bandeau cookies).
         </li>
         <li>
           <strong>Respecter nos obligations légales et comptables</strong>
@@ -121,10 +115,11 @@ export default function PolitiqueConfidentialite() {
         {' '}<strong>{legal.ownerName}</strong>. Elles ne sont jamais vendues ni cédées
         à des tiers à des fins commerciales.
       </p>
-      <p>Elles peuvent toutefois être communiquées à&nbsp;:</p>
+      <p>
+        Elles peuvent toutefois être communiquées à&nbsp;:
+      </p>
       <ul>
         <li>Notre hébergeur ({legal.hosting.name}) pour le stockage technique</li>
-        <li>Notre prestataire d'envoi d'emails (le cas échéant)</li>
         <li>Les autorités administratives ou judiciaires sur réquisition légale</li>
       </ul>
       <p>
@@ -173,14 +168,16 @@ export default function PolitiqueConfidentialite() {
         Indispensables au fonctionnement du site. Ils mémorisent vos préférences
         techniques (consentement cookies, etc.). Ils ne peuvent être désactivés.
       </p>
-      <h3>9.2 Cookies de mesure d'audience (avec consentement)</h3>
+      <h3>9.2 Cookies de mesure d&apos;audience (avec consentement)</h3>
       <p>
-        Permettent de comprendre comment les visiteurs utilisent le site (pages visitées,
-        durée, source de trafic) afin de l'améliorer. Les données sont anonymisées.
+        <strong>Non utilisés actuellement.</strong> Si un outil d&apos;audience est activé
+        ultérieurement, il ne sera chargé qu&apos;après votre consentement via le bandeau
+        cookies.
       </p>
       <h3>9.3 Cookies marketing (avec consentement)</h3>
       <p>
-        Utilisés pour personnaliser la publicité et mesurer son efficacité.
+        <strong>Non utilisés actuellement.</strong> Aucune publicité ni retargeting n&apos;est
+        en place sur ce site.
       </p>
       <h3>9.4 Gestion de votre consentement</h3>
       <p>

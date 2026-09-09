@@ -110,8 +110,12 @@ export default function Portfolio() {
               </span>
             </h1>
             <p className="text-base md:text-lg text-white/60 font-light max-w-2xl mx-auto leading-relaxed">
-              Une sélection de projets variés. Chaque mission est l'occasion d'apporter
-              une solution sur-mesure à un besoin concret.
+              Une sélection de <strong className="text-white/80 font-medium">typologies de projets</strong>{' '}
+              (exemples illustratifs). Chaque mission réelle fait l&apos;objet d&apos;une
+              solution sur-mesure.
+            </p>
+            <p className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/15 bg-white/[0.04] text-[11px] uppercase tracking-wider text-white/50">
+              Exemples — non nominatifs
             </p>
           </div>
         </ScrollReveal>
@@ -186,12 +190,17 @@ export default function Portfolio() {
                     ))}
                   </div>
 
-                  {/* Résultat */}
-                  <div className="flex items-center gap-2 text-xs md:text-sm pt-3 border-t border-white/[0.06] text-emerald-300/90">
-                    <svg className="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M2 11l3-3 4 4 7-7 2 2-9 9-7-5z" />
-                    </svg>
-                    <span className="font-light">{project.result}</span>
+                  {/* Résultat (exemple) */}
+                  <div className="flex flex-col gap-1 pt-3 border-t border-white/[0.06]">
+                    <span className="text-[10px] uppercase tracking-wider text-white/35">
+                      Exemple illustratif
+                    </span>
+                    <div className="flex items-center gap-2 text-xs md:text-sm text-emerald-300/90">
+                      <svg className="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="M2 11l3-3 4 4 7-7 2 2-9 9-7-5z" />
+                      </svg>
+                      <span className="font-light">{project.result}</span>
+                    </div>
                   </div>
                 </div>
               </div>

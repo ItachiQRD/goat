@@ -305,14 +305,12 @@ export default function Hero3D() {
               }}
               className="flex items-center justify-center"
             >
-              <div className="relative flex h-48 w-48 items-center justify-center overflow-hidden rounded-2xl md:h-56 md:w-56">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={siteConfig.brand.logo}
-                  alt={siteConfig.brand.name}
-                  className="h-full w-full object-contain"
-                />
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={siteConfig.brand.logo}
+                alt={siteConfig.brand.name}
+                className="h-44 w-auto max-w-[min(80vw,22rem)] object-contain md:h-56"
+              />
             </motion.div>
             <button
               type="button"
