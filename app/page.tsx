@@ -448,17 +448,17 @@ export default function Home() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
           >
             {audiences.map((audience, i) => (
-              <ScrollReveal key={i} order={i % 3}>
+              <ScrollReveal key={i} order={i % 3} className="h-full">
                 <div className="group relative h-full">
-                  <div className="relative h-full p-5 md:p-7 rounded-xl md:rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden">
+                  <div className="relative flex h-full flex-col p-5 md:p-7 rounded-xl md:rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.06] transition-all duration-500 overflow-hidden">
                     <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ff6b35]" />
-                    <div className="relative z-10">
+                    <div className="relative z-10 flex flex-1 flex-col">
                       <div className="text-4xl md:text-5xl mb-3 md:mb-5">{audience.emoji}</div>
                       <h3 className="text-lg md:text-xl lg:text-2xl font-medium mb-2 md:mb-3">{audience.title}</h3>
                       <p className="text-sm md:text-base text-white/70 leading-relaxed mb-4 md:mb-5 font-light">
                         {audience.desc}
                       </p>
-                      <div className="flex flex-wrap gap-1.5 md:gap-2 pt-3 border-t border-white/10">
+                      <div className="mt-auto flex flex-wrap gap-1.5 md:gap-2 pt-3 border-t border-white/10">
                         {audience.tags.map((tag, j) => (
                           <span
                             key={j}
@@ -922,21 +922,21 @@ export default function Home() {
                 href: '/contact',
               },
             ].map((card, i) => (
-              <ScrollReveal key={i} order={i}>
+              <ScrollReveal key={i} order={i} className="h-full">
                 <div className="group relative h-full">
                   <Link href={card.href} className="block h-full">
-                    <div className={`relative h-full p-5 md:p-8 rounded-2xl md:rounded-3xl bg-gradient-to-br ${card.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
+                    <div className={`relative flex h-full flex-col p-5 md:p-8 rounded-2xl md:rounded-3xl bg-gradient-to-br ${card.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
                       <div
                         className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
                         style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
                       />
-                      <div className="relative z-10">
+                      <div className="relative z-10 flex flex-1 flex-col">
                         <div className="text-4xl md:text-5xl mb-3 md:mb-5">{card.icon}</div>
                         <h3 className="text-lg md:text-2xl font-medium mb-2 md:mb-3">{card.title}</h3>
                         <p className="text-xs md:text-sm text-white/70 leading-relaxed font-light mb-4 md:mb-6">
                           {card.desc}
                         </p>
-                        <div className="flex items-center gap-2 text-xs md:text-sm font-medium text-white border-t border-white/10 pt-3 md:pt-4">
+                        <div className="mt-auto flex items-center gap-2 text-xs md:text-sm font-medium text-white border-t border-white/10 pt-3 md:pt-4">
                           <span className="truncate">{card.action}</span>
                           <svg className="w-3.5 h-3.5 md:w-4 md:h-4 transition-transform group-hover:translate-x-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />

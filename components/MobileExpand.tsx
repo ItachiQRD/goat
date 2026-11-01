@@ -54,7 +54,7 @@ export default function MobileExpand({
           return (
             <motion.div
               key={i}
-              className={wrapperClass}
+              className={`${wrapperClass} h-full`.trim()}
               initial={overInitialCount && expanded ? { opacity: 0, y: 20 } : false}
               animate={overInitialCount && expanded ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.4, delay: (i - initialCount) * 0.05 }}

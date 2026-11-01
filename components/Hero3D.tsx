@@ -177,7 +177,7 @@ export default function Hero3D() {
 
           <motion.video
             ref={videoRef}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="hero-video absolute inset-0 h-full w-full object-cover"
             style={{ scale: videoScale }}
             src={VIDEO_HERO}
             autoPlay
@@ -191,13 +191,7 @@ export default function Hero3D() {
             aria-hidden="true"
           />
 
-          <div
-            className="absolute inset-0 pointer-events-none z-[3]"
-            style={{
-              background:
-                'linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.35) 42%, rgba(10,10,10,0.45) 100%)',
-            }}
-          />
+          <div className="hero-video-scrim absolute inset-0 pointer-events-none z-[3] bg-[linear-gradient(to_top,rgba(10,10,10,0.92)_0%,rgba(10,10,10,0.35)_42%,rgba(10,10,10,0.45)_100%)]" />
         </div>
 
         <div className="relative z-10 flex h-full flex-col items-center justify-end px-6 pb-20 md:pb-24 text-center">
