@@ -124,9 +124,26 @@ export default function Hero3D() {
   }, [])
 
   useEffect(() => {
+    const el = videoRef.current
+    if (!el) return
+    // muted doit être une propriété DOM, sinon l'autoplay est bloqué
+    el.muted = true
+    el.defaultMuted = true
+    const markReady = () => setHasVideo(true)
+    el.addEventListener('loadeddata', markReady)
+    el.addEventListener('canplay', markReady)
+    if (el.readyState >= 2) markReady()
+    return () => {
+      el.removeEventListener('loadeddata', markReady)
+      el.removeEventListener('canplay', markReady)
+    }
+  }, [])
+
+  useEffect(() => {
     if (phase === 'intro') return
     const el = videoRef.current
-    if (!el || !hasVideo) return
+    if (!el) return
+    el.muted = true
     el.play().catch(() => {})
   }, [phase, hasVideo])
 
@@ -148,7 +165,7 @@ export default function Hero3D() {
       aria-label="Introduction"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <motion.div className="absolute inset-0" style={{ scale: videoScale }}>
+        <div className="absolute inset-0 overflow-hidden">
           <div
             className="absolute inset-0"
             style={{
@@ -158,27 +175,21 @@ export default function Hero3D() {
             aria-hidden="true"
           />
 
-          <motion.div
-            className="absolute inset-0"
-            initial={false}
-            animate={{ opacity: hasVideo && phase !== 'intro' ? 1 : 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <video
-              ref={videoRef}
-              className="absolute inset-0 h-full w-full object-cover"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              onCanPlay={() => setHasVideo(true)}
-              onError={() => setHasVideo(false)}
-              aria-hidden="true"
-            >
-              <source src={VIDEO_HERO} type="video/mp4" />
-            </video>
-          </motion.div>
+          <motion.video
+            ref={videoRef}
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ scale: videoScale }}
+            src={VIDEO_HERO}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            onLoadedData={() => setHasVideo(true)}
+            onCanPlay={() => setHasVideo(true)}
+            onError={() => setHasVideo(false)}
+            aria-hidden="true"
+          />
 
           <div
             className="absolute inset-0 pointer-events-none z-[3]"
@@ -187,7 +198,7 @@ export default function Hero3D() {
                 'linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.35) 42%, rgba(10,10,10,0.45) 100%)',
             }}
           />
-        </motion.div>
+        </div>
 
         <div className="relative z-10 flex h-full flex-col items-center justify-end px-6 pb-20 md:pb-24 text-center">
           <motion.div
