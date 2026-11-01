@@ -312,28 +312,17 @@ body {
   color: #93c5fd;
 }
 
-/* Hero 16:9 : sur un écran plus haut que large (mobile, tablette),
-   on montre tout le cadre au lieu de le recadrer en plein écran. */
-@media (max-aspect-ratio: 3/2) {
-  .hero-video {
-    inset: auto;
-    top: max(4.75rem, calc(50% - min(36vh, (100vw - 1.5rem) * 9 / 32)));
-    left: 0;
-    right: 0;
-    margin-inline: auto;
-    width: min(100% - 1.5rem, calc(72vh * 16 / 9));
-    height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: contain;
-  }
+/* Les bords de la vidéo se fondent dans le fond du hero,
+   plus largement quand l'écran s'éloigne du 16:9. */
+.hero-video-media {
+  -webkit-mask-image: radial-gradient(ellipse 90% 84% at 50% 46%, #000 68%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 84% at 50% 46%, #000 68%, transparent 100%);
+}
 
-  .hero-video-scrim {
-    background: linear-gradient(
-      to top,
-      rgba(10, 10, 10, 0.9) 0%,
-      rgba(10, 10, 10, 0.08) 36%,
-      rgba(10, 10, 10, 0.28) 100%
-    );
+@media (max-width: 1023px), (max-aspect-ratio: 3/2) {
+  .hero-video-media {
+    -webkit-mask-image: radial-gradient(ellipse 108% 74% at 50% 42%, #000 38%, transparent 100%);
+    mask-image: radial-gradient(ellipse 108% 74% at 50% 42%, #000 38%, transparent 100%);
   }
 }
 

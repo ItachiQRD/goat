@@ -14,7 +14,7 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Bonjour ! Je suis une démo simulée — posez une question.",
+      text: 'Bonjour. Dites-moi si vous voulez un site vitrine, une boutique, un délai ou un ordre de prix.',
       sender: 'bot',
       timestamp: new Date(),
     },
@@ -42,15 +42,22 @@ export default function Chat() {
     setTyping(true)
 
     window.setTimeout(() => {
-      const botResponses = [
-        'Merci pour votre message — réponse simulée côté client.',
-        "Bonne question. En prod, ce flux passerait par une API ou un websocket.",
-        'Démo : délai artificiel pour imiter une réponse asynchrone.',
-        'Je note votre demande (simulation locale, sans serveur).',
-      ]
+      const t = text.toLowerCase()
+      const answer =
+        /prix|tarif|budget|devis|co[uû]t/.test(t)
+          ? 'Pour un ordre de grandeur, l’estimateur donne une fourchette. Le devis, lui, part de votre brief.'
+          : /d[eé]lai|temps|semaine|quand/.test(t)
+            ? 'Un site vitrine se livre souvent en 2 à 4 semaines. Une boutique demande un peu plus.'
+            : /boutique|vendre|panier|e-?commerce/.test(t)
+              ? 'Une boutique, c’est un catalogue, un panier et un paiement. La démo « Boutique » en montre le principe.'
+              : /rendez|rdv|appel|cr[eé]neau/.test(t)
+                ? 'On peut poser un appel de 30 minutes. La démo « Rendez-vous » montre comment un client choisit un jour.'
+                : /vitrine|artisan|restaurant|asso/.test(t)
+                  ? 'Un site vitrine présente l’activité, les preuves et un moyen clair de vous contacter.'
+                  : 'Je peux parler budget, délai, boutique ou rendez-vous. Le détail se fait ensuite sur le formulaire de contact.'
       const botMessage: Message = {
         id: idRef.current++,
-        text: botResponses[Math.floor(Math.random() * botResponses.length)],
+        text: answer,
         sender: 'bot',
         timestamp: new Date(),
       }
@@ -72,10 +79,10 @@ export default function Chat() {
         <div className="text-center mb-8">
           <MessageSquare className="w-10 h-10 text-pink-400 mx-auto mb-4" aria-hidden="true" />
           <h1 className="text-3xl md:text-4xl font-light tracking-tight text-white mb-2">
-            Chat simulé
+            Premier contact
           </h1>
           <p className="text-white/60 font-light text-sm md:text-base">
-            Interface de messagerie — réponses asynchrones simulées (pas de serveur temps réel)
+            Les questions qu’un visiteur pose avant de demander un devis
           </p>
         </div>
 
@@ -88,8 +95,8 @@ export default function Chat() {
               <Bot className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <div className="font-medium text-sm">Assistant (démo)</div>
-              <div className="text-xs text-white/70">Simulation locale</div>
+              <div className="font-medium text-sm">Nexus Dev</div>
+              <div className="text-xs text-white/70">Réponses locales, sans serveur</div>
             </div>
           </div>
 
@@ -152,7 +159,7 @@ export default function Chat() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Tapez votre message…"
+                placeholder="Ex. : quel délai pour un site vitrine ?"
                 className="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-pink-500/40"
               />
               <button
@@ -171,9 +178,9 @@ export default function Chat() {
         <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
           <h2 className="text-sm font-medium text-white mb-2">Compétences démontrées</h2>
           <ul className="text-sm text-white/55 font-light space-y-1">
-            <li>• UI conversationnelle et scroll auto</li>
-            <li>• Réponses asynchrones simulées (setTimeout)</li>
-            <li>• État local — pas de websocket / API</li>
+            <li>• Questions orientées devis, délai, boutique ou rendez-vous</li>
+            <li>• Réponse immédiate, sans quitter la page</li>
+            <li>• Le vrai échange continue ensuite par le formulaire</li>
           </ul>
         </div>
       </div>

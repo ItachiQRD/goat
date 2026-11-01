@@ -5,43 +5,43 @@ export default function Exemples() {
   const exemples = [
     {
       icon: <Calculator className="w-8 h-8" />,
-      title: 'Calculateur Interactif',
-      description: 'Démonstration de logique métier et calculs en temps réel',
+      title: 'Estimateur de projet',
+      description: 'Fourchette de budget selon le type de site, les pages et les options',
       href: '/exemples/calculateur',
       color: 'from-blue-500 to-blue-700',
     },
     {
       icon: <Database className="w-8 h-8" />,
-      title: 'Gestion de Données',
-      description: 'CRUD complet avec stockage local et validation',
+      title: 'Catalogue de prestations',
+      description: 'Ajoutez, modifiez et filtrez les offres affichées sur un site',
       href: '/exemples/gestion-donnees',
       color: 'from-green-500 to-green-700',
     },
     {
       icon: <BarChart3 className="w-8 h-8" />,
-      title: 'Visualisation de Données',
-      description: 'Graphiques interactifs et tableaux de bord',
+      title: 'Activité du site',
+      description: 'Visites, tendance et lecture simple des chiffres du mois',
       href: '/exemples/visualisation',
       color: 'from-purple-500 to-purple-700',
     },
     {
       icon: <ShoppingCart className="w-8 h-8" />,
-      title: 'Panier E-commerce',
-      description: "Système de panier avec calculs et gestion d'état",
+      title: 'Boutique en ligne',
+      description: 'Panier, quantités et total TTC, comme sur une vraie boutique',
       href: '/exemples/panier',
       color: 'from-orange-500 to-orange-700',
     },
       {
       icon: <MessageSquare className="w-8 h-8" />,
-      title: 'Chat simulé',
-      description: 'Interface de messagerie avec réponses asynchrones simulées',
+      title: 'Premier contact',
+      description: 'Un assistant qui oriente vers un devis, un délai ou un rendez-vous',
       href: '/exemples/chat',
       color: 'from-pink-500 to-pink-700',
     },
     {
       icon: <Calendar className="w-8 h-8" />,
-      title: 'Calendrier Interactif',
-      description: "Gestion d'événements et planification",
+      title: 'Prise de rendez-vous',
+      description: 'Créneaux à poser dans le mois, comme un appel découverte',
       href: '/exemples/calendrier',
       color: 'from-indigo-500 to-indigo-700',
     },
@@ -58,7 +58,7 @@ export default function Exemples() {
             </span>
           </h1>
           <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto font-light leading-relaxed">
-            Démos concrètes : logique métier, données, e-commerce, chat et plus.
+            Démos proches d’un vrai projet : devis, vitrine, boutique, rendez-vous.
           </p>
         </div>
 
@@ -91,10 +91,10 @@ export default function Exemples() {
         <div className="mt-14 md:mt-16 text-center">
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 md:p-12">
             <h2 className="text-2xl md:text-3xl font-light text-white mb-3">
-              Ces démos montrent mon savoir-faire
+              Ce que vos visiteurs peuvent faire
             </h2>
             <p className="text-base text-white/60 font-light mb-8 max-w-2xl mx-auto leading-relaxed">
-              Chaque exemple illustre une facette du développement : logique, état, UX, données.
+              Estimer un budget, réserver un appel, acheter, suivre l’activité du site.
             </p>
             <Link
               href="/contact"

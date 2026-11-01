@@ -10,7 +10,7 @@ interface Item {
   category: string
 }
 
-const STORAGE_KEY = 'demo-items'
+const STORAGE_KEY = 'demo-prestations'
 
 export default function GestionDonnees() {
   const [items, setItems] = useState<Item[]>([])
@@ -39,7 +39,7 @@ export default function GestionDonnees() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
   }, [items, hydrated])
 
-  const categories = ['Travail', 'Personnel', 'Urgent']
+  const categories = ['Site vitrine', 'Boutique', 'Sur-mesure']
 
   const addItem = () => {
     if (!formData.name.trim()) return
@@ -92,16 +92,16 @@ export default function GestionDonnees() {
         <div className="text-center mb-8">
           <Database className="w-10 h-10 text-emerald-400 mx-auto mb-4" aria-hidden="true" />
           <h1 className="text-3xl md:text-4xl font-light tracking-tight text-white mb-2">
-            Gestion de données (CRUD)
+            Catalogue de prestations
           </h1>
           <p className="text-white/60 font-light text-sm md:text-base">
-            Création, lecture, mise à jour et suppression avec stockage local
+            Les offres affichées sur le site : ajout, modification, filtre
           </p>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6 mb-5">
           <h2 className="text-lg font-light text-white mb-4">
-            {editingId ? "Modifier l'élément" : 'Ajouter un élément'}
+            {editingId ? 'Modifier la prestation' : 'Ajouter une prestation'}
           </h2>
           <div className="space-y-4">
             <div>
@@ -114,7 +114,7 @@ export default function GestionDonnees() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className={fieldClass}
-                placeholder="Nom de l'élément"
+                placeholder="Ex. : Site vitrine 5 pages"
               />
             </div>
             <div>
@@ -127,7 +127,7 @@ export default function GestionDonnees() {
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 className={fieldClass}
                 rows={3}
-                placeholder="Description..."
+                placeholder="Ce que le client obtient"
               />
             </div>
             <div>

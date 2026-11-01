@@ -166,18 +166,19 @@ export default function Hero3D() {
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[#07080d]" aria-hidden="true" />
           <div
-            className="absolute inset-0"
+            className="absolute -inset-10 blur-3xl"
             style={{
               background:
-                'radial-gradient(ellipse 70% 55% at 50% 40%, rgba(59,130,246,0.14) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 70% 75%, rgba(139,92,246,0.12) 0%, transparent 50%), #0a0a0a',
+                'radial-gradient(ellipse 50% 42% at 50% 46%, rgba(36, 48, 78, 0.85) 0%, rgba(16, 18, 28, 0.35) 58%, transparent 78%)',
             }}
             aria-hidden="true"
           />
 
           <motion.video
             ref={videoRef}
-            className="hero-video absolute inset-0 h-full w-full object-cover"
+            className="hero-video-media absolute inset-0 h-full w-full object-cover"
             style={{ scale: videoScale }}
             src={VIDEO_HERO}
             autoPlay
@@ -191,7 +192,7 @@ export default function Hero3D() {
             aria-hidden="true"
           />
 
-          <div className="hero-video-scrim absolute inset-0 pointer-events-none z-[3] bg-[linear-gradient(to_top,rgba(10,10,10,0.92)_0%,rgba(10,10,10,0.35)_42%,rgba(10,10,10,0.45)_100%)]" />
+          <div className="absolute inset-0 pointer-events-none z-[3] bg-[linear-gradient(to_top,rgba(10,10,10,0.92)_0%,rgba(10,10,10,0.35)_42%,rgba(10,10,10,0.45)_100%)]" />
         </div>
 
         <div className="relative z-10 flex h-full flex-col items-center justify-end px-6 pb-20 md:pb-24 text-center">

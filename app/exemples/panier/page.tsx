@@ -13,9 +13,9 @@ interface CartItem {
 
 export default function Panier() {
   const [cart, setCart] = useState<CartItem[]>([
-    { id: 1, name: 'Laptop Pro', price: 1299, quantity: 1, image: '💻' },
-    { id: 2, name: 'Souris Sans Fil', price: 49, quantity: 2, image: '🖱️' },
-    { id: 3, name: 'Clavier Mécanique', price: 129, quantity: 1, image: '⌨️' },
+    { id: 1, name: 'Sérum visage 30 ml', price: 32, quantity: 1, image: '✨' },
+    { id: 2, name: 'Bougie artisanale', price: 18, quantity: 2, image: '🕯️' },
+    { id: 3, name: 'Coffret découverte', price: 46, quantity: 1, image: '🎁' },
   ])
   const [ordered, setOrdered] = useState(false)
 
@@ -47,10 +47,10 @@ export default function Panier() {
         <div className="text-center mb-8">
           <ShoppingCart className="w-10 h-10 text-[#ff6b35] mx-auto mb-4" aria-hidden="true" />
           <h1 className="text-3xl md:text-4xl font-light tracking-tight text-white mb-2">
-            Panier e-commerce
+            Boutique en ligne
           </h1>
           <p className="text-white/60 font-light text-sm md:text-base">
-            Quantités, totaux et TVA — démo sans paiement réel
+            Le panier d’une petite marque : quantités, total et TVA, sans paiement réel
           </p>
         </div>
 

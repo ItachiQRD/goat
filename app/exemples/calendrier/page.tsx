@@ -19,19 +19,19 @@ function makeRelativeEvents(): Event[] {
   return [
     {
       id: 1,
-      title: 'Réunion équipe',
+      title: 'Appel découverte',
       date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2),
       time: '10:00',
     },
     {
       id: 2,
-      title: 'Présentation client',
+      title: 'Revue des maquettes',
       date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5),
       time: '14:30',
     },
     {
       id: 3,
-      title: 'Point projet',
+      title: 'Point d’avancement',
       date: today,
       time: '09:00',
     },
@@ -112,10 +112,10 @@ export default function Calendrier() {
         <div className="text-center mb-8">
           <CalIcon className="w-10 h-10 text-[#8b5cf6] mx-auto mb-4" aria-hidden="true" />
           <h1 className="text-3xl md:text-4xl font-light tracking-tight text-white mb-2">
-            Calendrier interactif
+            Prise de rendez-vous
           </h1>
           <p className="text-white/60 font-light text-sm md:text-base">
-            Planification et gestion d&apos;événements
+            Un client choisit un jour et pose un appel dans le mois
           </p>
         </div>
 
@@ -227,7 +227,7 @@ export default function Calendrier() {
                       type="text"
                       value={draftTitle}
                       onChange={(e) => setDraftTitle(e.target.value)}
-                      placeholder="Titre"
+                      placeholder="Motif du rendez-vous"
                       className="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-white text-sm placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-[#8b5cf6]/40"
                     />
                     <input

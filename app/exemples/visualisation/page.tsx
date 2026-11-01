@@ -10,12 +10,12 @@ interface DataPoint {
 
 export default function Visualisation() {
   const [data] = useState<DataPoint[]>([
-    { month: 'Jan', value: 45 },
-    { month: 'Fév', value: 52 },
-    { month: 'Mar', value: 48 },
-    { month: 'Avr', value: 61 },
-    { month: 'Mai', value: 55 },
-    { month: 'Jun', value: 67 },
+    { month: 'Jan', value: 820 },
+    { month: 'Fév', value: 910 },
+    { month: 'Mar', value: 860 },
+    { month: 'Avr', value: 1040 },
+    { month: 'Mai', value: 980 },
+    { month: 'Jun', value: 1210 },
   ])
 
   const maxValue = Math.max(...data.map((d) => d.value))
@@ -28,21 +28,21 @@ export default function Visualisation() {
         <div className="text-center mb-8">
           <BarChart3 className="w-10 h-10 text-[#8b5cf6] mx-auto mb-4" aria-hidden="true" />
           <h1 className="text-3xl md:text-4xl font-light tracking-tight text-white mb-2">
-            Visualisation de données
+            Activité du site
           </h1>
           <p className="text-white/60 font-light text-sm md:text-base">
-            Graphiques et indicateurs avec calculs statistiques
+            Visites des six derniers mois, moyenne et tendance
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-            <div className="text-xs text-white/45 mb-1">Valeur maximale</div>
+            <div className="text-xs text-white/45 mb-1">Meilleur mois</div>
             <div className="text-3xl font-light text-white">{maxValue}</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-            <div className="text-xs text-white/45 mb-1">Moyenne</div>
-            <div className="text-3xl font-light text-white">{average.toFixed(1)}</div>
+            <div className="text-xs text-white/45 mb-1">Visites / mois</div>
+            <div className="text-3xl font-light text-white">{Math.round(average).toLocaleString('fr-FR')}</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
             <div className="text-xs text-white/45 mb-1">Tendance</div>
