@@ -167,20 +167,17 @@ export default function Hero3D() {
             <video
               ref={videoRef}
               className="absolute inset-0 h-full w-full object-cover"
-              src={VIDEO_HERO}
               autoPlay
-			  loop
-			  muted
-			  playsInline
-			  className="w-full h-full object-cover"
-			>
-			  <source src="/hero-videos/hero.mp4" type="video/mp4" />
-			  Votre navigateur ne supporte pas la lecture de cette vidéo.
+              loop
+              muted
+              playsInline
               preload="auto"
               onCanPlay={() => setHasVideo(true)}
               onError={() => setHasVideo(false)}
               aria-hidden="true"
-            />
+            >
+              <source src={VIDEO_HERO} type="video/mp4" />
+            </video>
           </motion.div>
 
           <div
