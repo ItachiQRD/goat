@@ -6,7 +6,7 @@ import GlowEffect from '@/components/GlowEffect'
 
 export default function DevisPage() {
   return (
-    <div className="min-h-screen bg-transparent pt-28 md:pt-32 pb-12 px-4 md:px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-transparent pt-28 md:pt-32 pb-12 px-4 md:px-6 relative overflow-x-hidden">
       <GlowEffect intensity={0.3} color="rgba(59, 130, 246, 0.2)" />
 
       <div

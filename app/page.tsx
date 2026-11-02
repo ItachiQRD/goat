@@ -492,11 +492,11 @@ export default function Home() {
               <span className="text-[10px] md:text-xs uppercase tracking-widest text-white/60 text-right">Comment ça se passe</span>
             </div>
             <div className="max-w-4xl mb-10 md:mb-16 lg:mb-20">
-              <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1.05] tracking-tight md:tracking-normal mb-5 md:mb-6">
-                <SplitText wordGap="mr-[0.28em] md:mr-[0.42em] lg:mr-[0.55em]">
+              <h2 className="mb-5 text-4xl font-light leading-[1.05] tracking-tight sm:text-5xl md:mb-6 md:text-7xl lg:text-8xl">
+                <SplitText wordGap="mr-[0.22em] md:mr-[0.28em] lg:mr-[0.32em]">
                   De l’idée au site
                 </SplitText>
-                <span className="mt-2 block bg-gradient-to-r from-white to-[#3b82f6] bg-clip-text text-transparent [word-spacing:0.12em] md:mt-4 md:[word-spacing:0.28em] lg:mt-5">
+                <span className="mt-1 block bg-gradient-to-r from-white to-[#3b82f6] bg-clip-text text-transparent md:mt-2 lg:mt-3 lg:[word-spacing:0.08em]">
                   en 4 étapes
                 </span>
               </h2>

@@ -47,6 +47,7 @@ export default function QuoteBot() {
   const [isDone, setIsDone] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const msgCounter = useRef(0)
+  const botRun = useRef(0)
 
   const newId = () => `msg-${++msgCounter.current}`
 
@@ -63,19 +64,24 @@ export default function QuoteBot() {
   // Add bot messages with typing delay
   const addBotMessages = useCallback(
     async (texts: string[], thenStep?: number) => {
+      const run = ++botRun.current
+      const alive = () => botRun.current === run
+
       for (let i = 0; i < texts.length; i++) {
+        if (!alive()) return
         setIsTyping(true)
         await delay(Math.min(600 + texts[i].length * 8, 1800))
-        setIsTyping(false)
+        if (!alive()) return
         setMessages((prev) => [
           ...prev,
           { id: newId(), role: 'bot', text: texts[i], timestamp: Date.now() },
         ])
-        await delay(200)
+        if (i < texts.length - 1) await delay(280)
       }
-      if (thenStep !== undefined) {
-        setCurrentStep(thenStep)
-      }
+
+      if (!alive()) return
+      setIsTyping(false)
+      if (thenStep !== undefined) setCurrentStep(thenStep)
     },
     []
   )
@@ -187,7 +193,7 @@ export default function QuoteBot() {
   const showOptions = currentQuestion && !isTyping
 
   return (
-    <div className="flex flex-col h-[calc(100vh-10rem)] md:h-[calc(100vh-12rem)] max-h-[800px] rounded-2xl md:rounded-3xl overflow-hidden bg-[#0f0f0f] border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+    <div className="flex h-[calc(100dvh-21rem)] max-h-[800px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0f0f0f] shadow-[0_20px_60px_rgba(0,0,0,0.5)] sm:h-[calc(100dvh-18rem)] md:h-[calc(100dvh-14rem)] md:rounded-3xl">
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.08] bg-[#0a0a0a]">
         <div className="flex items-center gap-3">
@@ -269,10 +275,10 @@ export default function QuoteBot() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3 }}
-            className="border-t border-white/[0.08] p-4 md:p-5 bg-[#0a0a0a]/80 backdrop-blur-xl"
+            className="flex min-h-0 max-h-[62%] shrink flex-col overflow-hidden border-t border-white/[0.08] bg-[#0a0a0a]/80 backdrop-blur-xl"
           >
             {currentQuestion.type === 'single' ? (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 overflow-y-auto p-4 md:p-5">
                 {currentQuestion.options.map((opt) => (
                   <motion.button
                     key={opt.id}
@@ -298,8 +304,8 @@ export default function QuoteBot() {
                 ))}
               </div>
             ) : (
-              <div className="space-y-3">
-                <div className="flex flex-wrap gap-2">
+              <div className="flex min-h-0 flex-1 flex-col">
+                <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-4 sm:flex-row sm:flex-wrap md:p-5 md:pb-3">
                   {currentQuestion.options.map((opt) => {
                     const selected = multiSelect.includes(opt.id)
                     return (
@@ -307,7 +313,7 @@ export default function QuoteBot() {
                         key={opt.id}
                         whileTap={{ scale: 0.97 }}
                         onClick={() => toggleMulti(opt.id)}
-                        className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-left transition-all text-sm ${
+                        className={`flex w-full items-center gap-2 rounded-xl border px-3.5 py-2 text-left text-sm transition-all sm:w-auto ${
                           selected
                             ? 'bg-[#3b82f6]/15 border-[#3b82f6]/40 text-white'
                             : 'bg-white/[0.03] border-white/10 text-white/80 hover:bg-white/[0.06]'
@@ -328,15 +334,17 @@ export default function QuoteBot() {
                     )
                   })}
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={confirmMulti}
-                  className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] text-white text-sm font-medium hover:shadow-[0_8px_24px_rgba(59,130,246,0.3)] transition-shadow"
-                >
-                  Valider ma sélection
-                  <ArrowRight className="w-4 h-4" />
-                </motion.button>
+                <div className="shrink-0 border-t border-white/[0.06] p-4 pt-3 md:p-5">
+                  <motion.button
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={confirmMulti}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] px-5 py-3 text-sm font-medium text-white hover:shadow-[0_8px_24px_rgba(59,130,246,0.3)] transition-shadow"
+                  >
+                    Valider ma sélection
+                    <ArrowRight className="w-4 h-4" />
+                  </motion.button>
+                </div>
               </div>
             )}
           </motion.div>
