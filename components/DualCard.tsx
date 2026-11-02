@@ -40,7 +40,7 @@ export default function DualCard({
       className="group relative h-full"
     >
       <div
-        className={`relative h-full min-h-[460px] md:min-h-[520px] rounded-2xl md:rounded-3xl backdrop-blur-xl bg-gradient-to-br ${gradient} border border-white/10 overflow-hidden transition-all duration-500 group-hover:border-white/30`}
+        className={`relative h-full md:min-h-[520px] rounded-2xl md:rounded-3xl backdrop-blur-xl bg-gradient-to-br ${gradient} border border-white/10 overflow-hidden transition-all duration-500 group-hover:border-white/30`}
       >
         {/* Effet de brillance au hover */}
         <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-gradient-to-r from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -87,7 +87,7 @@ export default function DualCard({
 
           {/* Illustration optionnelle */}
           {illustration && (
-            <div className="relative mb-5 md:mb-6 rounded-xl md:rounded-2xl overflow-hidden bg-black/20 border border-white/5 aspect-[16/9]">
+            <div className="relative mb-5 hidden overflow-hidden rounded-xl border border-white/5 bg-black/20 aspect-[16/9] md:mb-6 md:block md:rounded-2xl">
               {illustration}
             </div>
           )}

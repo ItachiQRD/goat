@@ -11,6 +11,7 @@ import {
 } from 'framer-motion'
 import { siteConfig } from '@/lib/siteConfig'
 import { startLenis, stopLenis } from '@/lib/lenisBridge'
+import HeroCompact from '@/components/HeroCompact'
 
 type Phase = 'intro' | 'hero' | 'ready'
 
@@ -140,9 +141,26 @@ export default function Hero3D() {
   }, [])
 
   useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1280px)')
+    const sync = () => {
+      const el = videoRef.current
+      if (!el) return
+      if (!mq.matches) {
+        el.pause()
+        setHasVideo(false)
+        return
+      }
+      el.load()
+    }
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
+
+  useEffect(() => {
     if (phase === 'intro') return
     const el = videoRef.current
     if (!el) return
+    if (!window.matchMedia('(min-width: 1280px)').matches) return
     el.muted = true
     el.play().catch(() => {})
   }, [phase, hasVideo])
@@ -178,19 +196,22 @@ export default function Hero3D() {
 
           <motion.video
             ref={videoRef}
-            className="hero-video-media absolute inset-0 h-full w-full object-cover"
+            className="hero-video-media absolute inset-0 hidden h-full w-full object-cover xl:block"
             style={{ scale: videoScale }}
-            src={VIDEO_HERO}
             autoPlay
             loop
             muted
             playsInline
-            preload="auto"
+            preload="metadata"
             onLoadedData={() => setHasVideo(true)}
             onCanPlay={() => setHasVideo(true)}
             onError={() => setHasVideo(false)}
             aria-hidden="true"
-          />
+          >
+            <source src={VIDEO_HERO} type="video/mp4" media="(min-width: 1280px)" />
+          </motion.video>
+
+          <HeroCompact />
 
           <div className="absolute inset-0 pointer-events-none z-[3] bg-[linear-gradient(to_top,rgba(10,10,10,0.92)_0%,rgba(10,10,10,0.35)_42%,rgba(10,10,10,0.45)_100%)]" />
         </div>
@@ -281,7 +302,7 @@ export default function Hero3D() {
         </div>
 
         {!hasVideo && showHeroContent && (
-          <p className="pointer-events-none absolute left-5 bottom-5 z-20 text-[10px] tracking-wide text-white/25">
+          <p className="pointer-events-none absolute left-5 bottom-5 z-20 hidden text-[10px] tracking-wide text-white/25 xl:block">
             Placez hero.mp4 dans /public/hero-videos
           </p>
         )}

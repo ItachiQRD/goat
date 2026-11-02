@@ -257,12 +257,12 @@ export default function Home() {
   ]
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-transparent text-white overflow-x-clip relative">
+    <div ref={containerRef} className="home-flow min-h-screen bg-transparent text-white overflow-x-clip relative">
       {/* ====== HERO ====== */}
       <Hero3D />
 
       {/* ====== POURQUOI UN BON SITE ? ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="pourquoi" from="bottom">
+      <RisingSection className="py-20 md:py-24 lg:py-32 px-5 md:px-6" id="pourquoi" from="bottom">
         <ParallaxBackground speed={0.3}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#3b82f6]/5 to-transparent" />
         </ParallaxBackground>
@@ -291,7 +291,7 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-4">
             {[
               { stat: '75%', label: 'des utilisateurs jugent la crédibilité d\'une entreprise sur son site', color: 'from-blue-500/20 to-cyan-500/20', icon: '🎯', from: 'left' as const },
               { stat: '3s', label: 'maximum pour qu\'un visiteur attende avant de partir', color: 'from-yellow-500/20 to-orange-500/20', icon: '⏱️', from: 'bottom' as const },
@@ -334,7 +334,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== MES SERVICES ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="services" from="left">
+      <RisingSection className="py-20 md:py-24 lg:py-32 px-5 md:px-6" id="services" from="left">
         <ParallaxBackground speed={0.4}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8b5cf6]/5 to-transparent" />
         </ParallaxBackground>
@@ -363,7 +363,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="inline-flex items-center gap-2 mb-8 md:mb-12 px-3 md:px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[11px] md:text-xs text-white/70"
+              className="mb-8 hidden items-center gap-2 px-3 py-2 text-[11px] text-white/70 md:mb-12 md:inline-flex md:px-4 md:text-xs rounded-full bg-white/5 border border-white/10"
             >
               <svg className="w-3.5 h-3.5 md:w-4 md:h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -374,11 +374,11 @@ export default function Home() {
 
           {/* Cartes services - 3 visibles sur mobile, le reste accessible via "Voir plus" */}
           <MobileExpand
-            initialCount={3}
-            expandFrom="md"
+            initialCount={2}
+            expandFrom="lg"
             showMoreLabel="Voir tous les services"
             showLessLabel="Réduire"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {services.map((service, i) => (
               <DualCard
@@ -413,7 +413,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== POUR QUI ? ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="pour-qui" from="right">
+      <RisingSection className="py-20 md:py-24 lg:py-32 px-5 md:px-6" id="pour-qui" from="right">
         <ParallaxBackground speed={0.3}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ff6b35]/5 to-transparent" />
         </ParallaxBackground>
@@ -441,11 +441,11 @@ export default function Home() {
 
           {/* Audiences - 3 visibles mobile, "Voir plus" pour le reste */}
           <MobileExpand
-            initialCount={3}
-            expandFrom="md"
+            initialCount={2}
+            expandFrom="lg"
             showMoreLabel="Voir tous les profils"
             showLessLabel="Réduire"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {audiences.map((audience, i) => (
               <ScrollReveal key={i} order={i % 3} className="h-full">
@@ -478,7 +478,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== COMMENT ÇA SE PASSE ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="processus" from="bottom">
+      <RisingSection className="py-20 md:py-24 lg:py-32 px-5 md:px-6" id="processus" from="bottom">
         <ParallaxBackground speed={0.4}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#3b82f6]/5 to-transparent" />
         </ParallaxBackground>
@@ -492,9 +492,11 @@ export default function Home() {
               <span className="text-[10px] md:text-xs uppercase tracking-widest text-white/60 text-right">Comment ça se passe</span>
             </div>
             <div className="max-w-4xl mb-10 md:mb-16 lg:mb-20">
-              <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1] tracking-tight mb-5 md:mb-6">
-                <SplitText>De l’idée au site</SplitText>
-                <span className="block bg-gradient-to-r from-white to-[#3b82f6] bg-clip-text text-transparent mt-1 md:mt-2">
+              <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light leading-[1.05] tracking-tight md:tracking-normal mb-5 md:mb-6">
+                <SplitText wordGap="mr-[0.28em] md:mr-[0.42em] lg:mr-[0.55em]">
+                  De l’idée au site
+                </SplitText>
+                <span className="mt-2 block bg-gradient-to-r from-white to-[#3b82f6] bg-clip-text text-transparent [word-spacing:0.12em] md:mt-4 md:[word-spacing:0.28em] lg:mt-5">
                   en 4 étapes
                 </span>
               </h2>
@@ -519,7 +521,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== STACK TECHNIQUE ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="stack" from="scale">
+      <RisingSection className="py-20 md:py-24 lg:py-32 px-5 md:px-6" id="stack" from="scale">
         <ParallaxBackground speed={0.4}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8b5cf6]/5 to-transparent" />
         </ParallaxBackground>
@@ -547,8 +549,28 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            {techCategories.map((cat, i) => (
+          <MobileExpand
+            initialCount={2}
+            expandFrom="lg"
+            showMoreLabel="Voir la suite"
+            showLessLabel="Réduire"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            {techCategories.map((cat, i) => {
+              const renderTechChips = () => (
+                <div className="flex flex-wrap gap-1.5 md:gap-2">
+                  {cat.techs.map((tech, j) => (
+                    <span
+                      key={j}
+                      className="px-2.5 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg text-[11px] md:text-xs font-mono bg-black/30 border border-white/10 text-white/80"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              )
+
+              return (
               <ScrollReveal key={i} order={i}>
                 <div className="group relative h-full">
                   <div className={`relative h-full p-5 md:p-8 rounded-2xl md:rounded-3xl bg-gradient-to-br ${cat.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
@@ -568,31 +590,32 @@ export default function Home() {
                           </p>
                         </div>
                       </div>
-                      <div className="h-px bg-gradient-to-r from-white/20 to-transparent mb-3 md:mb-5" />
-                      <div className="text-[10px] md:text-xs uppercase tracking-widest text-white/40 mb-2 md:mb-3">
-                        Technos utilisées
-                      </div>
-                      <div className="flex flex-wrap gap-1.5 md:gap-2">
-                        {cat.techs.map((tech, j) => (
-                          <span
-                            key={j}
-                            className="px-2.5 md:px-3 py-1 md:py-1.5 rounded-md md:rounded-lg text-[11px] md:text-xs font-mono bg-black/30 border border-white/10 text-white/80"
-                          >
-                            {tech}
-                          </span>
-                        ))}
+                      <details className="group mt-4 border-t border-white/15 pt-3 lg:hidden">
+                        <summary className="flex cursor-pointer list-none items-center justify-between text-[11px] uppercase tracking-widest text-white/50 [&::-webkit-details-marker]:hidden">
+                          Voir les outils
+                          <span className="text-base leading-none transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+                        </summary>
+                        <div className="mt-3">{renderTechChips()}</div>
+                      </details>
+                      <div className="hidden lg:block">
+                        <div className="mb-5 h-px bg-gradient-to-r from-white/20 to-transparent" />
+                        <div className="mb-3 text-xs uppercase tracking-widest text-white/40">
+                          Technos utilisées
+                        </div>
+                        {renderTechChips()}
                       </div>
                     </div>
                   </div>
                 </div>
               </ScrollReveal>
-            ))}
-          </div>
+              )
+            })}
+          </MobileExpand>
         </div>
       </RisingSection>
 
       {/* ====== RÉSULTATS / STATS ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" from="left">
+      <RisingSection className="py-20 md:py-24 lg:py-32 px-5 md:px-6" from="left">
         <ParallaxBackground speed={0.5}>
           <div className="absolute inset-0">
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3b82f6]/15 rounded-full blur-3xl" />
@@ -615,7 +638,7 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-4">
             {[
               { value: 100, suffix: '/100', label: 'Score Lighthouse', desc: 'Performance Google maximale', color: 'from-yellow-500 to-orange-500' },
               { value: 1.2, suffix: 's', label: 'Temps de chargement', desc: 'Plus rapide que 90% des sites', color: 'from-blue-500 to-cyan-500', decimals: 1 },
@@ -645,7 +668,11 @@ export default function Home() {
 
           {/* Comparatif visuel - refait pour mobile */}
           <ScrollReveal delay={0.3}>
-            <div className="mt-12 md:mt-20 max-w-4xl mx-auto">
+            <details className="group/compare mt-12 md:mt-20 max-w-4xl mx-auto">
+              <summary className="mx-auto flex w-fit cursor-pointer list-none items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-light text-white lg:hidden [&::-webkit-details-marker]:hidden">
+                Comparer avec un site classique
+              </summary>
+              <div className="mt-6 hidden group-open/compare:block lg:mt-0 lg:block">
               <div className="p-5 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl bg-gradient-to-br from-white/[0.04] to-white/[0.02] border border-white/10">
                 <h3 className="text-xl md:text-2xl lg:text-3xl font-light text-center mb-8 md:mb-10 leading-tight">
                   Site classique <span className="text-white/40">vs</span>{' '}
@@ -700,13 +727,14 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-            </div>
+              </div>
+            </details>
           </ScrollReveal>
         </div>
       </RisingSection>
 
       {/* ====== À PROPOS ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="a-propos" from="right">
+      <RisingSection className="py-20 md:py-24 lg:py-32 px-5 md:px-6" id="a-propos" from="right">
         <ParallaxBackground speed={0.5}>
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8b5cf6]/5 to-transparent" />
@@ -792,7 +820,7 @@ export default function Home() {
           </div>
 
           {/* Tech tags - Carousel */}
-          <ScrollReveal delay={0.3}>
+          <ScrollReveal delay={0.3} className="hidden lg:block">
             <div className="relative pt-8 md:pt-12 border-t border-white/10">
               <div className="text-center mb-5 md:mb-8">
                 <div className="text-[10px] md:text-xs uppercase tracking-widest text-white/40 mb-2 md:mb-3">
@@ -833,7 +861,7 @@ export default function Home() {
       </RisingSection>
 
       {/* ====== CONTACT ====== */}
-      <RisingSection className="py-16 md:py-24 lg:py-32 px-5 md:px-6" id="contact" from="bottom">
+      <RisingSection className="py-20 md:py-24 lg:py-32 px-5 md:px-6" id="contact" from="bottom">
         <ParallaxBackground speed={0.6}>
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#3b82f6]/5 to-transparent" />

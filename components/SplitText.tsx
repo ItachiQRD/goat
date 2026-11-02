@@ -7,9 +7,16 @@ interface SplitTextProps {
   children: string
   className?: string
   delay?: number
+  /** Marge entre les mots. En em pour suivre la taille du titre. */
+  wordGap?: string
 }
 
-export default function SplitText({ children, className = '', delay = 0 }: SplitTextProps) {
+export default function SplitText({
+  children,
+  className = '',
+  delay = 0,
+  wordGap = 'mr-[0.25em]',
+}: SplitTextProps) {
   const [isInView, setIsInView] = useState(false)
   const ref = useRef<HTMLSpanElement>(null)
 
@@ -39,7 +46,7 @@ export default function SplitText({ children, className = '', delay = 0 }: Split
   return (
     <span ref={ref} className={`inline-block ${className}`}>
       {words.map((word, index) => (
-        <span key={index} className="inline-block mr-2">
+        <span key={index} className={`inline-block ${wordGap}`}>
           {word.split('').map((char, charIndex) => (
             <motion.span
               key={charIndex}

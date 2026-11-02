@@ -163,7 +163,7 @@ function TimelineStep({ step, index, progress, total }: TimelineStepProps) {
           {step.simple}
         </p>
         <div
-          className={`flex flex-wrap gap-1.5 md:gap-2 ${
+          className={`hidden flex-wrap gap-1.5 md:gap-2 lg:flex ${
             alignToRight ? 'md:justify-end' : ''
           }`}
         >

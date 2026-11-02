@@ -312,6 +312,19 @@ body {
   color: #93c5fd;
 }
 
+/* Sur téléphone et tablette, chaque section de l'accueil est un bloc distinct. */
+@media (max-width: 1023px) {
+  .home-flow > section + section {
+    margin-top: 1.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.07), transparent 6rem);
+  }
+
+  .home-flow > section:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.045);
+  }
+}
+
 /* Les bords de la vidéo se fondent dans le fond du hero,
    plus largement quand l'écran s'éloigne du 16:9. */
 .hero-video-media {
