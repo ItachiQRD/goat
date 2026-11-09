@@ -10,7 +10,7 @@
 export const siteConfig = {
   // ─── IDENTITÉ ─────────────────────────────────────────
   brand: {
-    name: 'Nexus Dev',
+    name: 'EQ DEV',
     tagline: 'Sites web modernes et applications sur-mesure',
     description:
       "Développeur full-stack indépendant. Je crée des sites web modernes, rapides et efficaces qui boostent votre visibilité en ligne.",
@@ -80,12 +80,12 @@ export const siteConfig = {
 
   // ─── SEO ─────────────────────────────────────────────
   seo: {
-    defaultTitle: 'Nexus Dev - Développement web sur-mesure',
-    titleTemplate: '%s | Nexus Dev',
+    defaultTitle: 'EQ DEV - Développement web sur-mesure',
+    titleTemplate: '%s | EQ DEV',
     defaultDescription:
       "Développeur full-stack indépendant. Sites web, e-commerce, applications. Performance, SEO et design sur-mesure.",
     keywords: [
-      'Nexus Dev',
+      'EQ DEV',
       'développeur web freelance',
       'création site internet',
       'site vitrine',

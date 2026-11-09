@@ -95,7 +95,7 @@ export default function Chat() {
               <Bot className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <div className="font-medium text-sm">Nexus Dev</div>
+              <div className="font-medium text-sm">EQ DEV</div>
               <div className="text-xs text-white/70">Réponses locales, sans serveur</div>
             </div>
           </div>

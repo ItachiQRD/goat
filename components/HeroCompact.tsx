@@ -1,135 +1,56 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-
-const SCENES = [
-  {
-    id: 'code',
-    kicker: 'Développement',
-    title: 'Full stack',
-  },
-  {
-    id: 'skills',
-    kicker: 'Compétences',
-    title: 'Stack moderne',
-  },
-  {
-    id: 'offer',
-    kicker: 'Pour votre activité',
-    title: 'Un site qui travaille',
-  },
-] as const
-
-const TECHS = ['Next.js', 'React', 'Tailwind', 'TypeScript']
-
-const OFFERS = [
-  { label: 'Vitrine pro', detail: 'Être trouvé localement' },
-  { label: 'E-commerce', detail: 'Vendre 24h/24' },
-  { label: 'Application', detail: 'Outil sur-mesure' },
-]
-
+/**
+ * Visuel du hero sous 1280 px. La vidéo 16:9 reste réservée au bureau.
+ */
 export default function HeroCompact() {
-  const [index, setIndex] = useState(0)
-  const [reducedMotion, setReducedMotion] = useState(false)
-
-  useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setReducedMotion(media.matches)
-    if (media.matches) return
-
-    const id = window.setInterval(() => {
-      setIndex((current) => (current + 1) % SCENES.length)
-    }, 4600)
-    return () => window.clearInterval(id)
-  }, [])
-
-  const scene = SCENES[index]
-
   return (
-    <div className="pointer-events-none absolute inset-x-0 top-16 bottom-40 z-[4] flex items-center justify-center px-5 md:top-20 md:bottom-44 xl:hidden">
-      <div className="relative w-full max-w-sm md:max-w-md">
-        <div
-          className="absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300/25 md:h-72 md:w-72"
-          aria-hidden="true"
+    <div className="pointer-events-none absolute inset-x-0 top-14 bottom-36 z-[4] flex items-center justify-center px-4 md:top-16 md:bottom-40 xl:hidden">
+      <svg
+        className="hero-mark h-[min(58vh,480px)] w-auto max-w-[96vw]"
+        viewBox="0 0 480 520"
+        fill="none"
+        role="img"
+        aria-label="EQ DEV"
+      >
+        <defs>
+          <radialGradient id="hm-glow" cx="0.5" cy="0.48" r="0.5">
+            <stop stopColor="#2dd4bf" stopOpacity="0.34" />
+            <stop offset="0.55" stopColor="#0891b2" stopOpacity="0.08" />
+            <stop offset="1" stopColor="#0891b2" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="hm-arc" x1="80" y1="40" x2="420" y2="480" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#99f6e4" />
+            <stop offset="0.5" stopColor="#22d3ee" />
+            <stop offset="1" stopColor="#0f766e" />
+          </linearGradient>
+        </defs>
+
+        <ellipse className="hm-glow" cx="240" cy="258" rx="200" ry="180" fill="url(#hm-glow)" />
+
+        <circle className="hm-ring" cx="240" cy="258" r="196" stroke="url(#hm-arc)" strokeWidth="1.25" strokeOpacity="0.45" />
+
+        <g className="hm-orbit">
+          <circle cx="240" cy="258" r="214" stroke="#67e8f9" strokeOpacity="0.35" strokeWidth="1.2" strokeDasharray="2 11" />
+          <circle cx="240" cy="44" r="5" fill="#99f6e4" />
+          <circle cx="430" cy="340" r="3.2" fill="#22d3ee" />
+          <circle cx="70" cy="360" r="3.6" fill="#5eead4" />
+        </g>
+
+        <g className="hm-orbit hm-orbit-reverse">
+          <circle cx="240" cy="258" r="168" stroke="#a5f3fc" strokeOpacity="0.2" strokeWidth="1" strokeDasharray="18 16" />
+          <circle cx="240" cy="90" r="3" fill="#ecfeff" />
+        </g>
+
+        <image
+          className="hm-mark"
+          href="/logo.png"
+          x="58"
+          y="148"
+          width="364"
+          height="248"
         />
-        <div
-          className={`absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-cyan-200/20 md:h-52 md:w-52 ${
-            reducedMotion ? '' : 'animate-[spin_28s_linear_infinite]'
-          }`}
-          aria-hidden="true"
-        />
-
-        <div className="relative overflow-hidden rounded-3xl border border-cyan-200/20 bg-[#071018]/80 px-5 py-6 shadow-[0_0_80px_rgba(34,211,238,0.16)] backdrop-blur-md md:px-7 md:py-8">
-          <div className="relative min-h-[236px] md:min-h-[252px]">
-          <AnimatePresence initial={false}>
-            <motion.div
-              key={scene.id}
-              className="absolute inset-x-0 top-0"
-              initial={reducedMotion ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={reducedMotion ? undefined : { opacity: 0 }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <p className="text-[10px] uppercase tracking-[0.32em] text-cyan-200/70">
-                {scene.kicker}
-              </p>
-              <p className="mt-2 text-2xl font-light tracking-tight text-white md:text-3xl">
-                {scene.title}
-              </p>
-
-              {scene.id === 'code' && (
-                <pre className="mt-5 overflow-hidden rounded-2xl border border-white/10 bg-black/40 p-4 text-left font-mono text-[11px] leading-relaxed text-cyan-100/90 md:text-xs">
-                  <span className="text-white/35">const</span> site = build({'{'}
-                  {'\n'}
-                  {'  '}stack: [<span className="text-white">&apos;Next.js&apos;</span>],{'\n'}
-                  {'  '}delai: <span className="text-white">&apos;&lt; 2s&apos;</span>,{'\n'}
-                  {'}'})
-                </pre>
-              )}
-
-              {scene.id === 'skills' && (
-                <ul className="mt-5 grid grid-cols-2 gap-2.5">
-                  {TECHS.map((tech) => (
-                    <li
-                      key={tech}
-                      className="rounded-2xl border border-cyan-200/20 bg-cyan-300/[0.06] px-3 py-3 text-center text-sm text-cyan-50"
-                    >
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {scene.id === 'offer' && (
-                <ul className="mt-5 space-y-2.5">
-                  {OFFERS.map((offer) => (
-                    <li
-                      key={offer.label}
-                      className="flex items-center justify-between gap-3 rounded-2xl border border-cyan-200/20 bg-cyan-300/[0.06] px-4 py-3"
-                    >
-                      <span className="text-sm text-white">{offer.label}</span>
-                      <span className="text-[11px] text-cyan-100/70">{offer.detail}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </motion.div>
-          </AnimatePresence>
-          </div>
-
-          <div className="mt-5 flex justify-center gap-1.5" aria-hidden="true">
-            {SCENES.map((item, i) => (
-              <span
-                key={item.id}
-                className={`h-1 rounded-full transition-all ${
-                  i === index ? 'w-5 bg-cyan-200' : 'w-1.5 bg-white/25'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      </svg>
     </div>
   )
 }

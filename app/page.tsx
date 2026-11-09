@@ -19,6 +19,62 @@ import MobileExpand from '@/components/MobileExpand'
 import ProcessTimeline from '@/components/ProcessTimeline'
 import { siteConfig, isPlaceholder } from '@/lib/siteConfig'
 
+const COMPARE_ROWS = [
+  { label: 'Vitesse de chargement', classique: 'from-red-500 to-red-600', classiqueWidth: '30%', optimise: 'from-green-500 to-emerald-500', optimiseWidth: '95%' },
+  { label: 'Référencement Google', classique: 'from-orange-500 to-red-500', classiqueWidth: '40%', optimise: 'from-blue-500 to-cyan-500', optimiseWidth: '92%' },
+  { label: 'Taux de conversion', classique: 'from-yellow-500 to-orange-500', classiqueWidth: '25%', optimise: 'from-purple-500 to-pink-500', optimiseWidth: '88%' },
+]
+
+function SiteCompare() {
+  return (
+    <div className="p-5 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl bg-gradient-to-br from-white/[0.04] to-white/[0.02] border border-white/10">
+      <h3 className="text-xl md:text-2xl lg:text-3xl font-light text-center mb-8 md:mb-10 leading-tight">
+        Site classique <span className="text-white/40">vs</span>{' '}
+        <span className="bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] bg-clip-text text-transparent">
+          Site optimisé
+        </span>
+      </h3>
+      <div className="space-y-7 md:space-y-8">
+        {COMPARE_ROWS.map((row, i) => (
+          <div key={row.label} className="space-y-3 md:space-y-4">
+            <div className="text-sm md:text-base font-medium text-white/90">{row.label}</div>
+            <div>
+              <div className="flex items-center justify-between mb-1.5 text-[11px] md:text-xs">
+                <span className="text-white/50">Site classique</span>
+                <span className="text-white/40 font-mono">{row.classiqueWidth}</span>
+              </div>
+              <div className="h-2.5 md:h-3 rounded-full bg-white/5 overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  whileInView={{ width: row.classiqueWidth }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.2, delay: i * 0.12 }}
+                  className={`h-full bg-gradient-to-r ${row.classique} rounded-full`}
+                />
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center justify-between mb-1.5 text-[11px] md:text-xs">
+                <span className="text-[#60a5fa] font-medium">Mes sites</span>
+                <span className="text-[#60a5fa] font-mono">{row.optimiseWidth}</span>
+              </div>
+              <div className="h-2.5 md:h-3 rounded-full bg-white/5 overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  whileInView={{ width: row.optimiseWidth }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.2, delay: i * 0.12 + 0.15 }}
+                  className={`h-full bg-gradient-to-r ${row.optimise} rounded-full`}
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -302,8 +358,8 @@ export default function Home() {
                 <div className="group relative h-full">
                   <div className={`relative h-full p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl bg-gradient-to-br ${item.color} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
                     <div
-                      className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
-                      style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
+                      className="absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-40 pointer-events-none"
+                      style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.35), transparent 70%)' }}
                     />
                     <div className="relative z-10">
                       <div className="text-2xl md:text-4xl mb-2 md:mb-4">{item.icon}</div>
@@ -575,7 +631,7 @@ export default function Home() {
                 <div className="group relative h-full">
                   <div className={`relative h-full p-5 md:p-8 rounded-2xl md:rounded-3xl bg-gradient-to-br ${cat.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
                     <div
-                      className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
+                      className="absolute -top-10 -right-10 h-28 w-28 rounded-full opacity-40 pointer-events-none"
                       style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
                     />
                     <div className="relative z-10">
@@ -650,7 +706,7 @@ export default function Home() {
                   <div className="relative p-4 md:p-6 lg:p-8 rounded-xl md:rounded-3xl bg-white/[0.03] border border-white/10 hover:border-white/30 transition-all overflow-hidden text-center">
                     <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
                     <div className="relative z-10">
-                      <div className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-2 md:mb-3 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent leading-none`}>
+                      <div className={`text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold mb-2 md:mb-3 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent leading-none tracking-tight`}>
                         <AnimatedCounter value={stat.value} suffix={stat.suffix} decimals={stat.decimals || 0} />
                       </div>
                       <div className="text-xs md:text-base lg:text-lg font-medium text-white mb-1">
@@ -668,67 +724,19 @@ export default function Home() {
 
           {/* Comparatif visuel - refait pour mobile */}
           <ScrollReveal delay={0.3}>
-            <details className="group/compare mt-12 md:mt-20 max-w-4xl mx-auto">
-              <summary className="mx-auto flex w-fit cursor-pointer list-none items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-light text-white lg:hidden [&::-webkit-details-marker]:hidden">
-                Comparer avec un site classique
-              </summary>
-              <div className="mt-6 hidden group-open/compare:block lg:mt-0 lg:block">
-              <div className="p-5 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl bg-gradient-to-br from-white/[0.04] to-white/[0.02] border border-white/10">
-                <h3 className="text-xl md:text-2xl lg:text-3xl font-light text-center mb-8 md:mb-10 leading-tight">
-                  Site classique <span className="text-white/40">vs</span>{' '}
-                  <span className="bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] bg-clip-text text-transparent">
-                    Site optimisé
-                  </span>
-                </h3>
-
-                <div className="space-y-7 md:space-y-8">
-                  {[
-                    { label: 'Vitesse de chargement', classique: 'from-red-500 to-red-600', classiqueWidth: '30%', optimise: 'from-green-500 to-emerald-500', optimiseWidth: '95%' },
-                    { label: 'Référencement Google', classique: 'from-orange-500 to-red-500', classiqueWidth: '40%', optimise: 'from-blue-500 to-cyan-500', optimiseWidth: '92%' },
-                    { label: 'Taux de conversion', classique: 'from-yellow-500 to-orange-500', classiqueWidth: '25%', optimise: 'from-purple-500 to-pink-500', optimiseWidth: '88%' },
-                  ].map((row, i) => (
-                    <div key={i} className="space-y-3 md:space-y-4">
-                      <div className="text-sm md:text-base font-medium text-white/90">{row.label}</div>
-                      
-                      {/* Site classique */}
-                      <div>
-                        <div className="flex items-center justify-between mb-1.5 text-[11px] md:text-xs">
-                          <span className="text-white/50">Site classique</span>
-                          <span className="text-white/40 font-mono">{row.classiqueWidth}</span>
-                        </div>
-                        <div className="h-2.5 md:h-3 rounded-full bg-white/5 overflow-hidden">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: row.classiqueWidth }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1.5, delay: i * 0.2 }}
-                            className={`h-full bg-gradient-to-r ${row.classique} rounded-full`}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Site optimisé */}
-                      <div>
-                        <div className="flex items-center justify-between mb-1.5 text-[11px] md:text-xs">
-                          <span className="text-[#60a5fa] font-medium">Mes sites</span>
-                          <span className="text-[#60a5fa] font-mono">{row.optimiseWidth}</span>
-                        </div>
-                        <div className="h-2.5 md:h-3 rounded-full bg-white/5 overflow-hidden">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: row.optimiseWidth }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1.5, delay: i * 0.2 + 0.3 }}
-                            className={`h-full bg-gradient-to-r ${row.optimise} rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)]`}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+            <div className="mt-12 md:mt-20 max-w-4xl mx-auto">
+              <details className="group/compare lg:hidden">
+                <summary className="mx-auto flex w-fit cursor-pointer list-none items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-light text-white [&::-webkit-details-marker]:hidden">
+                  Comparer avec un site classique
+                </summary>
+                <div className="mt-6">
+                  <SiteCompare />
                 </div>
+              </details>
+              <div className="hidden lg:block">
+                <SiteCompare />
               </div>
-              </div>
-            </details>
+            </div>
           </ScrollReveal>
         </div>
       </RisingSection>
@@ -762,7 +770,7 @@ export default function Home() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/about-portrait.png"
-                    alt="Portrait — Nexus Dev"
+                    alt="Portrait — EQ DEV"
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/50 via-transparent to-transparent pointer-events-none" />
@@ -955,7 +963,7 @@ export default function Home() {
                   <Link href={card.href} className="block h-full">
                     <div className={`relative flex h-full flex-col p-5 md:p-8 rounded-2xl md:rounded-3xl bg-gradient-to-br ${card.gradient} border border-white/10 group-hover:border-white/30 transition-all duration-500 overflow-hidden`}>
                       <div
-                        className="absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity pointer-events-none"
+                        className="absolute -top-10 -right-10 h-28 w-28 rounded-full opacity-40 pointer-events-none"
                         style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%)' }}
                       />
                       <div className="relative z-10 flex flex-1 flex-col">

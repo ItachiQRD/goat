@@ -64,8 +64,6 @@ export default function FloatingParticles({
             width: `${particle.size}px`,
             height: `${particle.size}px`,
             background: particle.color,
-            boxShadow: `0 0 ${particle.size * 2}px ${particle.color}`,
-            willChange: 'transform, opacity',
           }}
           animate={{
             y: [0, particle.yMove, 0],

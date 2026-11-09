@@ -40,16 +40,9 @@ export default function DualCard({
       className="group relative h-full"
     >
       <div
-        className={`relative h-full md:min-h-[520px] rounded-2xl md:rounded-3xl backdrop-blur-xl bg-gradient-to-br ${gradient} border border-white/10 overflow-hidden transition-all duration-500 group-hover:border-white/30`}
+        className={`relative h-full md:min-h-[520px] rounded-2xl md:rounded-3xl bg-gradient-to-br ${gradient} bg-[#0c0c0c] border border-white/10 overflow-hidden transition-all duration-500 group-hover:border-white/30`}
       >
-        {/* Effet de brillance au hover */}
         <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-gradient-to-r from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-        {/* Glow */}
-        <div
-          className="absolute -top-24 -right-24 w-48 h-48 rounded-full blur-3xl opacity-30 group-hover:opacity-50 transition-opacity duration-500 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)' }}
-        />
 
         <div className="relative z-10 h-full flex flex-col p-5 md:p-7">
           {/* Header avec icône, titre et toggle */}
@@ -60,7 +53,7 @@ export default function DualCard({
                 {title}
               </h3>
               {/* Toggle inline (en flux pour ne pas chevaucher) */}
-              <div className="inline-flex items-center gap-1 p-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
+              <div className="inline-flex items-center gap-1 p-1 rounded-full bg-black/55 border border-white/10">
                 <button
                   onClick={() => setView('benefit')}
                   className={`px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wider font-medium transition-all ${

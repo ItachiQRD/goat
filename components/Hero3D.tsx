@@ -336,9 +336,9 @@ export default function Hero3D() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={siteConfig.brand.logo}
+                src={siteConfig.brand.logoWithout}
                 alt={siteConfig.brand.name}
-                className="h-44 w-auto max-w-[min(80vw,22rem)] object-contain md:h-56"
+                className="h-40 w-auto max-w-[min(88vw,32rem)] object-contain md:h-52"
               />
             </motion.div>
             <button

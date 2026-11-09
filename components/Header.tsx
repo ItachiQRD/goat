@@ -163,10 +163,10 @@ export default function Header() {
         <div
           className={`absolute inset-0 transition-all duration-500 ${
             pathname === '/' && (heroPhase === 'hero' || heroPhase === 'ready') && !scrolled
-              ? 'bg-transparent'
+              ? 'bg-[#0a0a0a]/55 backdrop-blur-md'
               : scrolled
-                ? 'bg-[#0a0a0a]/92 border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.3)]'
-                : 'bg-gradient-to-b from-[#0a0a0a]/55 to-transparent'
+                ? 'bg-[#0a0a0a]/97 border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.35)] backdrop-blur-xl'
+                : 'bg-[#0a0a0a]/82 backdrop-blur-md'
           }`}
           aria-hidden="true"
         />
@@ -182,17 +182,17 @@ export default function Header() {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="relative h-10 w-10 md:h-11 md:w-11 flex-shrink-0"
+                className="relative h-10 md:h-11 flex-shrink-0"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={brand.logoWithout}
-                  alt={brand.name}
-                  className="h-full w-full object-contain"
+                  src={brand.logo}
+                  alt=""
+                  className="h-10 w-auto md:h-11 object-contain"
                 />
               </motion.div>
 
-              <span className="hidden sm:block text-base md:text-lg font-light tracking-tight">
+              <span className="hidden sm:block lg:hidden text-base md:text-lg font-light tracking-tight">
                 <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300">
                   {brand.name}
                 </span>

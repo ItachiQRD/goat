@@ -167,10 +167,10 @@ export default function QuoteBot() {
 
   // Finalize & compute
   const finalize = async (finalState: QuoteState) => {
+    setIsDone(true)
     const estimate = computeEstimate(finalState)
     const resultMsgs = generateResultMessages(estimate, finalState)
     await addBotMessages(resultMsgs)
-    setIsDone(true)
   }
 
   // Restart
@@ -190,7 +190,7 @@ export default function QuoteBot() {
     currentStep >= 0 && currentStep < QUOTE_QUESTIONS.length
       ? QUOTE_QUESTIONS[currentStep]
       : null
-  const showOptions = currentQuestion && !isTyping
+  const showOptions = currentQuestion && !isTyping && !isDone
 
   return (
     <div className="flex h-[calc(100dvh-21rem)] max-h-[800px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0f0f0f] shadow-[0_20px_60px_rgba(0,0,0,0.5)] sm:h-[calc(100dvh-18rem)] md:h-[calc(100dvh-14rem)] md:rounded-3xl">
