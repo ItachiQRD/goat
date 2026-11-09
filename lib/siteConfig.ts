@@ -51,7 +51,7 @@ export const siteConfig = {
 
   // ─── CONTACT ────────────────────────────────────────
   contact: {
-    email: 'elqardaoui@live.fr',
+    email: 'contact@eq-dev.fr',
     phone: '+33658389940',
     phoneDisplay: '06 58 38 99 40',
     location: 'Reims, France',
@@ -70,7 +70,7 @@ export const siteConfig = {
   // ─── RGPD / COOKIES ──────────────────────────────────
   rgpd: {
     lastUpdate: '09/09/2026',
-    dpoEmail: 'elqardaoui@live.fr',
+    dpoEmail: 'contact@eq-dev.fr',
     cookies: {
       necessary: true,
       analytics: false,

@@ -21,6 +21,7 @@ export default function Contact() {
     budget: '',
     message: '',
     consent: false,
+    company: '',
   })
   const [status, setStatus] = useState<FormStatus>('idle')
 
@@ -31,27 +32,26 @@ export default function Contact() {
     setStatus('submitting')
 
     try {
-      // Pour l'instant : ouvre le client email du visiteur (solution sans backend)
-      // Quand vous aurez un endpoint API, remplacez par fetch('/api/contact', ...)
-      const subject = encodeURIComponent(
-        `[Site] Demande de ${formData.projectType || 'projet'} — ${formData.name}`
-      )
-      const body = encodeURIComponent(
-        `Nom : ${formData.name}\n` +
-          `Email : ${formData.email}\n` +
-          `Téléphone : ${formData.phone || 'Non renseigné'}\n` +
-          `Type de projet : ${formData.projectType || 'Non précisé'}\n` +
-          `Budget estimé : ${formData.budget || 'Non précisé'}\n\n` +
-          `Message :\n${formData.message}`
-      )
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          projectType: formData.projectType,
+          budget: formData.budget,
+          message: formData.message,
+          consent: formData.consent,
+          company: formData.company,
+        }),
+      })
 
-      const email = isPlaceholder(contact.email) ? '' : contact.email
-      if (!email) {
+      if (!response.ok) {
         setStatus('error')
         return
       }
 
-      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`
       setStatus('success')
       setTimeout(() => {
         setStatus('idle')
@@ -63,6 +63,7 @@ export default function Contact() {
           budget: '',
           message: '',
           consent: false,
+          company: '',
         })
       }, 4000)
     } catch {
@@ -169,6 +170,16 @@ export default function Contact() {
               onSubmit={handleSubmit}
               className="relative p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/10"
             >
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute h-0 w-0 overflow-hidden opacity-0"
+              />
               {/* Confirmation succès */}
               {status === 'success' && (
                 <motion.div
@@ -179,7 +190,7 @@ export default function Contact() {
                 >
                   <CheckCircle className="w-5 h-5 flex-shrink-0" />
                   <span className="text-sm">
-                    Votre client mail s'est ouvert. Vérifiez l'envoi du message.
+                    Message envoyé. Je vous réponds sous {contact.responseTime}.
                   </span>
                 </motion.div>
               )}
@@ -192,7 +203,7 @@ export default function Contact() {
                 >
                   <AlertCircle className="w-5 h-5 flex-shrink-0" />
                   <span className="text-sm">
-                    Une erreur est survenue. Contactez directement par email.
+                    L'envoi n'a pas abouti. Réessayez, ou écrivez à {contact.email}.
                   </span>
                 </motion.div>
               )}

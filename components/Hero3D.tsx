@@ -216,7 +216,7 @@ export default function Hero3D() {
           <div className="absolute inset-0 pointer-events-none z-[3] bg-[linear-gradient(to_top,rgba(10,10,10,0.92)_0%,rgba(10,10,10,0.35)_42%,rgba(10,10,10,0.45)_100%)]" />
         </div>
 
-        <div className="relative z-10 flex h-full flex-col items-center justify-end px-6 pb-20 md:pb-24 text-center">
+        <div className="pointer-events-none relative z-10 flex h-full flex-col items-center justify-end px-6 pb-20 text-center md:pb-24">
           <motion.div
             className="flex max-w-3xl flex-col items-center"
             style={
@@ -230,7 +230,7 @@ export default function Hero3D() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="flex flex-col items-center"
+                className="pointer-events-auto flex flex-col items-center"
               >
                 <h1 className="sr-only">{siteConfig.brand.name}</h1>
 
