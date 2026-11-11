@@ -70,17 +70,19 @@ export async function POST(request: Request) {
   }
 
   const user = process.env.SMTP_USER
-  const pass = process.env.SMTP_PASS
+  const pass = process.env.SMTP_PASS?.replace(/\s+/g, '')
   if (!user || !pass) {
     return NextResponse.json({ ok: false, reason: 'config' }, { status: 503 })
   }
 
-  const port = Number(process.env.SMTP_PORT || 587)
+  const port = Number(process.env.SMTP_PORT || 465)
+  const configuredHost = process.env.SMTP_HOST || ''
+  const host = /outlook|office365/i.test(configuredHost) || !configuredHost ? 'smtp.gmail.com' : configuredHost
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp-mail.outlook.com',
+    host,
     port,
     secure: port === 465,
-    requireTLS: port === 587,
+    requireTLS: port !== 465,
     auth: { user, pass },
     tls: { minVersion: 'TLSv1.2' },
   })

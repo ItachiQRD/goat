@@ -196,9 +196,9 @@ export default function Contact() {
                   <AlertCircle className="w-5 h-5 flex-shrink-0" />
                   <span className="text-sm">
                     {errorReason === 'config'
-                      ? `L'envoi Outlook n'est pas activé sur le serveur. Écrivez à ${contact.email}.`
+                      ? `L'envoi n'est pas activé sur le serveur. Écrivez à ${contact.email}.`
                       : errorReason === 'auth'
-                        ? `Outlook a refusé la connexion. Il faut un mot de passe d'application, pas le mot de passe du compte.`
+                        ? `Gmail a refusé la connexion. Il faut le mot de passe d'application Gmail, pas le mot de passe du compte.`
                         : `L'envoi n'a pas abouti. Réessayez, ou écrivez à ${contact.email}.`}
                   </span>
                 </motion.div>
