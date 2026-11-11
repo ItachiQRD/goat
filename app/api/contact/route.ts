@@ -97,12 +97,10 @@ export async function POST(request: Request) {
     message,
   ].join('\n')
 
-  const recipients = Array.from(new Set([TO, user]))
-
   try {
     await transporter.sendMail({
       from: user,
-      to: recipients,
+      to: TO,
       replyTo: email,
       subject: `[Site] ${projectType} — ${name}`,
       text,
