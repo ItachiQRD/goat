@@ -141,7 +141,7 @@ export default function Hero3D() {
   }, [])
 
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 1280px)')
+    const mq = window.matchMedia('(min-width: 1280px) and (min-aspect-ratio: 5/4)')
     const sync = () => {
       const el = videoRef.current
       if (!el) return
@@ -160,7 +160,7 @@ export default function Hero3D() {
     if (phase === 'intro') return
     const el = videoRef.current
     if (!el) return
-    if (!window.matchMedia('(min-width: 1280px)').matches) return
+    if (!window.matchMedia('(min-width: 1280px) and (min-aspect-ratio: 5/4)').matches) return
     el.muted = true
     el.play().catch(() => {})
   }, [phase, hasVideo])
@@ -196,7 +196,7 @@ export default function Hero3D() {
 
           <motion.video
             ref={videoRef}
-            className="hero-video-media absolute inset-0 hidden h-full w-full object-cover xl:block"
+            className="hero-video-media hero-video-desktop absolute inset-0 h-full w-full object-cover"
             style={{ scale: videoScale }}
             autoPlay
             loop
@@ -208,7 +208,7 @@ export default function Hero3D() {
             onError={() => setHasVideo(false)}
             aria-hidden="true"
           >
-            <source src={VIDEO_HERO} type="video/mp4" media="(min-width: 1280px)" />
+            <source src={VIDEO_HERO} type="video/mp4" media="(min-width: 1280px) and (min-aspect-ratio: 5/4)" />
           </motion.video>
 
           <HeroCompact />

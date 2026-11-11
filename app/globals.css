@@ -312,6 +312,24 @@ body {
   color: #93c5fd;
 }
 
+.hero-slides {
+  display: flex;
+}
+
+.hero-video-desktop {
+  display: none;
+}
+
+@media (min-width: 1280px) and (min-aspect-ratio: 5/4) {
+  .hero-slides {
+    display: none;
+  }
+
+  .hero-video-desktop {
+    display: block;
+  }
+}
+
 /* Les bords de la vidéo se fondent dans le fond du hero,
    plus largement quand l'écran s'éloigne du 16:9. */
 .hero-video-media {

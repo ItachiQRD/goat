@@ -48,12 +48,14 @@ function SlideArt({ id }: { id: (typeof SLIDES)[number]['id'] }) {
     return (
       <svg viewBox="0 0 280 112" className="h-24 w-full md:h-28" aria-hidden="true">
         <path d="M36 56h208" stroke="#67e8f9" strokeOpacity="0.35" strokeWidth="2" />
-        {[
-          ['1', 36, '#22d3ee'],
-          ['2', 104, '#38bdf8'],
-          ['3', 172, '#818cf8'],
-          ['4', 240, '#a78bfa'],
-        ].map(([n, x, color]) => (
+        {(
+          [
+            { n: '1', x: 36, color: '#22d3ee' },
+            { n: '2', x: 104, color: '#38bdf8' },
+            { n: '3', x: 172, color: '#818cf8' },
+            { n: '4', x: 240, color: '#a78bfa' },
+          ] as const
+        ).map(({ n, x, color }) => (
           <g key={n}>
             <circle cx={x} cy="56" r="16" fill="#0b1220" stroke={color} strokeWidth="2" />
             <text x={x} y="61" textAnchor="middle" fill="#f8fafc" fontSize="13" fontFamily="inherit">
@@ -111,7 +113,7 @@ export default function HeroCompact() {
   }, [reducedMotion])
 
   return (
-    <div className="pointer-events-none absolute inset-x-0 top-16 bottom-40 z-[4] flex items-center justify-center px-5 md:bottom-44 xl:hidden">
+    <div className="hero-slides pointer-events-none absolute inset-x-0 top-16 bottom-40 z-[4] items-center justify-center px-5 md:bottom-44">
       <div className="pointer-events-auto w-full max-w-sm md:max-w-md">
         <div className="overflow-hidden rounded-3xl border border-cyan-200/20 bg-[#071018]/88 shadow-[0_0_60px_rgba(34,211,238,0.12)]">
           <div className="h-0.5 bg-white/10">

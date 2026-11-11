@@ -72,20 +72,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false }, { status: 400 })
   }
 
+  const user = process.env.SMTP_USER
   const pass = process.env.SMTP_PASS
-  if (!pass) {
+  if (!user || !pass) {
     return NextResponse.json({ ok: false }, { status: 503 })
   }
 
-  const port = Number(process.env.SMTP_PORT || 465)
+  const port = Number(process.env.SMTP_PORT || 587)
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.ionos.fr',
+    host: process.env.SMTP_HOST || 'smtp-mail.outlook.com',
     port,
     secure: port === 465,
-    auth: {
-      user: process.env.SMTP_USER || 'contact@eq-dev.fr',
-      pass,
-    },
+    requireTLS: port === 587,
+    auth: { user, pass },
   })
 
   const text = [
@@ -100,7 +99,7 @@ export async function POST(request: Request) {
 
   try {
     await transporter.sendMail({
-      from: `"EQ DEV" <${process.env.SMTP_USER || 'contact@eq-dev.fr'}>`,
+      from: `"EQ DEV" <${user}>`,
       to: TO,
       replyTo: email,
       subject: `[Site] ${projectType} — ${name}`,
