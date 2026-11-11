@@ -49,9 +49,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false }, { status: 400 })
   }
 
-  if (clean(body.company, 80)) {
-    return NextResponse.json({ ok: true })
-  }
   if (body.consent !== true) {
     return NextResponse.json({ ok: false }, { status: 400 })
   }
@@ -75,7 +72,7 @@ export async function POST(request: Request) {
   const user = process.env.SMTP_USER
   const pass = process.env.SMTP_PASS
   if (!user || !pass) {
-    return NextResponse.json({ ok: false }, { status: 503 })
+    return NextResponse.json({ ok: false, reason: 'config' }, { status: 503 })
   }
 
   const port = Number(process.env.SMTP_PORT || 587)
@@ -85,6 +82,7 @@ export async function POST(request: Request) {
     secure: port === 465,
     requireTLS: port === 587,
     auth: { user, pass },
+    tls: { minVersion: 'TLSv1.2' },
   })
 
   const text = [
@@ -97,16 +95,21 @@ export async function POST(request: Request) {
     message,
   ].join('\n')
 
+  const recipients = Array.from(new Set([TO, user]))
+
   try {
     await transporter.sendMail({
-      from: `"EQ DEV" <${user}>`,
-      to: TO,
+      from: user,
+      to: recipients,
       replyTo: email,
       subject: `[Site] ${projectType} — ${name}`,
       text,
     })
-  } catch {
-    return NextResponse.json({ ok: false }, { status: 502 })
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : ''
+    console.error('contact mail failed', detail)
+    const auth = /535|534|authenti/i.test(detail)
+    return NextResponse.json({ ok: false, reason: auth ? 'auth' : 'send' }, { status: 502 })
   }
 
   return NextResponse.json({ ok: true })

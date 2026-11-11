@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { siteConfig, isPlaceholder } from '@/lib/siteConfig'
+import SiteSelect from '@/components/SiteSelect'
 import ScrollReveal from '@/components/ScrollReveal'
 import GlowEffect from '@/components/GlowEffect'
 
@@ -21,15 +22,16 @@ export default function Contact() {
     budget: '',
     message: '',
     consent: false,
-    company: '',
   })
   const [status, setStatus] = useState<FormStatus>('idle')
+  const [errorReason, setErrorReason] = useState<'config' | 'auth' | 'send' | ''>('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.consent) return
 
     setStatus('submitting')
+    setErrorReason('')
 
     try {
       const response = await fetch('/api/contact', {
@@ -43,11 +45,12 @@ export default function Contact() {
           budget: formData.budget,
           message: formData.message,
           consent: formData.consent,
-          company: formData.company,
         }),
       })
 
       if (!response.ok) {
+        const payload = await response.json().catch(() => ({}))
+        setErrorReason(payload.reason === 'config' || payload.reason === 'auth' ? payload.reason : 'send')
         setStatus('error')
         return
       }
@@ -63,7 +66,6 @@ export default function Contact() {
           budget: '',
           message: '',
           consent: false,
-          company: '',
         })
       }, 4000)
     } catch {
@@ -170,16 +172,6 @@ export default function Contact() {
               onSubmit={handleSubmit}
               className="relative p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/10"
             >
-              <input
-                type="text"
-                name="company"
-                value={formData.company}
-                onChange={handleChange}
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                className="absolute h-0 w-0 overflow-hidden opacity-0"
-              />
               {/* Confirmation succès */}
               {status === 'success' && (
                 <motion.div
@@ -203,7 +195,11 @@ export default function Contact() {
                 >
                   <AlertCircle className="w-5 h-5 flex-shrink-0" />
                   <span className="text-sm">
-                    L'envoi n'a pas abouti. Réessayez, ou écrivez à {contact.email}.
+                    {errorReason === 'config'
+                      ? `L'envoi Outlook n'est pas activé sur le serveur. Écrivez à ${contact.email}.`
+                      : errorReason === 'auth'
+                        ? `Outlook a refusé la connexion. Il faut un mot de passe d'application, pas le mot de passe du compte.`
+                        : `L'envoi n'a pas abouti. Réessayez, ou écrivez à ${contact.email}.`}
                   </span>
                 </motion.div>
               )}
@@ -251,65 +247,39 @@ export default function Contact() {
                     />
                   </FormField>
                   <FormField label="Type de projet *">
-                    <select
+                    <SiteSelect
                       name="projectType"
                       required
                       value={formData.projectType}
-                      onChange={handleChange}
-                      className={inputClass}
-                    >
-                      <option value="" className="bg-[#1a1a1a]">
-                        Sélectionnez...
-                      </option>
-                      <option value="vitrine" className="bg-[#1a1a1a]">
-                        Site vitrine
-                      </option>
-                      <option value="ecommerce" className="bg-[#1a1a1a]">
-                        E-commerce
-                      </option>
-                      <option value="webapp" className="bg-[#1a1a1a]">
-                        Application web
-                      </option>
-                      <option value="refonte" className="bg-[#1a1a1a]">
-                        Refonte de site
-                      </option>
-                      <option value="seo" className="bg-[#1a1a1a]">
-                        SEO / Performance
-                      </option>
-                      <option value="autre" className="bg-[#1a1a1a]">
-                        Autre
-                      </option>
-                    </select>
+                      placeholder="Sélectionnez..."
+                      onChange={(value) => setFormData((prev) => ({ ...prev, projectType: value }))}
+                      options={[
+                        { value: 'vitrine', label: 'Site vitrine' },
+                        { value: 'ecommerce', label: 'E-commerce' },
+                        { value: 'webapp', label: 'Application web' },
+                        { value: 'refonte', label: 'Refonte de site' },
+                        { value: 'seo', label: 'SEO / Performance' },
+                        { value: 'autre', label: 'Autre' },
+                      ]}
+                    />
                   </FormField>
                 </div>
 
                 {/* Budget */}
                 <FormField label="Budget estimé (facultatif)">
-                  <select
+                  <SiteSelect
                     name="budget"
                     value={formData.budget}
-                    onChange={handleChange}
-                    className={inputClass}
-                  >
-                    <option value="" className="bg-[#1a1a1a]">
-                      Sélectionnez une fourchette
-                    </option>
-                    <option value="<2k" className="bg-[#1a1a1a]">
-                      Moins de 2 000 €
-                    </option>
-                    <option value="2k-5k" className="bg-[#1a1a1a]">
-                      2 000 € - 5 000 €
-                    </option>
-                    <option value="5k-10k" className="bg-[#1a1a1a]">
-                      5 000 € - 10 000 €
-                    </option>
-                    <option value="10k+" className="bg-[#1a1a1a]">
-                      Plus de 10 000 €
-                    </option>
-                    <option value="undecided" className="bg-[#1a1a1a]">
-                      Pas encore défini
-                    </option>
-                  </select>
+                    placeholder="Sélectionnez une fourchette"
+                    onChange={(value) => setFormData((prev) => ({ ...prev, budget: value }))}
+                    options={[
+                      { value: '<2k', label: 'Moins de 2 000 €' },
+                      { value: '2k-5k', label: '2 000 € - 5 000 €' },
+                      { value: '5k-10k', label: '5 000 € - 10 000 €' },
+                      { value: '10k+', label: 'Plus de 10 000 €' },
+                      { value: 'undecided', label: 'Pas encore défini' },
+                    ]}
+                  />
                 </FormField>
 
                 {/* Message */}
@@ -380,12 +350,12 @@ function FormField({
   children: React.ReactNode
 }) {
   return (
-    <label className="block">
+    <div>
       <span className="block text-xs md:text-sm font-light text-white/70 mb-1.5">
         {label}
       </span>
       {children}
-    </label>
+    </div>
   )
 }
 

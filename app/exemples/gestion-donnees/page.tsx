@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { Plus, Trash2, Edit2, Save, X, Database } from 'lucide-react'
+import SiteSelect from '@/components/SiteSelect'
 
 interface Item {
   id: number
@@ -134,18 +135,14 @@ export default function GestionDonnees() {
               <label className="block text-sm text-white/60 mb-1" htmlFor="item-cat">
                 Catégorie
               </label>
-              <select
+              <SiteSelect
                 id="item-cat"
+                name="category"
+                accent="emerald"
                 value={formData.category || categories[0]}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className={fieldClass}
-              >
-                {categories.map((cat) => (
-                  <option key={cat} value={cat} className="bg-[#111]">
-                    {cat}
-                  </option>
-                ))}
-              </select>
+                onChange={(value) => setFormData({ ...formData, category: value })}
+                options={categories.map((cat) => ({ value: cat, label: cat }))}
+              />
             </div>
             <div className="flex gap-2">
               {editingId ? (
